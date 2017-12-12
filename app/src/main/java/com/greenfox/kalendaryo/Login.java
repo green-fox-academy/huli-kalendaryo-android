@@ -32,7 +32,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        
+
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
     }
