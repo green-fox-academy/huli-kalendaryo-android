@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 
 /**
  * Created by Ezzo on 2017. 12. 12..
@@ -29,12 +30,19 @@ public class Login extends AppCompatActivity {
 
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
 
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
+
     }
 
     private void signIn() {
