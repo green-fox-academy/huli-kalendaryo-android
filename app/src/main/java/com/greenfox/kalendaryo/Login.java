@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -71,7 +72,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     }
 
     public void signIn() {
-        Intent intent = Auth.GoogleSignInApi.getSignInIntent()
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(intent,REQ_CODE);
 
     }
 
@@ -80,10 +82,27 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
     }
 
     public void handleResult(GoogleSignInResult result) {
+        if (result.isSuccess()){
+            GoogleSignInAccount account = result.getSignInAccount();
+            String name = account.getDisplayName();
+            String email = account.getEmail();
+            Name.setText(name);
+            Email.setText(email);
+        }
 
     }
 
     public void updateUI(boolean isLogin) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQ_CODE) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleResult(result);
+        }
     }
 }
