@@ -62,6 +62,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             case R.id.bn_login:
                 signIn();
                 break;
+            case R.id.bn_logout:
+                signOut();
+                break;
         }
 
     }
@@ -79,6 +82,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
 
     public void signOut() {
 
+
     }
 
     public void handleResult(GoogleSignInResult result) {
@@ -88,12 +92,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
             String email = account.getEmail();
             Name.setText(name);
             Email.setText(email);
+            updateUI(true);
+        } else {
+            updateUI(false);
         }
 
     }
 
     public void updateUI(boolean isLogin) {
 
+        if (isLogin) {
+            Prof_Section.setVisibility(View.VISIBLE);
+            SignIn.setVisibility(View.GONE);
+        } else {
+            Prof_Section.setVisibility(View.GONE);
+            SignIn.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
