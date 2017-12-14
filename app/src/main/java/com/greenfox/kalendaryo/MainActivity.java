@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleApiClient googleApiClient;
     private TextView myText;
     private static final int REQ_CODE = 900;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent,REQ_CODE);
+
+        sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+        String displayEmail = Email.getText().toString();
+        editor.putString("username", displayEmail);
+        editor.apply();
+
+        Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
+
     }
 
     public void signOut() {
@@ -108,9 +119,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isLogin) {
             Prof_Section.setVisibility(View.VISIBLE);
             SignIn.setVisibility(View.GONE);
+            myText.setVisibility(View.VISIBLE);
         } else {
             Prof_Section.setVisibility(View.GONE);
             SignIn.setVisibility(View.VISIBLE);
+            myText.setVisibility(View.GONE);
         }
     }
 
@@ -122,17 +135,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
         }
-    }
-
-    public void saveInfo(View view) {
-        SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.putString("username", Email.getText().toString());
-        editor.apply();
-
-        Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
     }
 
     public void displayData(View view) {

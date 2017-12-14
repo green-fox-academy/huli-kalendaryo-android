@@ -56,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="saveInfo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="50dp">
@@ -65,8 +64,8 @@
 
     <TextView
         android:id="@+id/myText"
-        android:layout_width="222dp"
-        android:layout_height="64dp"
+        android:layout_width="391dp"
+        android:layout_height="137dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
