@@ -25,7 +25,7 @@ import com.google.android.gms.common.api.Status;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private LinearLayout Prof_Section;
+    private LinearLayout profileSection;
     private Button signOut;
     private SignInButton signIn;
     private TextView name,email;
@@ -41,14 +41,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Prof_Section = findViewById(R.id.prof_section);
+        profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
         signIn = findViewById(R.id.bn_login);
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         signIn.setOnClickListener(this);
         signOut.setOnClickListener(this);
-        Prof_Section.setVisibility(View.GONE);
+        profileSection.setVisibility(View.GONE);
         myText = findViewById(R.id.myText);
         token = findViewById(R.id.tokenText);
 
