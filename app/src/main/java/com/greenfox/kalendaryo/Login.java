@@ -1,3 +1,4 @@
+/*
 package com.greenfox.kalendaryo;
 
 import android.content.Intent;
@@ -19,9 +20,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+*/
 /**
  * Created by Ezzo on 2017. 12. 12..
- */
+ *//*
+
 
 public class Login extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -128,3 +131,4 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Go
         }
     }
 }
+*/
