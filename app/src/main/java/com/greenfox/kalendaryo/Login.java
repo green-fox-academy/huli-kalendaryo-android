@@ -2,6 +2,7 @@ package com.greenfox.kalendaryo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 /**
@@ -20,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int RC_SIGN_IN = 10;
     private GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -44,7 +47,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onStart();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        updateUI(account);
+//        updateUI(account);
 
     }
 
@@ -54,14 +57,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
     }
-
-
+    
     @Override
-    public void onClick(View view) {
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        switch (view.getId()) {
-            case R.id.sign_in_button:
-                signIn();
+    public void onClick(View v) {
+        findViewById(R.id.button_sign_out).setOnClickListener(this);
+        switch (v.getId()) {
+            // ...
+            case R.id.button_sign_out:
+                signOut();
                 break;
             // ...
         }
@@ -83,12 +86,32 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            updateUI(account);
+//            updateUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+//            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+//            updateUI(null);
         }
     }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
+    }
+    private void revokeAccess() {
+        mGoogleSignInClient.revokeAccess()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
+    }
+
 }
