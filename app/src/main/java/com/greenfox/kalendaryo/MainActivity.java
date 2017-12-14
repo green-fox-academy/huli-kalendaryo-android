@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQ_CODE = 900;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
+    private TextView token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +50,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SignOut.setOnClickListener(this);
         Prof_Section.setVisibility(View.GONE);
         myText = findViewById(R.id.myText);
+        token = findViewById(R.id.tokenText);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
                 .build();
 
         googleApiClient = new GoogleApiClient
@@ -81,14 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent,REQ_CODE);
 
-        sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
-        String displayEmail = Email.getText().toString();
-        editor.putString("username", displayEmail);
-        editor.apply();
-
-        Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
-
     }
 
     public void signOut() {
@@ -105,8 +101,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInAccount account = result.getSignInAccount();
             String name = account.getDisplayName();
             String email = account.getEmail();
+            String tokenid = account.getIdToken();
+
+            token.setText(tokenid);
             Name.setText(name);
             Email.setText(email);
+
+            sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+            editor = sharedPref.edit();
+            editor.putString("username", email);
+            editor.apply();
+
+            Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
             updateUI(true);
         } else {
             updateUI(false);
