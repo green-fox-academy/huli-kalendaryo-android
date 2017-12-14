@@ -26,9 +26,9 @@ import com.google.android.gms.common.api.Status;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private LinearLayout Prof_Section;
-    private Button SignOut;
-    private SignInButton SignIn;
-    private TextView Name,Email;
+    private Button signOut;
+    private SignInButton signIn;
+    private TextView name,email;
     private GoogleApiClient googleApiClient;
     private TextView myText;
     private static final int REQ_CODE = 900;
@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Prof_Section = findViewById(R.id.prof_section);
-        SignOut = findViewById(R.id.bn_logout);
-        SignIn = findViewById(R.id.bn_login);
-        Name = findViewById(R.id.name);
-        Email = findViewById(R.id.email);
-        SignIn.setOnClickListener(this);
-        SignOut.setOnClickListener(this);
+        signOut = findViewById(R.id.bn_logout);
+        signIn = findViewById(R.id.bn_login);
+        name = findViewById(R.id.name);
+        email = findViewById(R.id.email);
+        signIn.setOnClickListener(this);
+        signOut.setOnClickListener(this);
         Prof_Section.setVisibility(View.GONE);
         myText = findViewById(R.id.myText);
         token = findViewById(R.id.tokenText);
@@ -99,17 +99,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()){
             GoogleSignInAccount account = result.getSignInAccount();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
+            String username = account.getDisplayName();
+            String useremail = account.getEmail();
             String tokenid = account.getIdToken();
 
             token.setText(tokenid);
-            Name.setText(name);
-            Email.setText(email);
+            name.setText(username);
+            email.setText(useremail);
 
             sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
             editor = sharedPref.edit();
-            editor.putString("username", email);
+            editor.putString("username", useremail);
             editor.apply();
 
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
@@ -124,11 +124,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (isLogin) {
             Prof_Section.setVisibility(View.VISIBLE);
-            SignIn.setVisibility(View.GONE);
+            signIn.setVisibility(View.GONE);
             myText.setVisibility(View.VISIBLE);
         } else {
             Prof_Section.setVisibility(View.GONE);
-            SignIn.setVisibility(View.VISIBLE);
+            signIn.setVisibility(View.VISIBLE);
             myText.setVisibility(View.GONE);
         }
     }
