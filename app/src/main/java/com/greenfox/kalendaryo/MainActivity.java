@@ -23,6 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.services.calendar.model.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -105,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String userName = account.getDisplayName();
             String userEmail = account.getEmail();
             String tokenId = account.getIdToken();
+
+
+
 /*
             //Probably we will need it later//
             GoogleTokenResponse googleTokenResponse = new GoogleTokenResponse();
