@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout profileSection;
     private Button signOut;
     private SignInButton signIn;
-    private TextView name,email;
+    private TextView loginName, loginEmail;
     private GoogleApiClient googleApiClient;
     private TextView myText;
     private static final int REQ_CODE = 900;
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
         signIn = findViewById(R.id.bn_login);
-        name = findViewById(R.id.name);
-        email = findViewById(R.id.email);
+        loginName = findViewById(R.id.name);
+        loginEmail = findViewById(R.id.email);
         signIn.setOnClickListener(this);
         signOut.setOnClickListener(this);
         profileSection.setVisibility(View.GONE);
@@ -59,14 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         googleApiClient = new GoogleApiClient
-                .Builder(this).enableAutoManage(this,this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions)
+                .Builder(this).enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                 .build();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.bn_login:
                 signIn();
                 break;
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(intent,REQ_CODE);
+        startActivityForResult(intent, REQ_CODE);
 
     }
 
@@ -97,22 +97,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void handleResult(GoogleSignInResult result) {
-        if (result.isSuccess()){
-            GoogleSignInAccount account = result.getSignInAccount();
-            String username = account.getDisplayName();
-            String useremail = account.getEmail();
-            String tokenid = account.getIdToken();
 
-            token.setText(tokenid);
-            name.setText(username);
-            email.setText(useremail);
+        if (result.isSuccess()) {
+            GoogleSignInAccount account = result.getSignInAccount();
+            String userName = account.getDisplayName();
+            String userEmail = account.getEmail();
+            String tokenId = account.getIdToken();
+
+            token.setText(tokenId);
+            loginName.setText(userName);
+            loginEmail.setText(userEmail);
 
             sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
             editor = sharedPref.edit();
-            editor.putString("username", useremail);
+            editor.putString("username", userEmail);
             editor.apply();
 
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
+
             updateUI(true);
         } else {
             updateUI(false);
@@ -123,11 +125,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void updateUI(boolean isLogin) {
 
         if (isLogin) {
-            Prof_Section.setVisibility(View.VISIBLE);
+            profileSection.setVisibility(View.VISIBLE);
             signIn.setVisibility(View.GONE);
             myText.setVisibility(View.VISIBLE);
         } else {
-            Prof_Section.setVisibility(View.GONE);
+            profileSection.setVisibility(View.GONE);
             signIn.setVisibility(View.VISIBLE);
             myText.setVisibility(View.GONE);
         }
