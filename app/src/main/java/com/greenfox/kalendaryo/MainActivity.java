@@ -6,15 +6,17 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -22,11 +24,22 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.services.calendar.model.Calendar;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String TAG = "MainActivity";
     private LinearLayout profileSection;
     private Button signOut;
     private SignInButton signIn;
@@ -37,11 +50,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private TextView token;
+    private ListView viewListOfCalendars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
@@ -53,11 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         profileSection.setVisibility(View.GONE);
         myText = findViewById(R.id.myText);
         token = findViewById(R.id.tokenText);
+        findViewById(R.id.button2).setOnClickListener(this);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
+                .requestServerAuthCode("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
                 .build();
 
         googleApiClient = new GoogleApiClient
@@ -74,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bn_logout:
                 signOut();
+                break;
+            case R.id.button2:
+                displayData();
                 break;
         }
     }
@@ -105,17 +125,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInAccount account = result.getSignInAccount();
             String userName = account.getDisplayName();
             String userEmail = account.getEmail();
-            String tokenId = account.getIdToken();
 
 
+            ApiInterface service = new Retrofit.Builder()
+                    .baseUrl("http://10.27.9.99:8080/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
+                    .build().create(ApiInterface.class);
+            Log.d("dasd","sd" + account.getServerAuthCode());
+            service.getAccessToken(new KalAuth(account.getServerAuthCode(), account.getEmail())).enqueue(new Callback<KalUser>() {
+                @Override
+                public void onResponse(Call<KalUser> call, Response<KalUser> response) {
+                    Log.d("lofasz", "access_token: " + response.body().access_token);
+                }
 
-/*
-            //Probably we will need it later//
-            GoogleTokenResponse googleTokenResponse = new GoogleTokenResponse();
-            googleTokenResponse.setIdToken(tokenId);
-*/
+                @Override
+                public void onFailure(Call<KalUser> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
 
-            token.setText(tokenId);
             loginName.setText(userName);
             loginEmail.setText(userEmail);
 
@@ -152,16 +181,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+            //backend has to create endpoint to receive data
+            //authcode comes here
+            //send it to backend to get back TOKEN
+            //once TOKEN is back send user data (email,name, bla bla bla)
+            // ++ store TOKEN in sharedpre
             handleResult(result);
         }
     }
 
-    public void displayData(View view) {
+    public void displayData() {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
         String name = sharedPref.getString("username", "");
 
         myText.setText(name + " ");
 
+    }
+
+    public void getCalendars(View view) throws IOException {
+
+        ListCalendarsInterface listCalendarsInterface = ListCalendarsInterface.retrofit.create(ListCalendarsInterface.class);
+        Call<List<Calendar>> call = listCalendarsInterface
+                .calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
+
+        call.enqueue(new Callback<List<Calendar>>() {
+            @Override
+            public void onResponse(Call<List<Calendar>> call, Response<List<Calendar>> response) {
+
+                List<Calendar> listOfCalendars = response.body();
+
+                if (listOfCalendars == null) {
+                    Toast.makeText(getApplicationContext(), "Error empty list", Toast.LENGTH_LONG).show();
+                } else {
+                    String[] myList = new String[listOfCalendars.size()];
+                    for (int i = 0; i < listOfCalendars.size(); i++) {
+                        myList[i] = listOfCalendars.get(i).getId();
+                        viewListOfCalendars = (ListView) findViewById(R.id.apilistcalendars);
+                        viewListOfCalendars.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, myList));
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Calendar>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//        Call<com.google.api.services.calendar.model.Calendar> call = listCalendarsInterface.calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
+//        Calendar content = call.execute().body();
+//        return (content.toString());
     }
 }

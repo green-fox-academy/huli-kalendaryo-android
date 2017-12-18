@@ -2,6 +2,8 @@ package com.greenfox.kalendaryo;
 
 import com.google.api.services.calendar.model.Calendar;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -14,13 +16,13 @@ import retrofit2.http.Query;
 
 public interface ListCalendarsInterface {
 
-    @GET("/users/me/calendarList/huli.opal.kalendaryo@gmial.com")
-    Call<Calendar> calendars(
+    @GET("users/me/calendarList/huli.opal.kalendaryo@gmial.com")
+    Call<List<Calendar>> calendars(
             @Query("access_token") String token
     );
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://www.googleapis.com/calendar/v3")
+            .baseUrl("https://www.googleapis.com/calendar/v3/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 }

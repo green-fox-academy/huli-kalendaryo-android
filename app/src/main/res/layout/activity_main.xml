@@ -7,48 +7,54 @@
     android:layout_height="match_parent"
     tools:context="com.greenfox.kalendaryo.MainActivity">
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="horizontal"
-       android:id="@+id/prof_section"
-       android:layout_marginLeft="20dp"
-       android:layout_marginTop="50dp"
-       >
-
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="28dp"
-           android:layout_marginTop="20dp"
-           android:orientation="vertical"
-           >
-    <TextView
+    <LinearLayout
+        android:id="@+id/prof_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name Display here"
-        android:textSize="18dp"
-        android:id="@+id/name"
-        android:gravity="center"
-        />
-           <TextView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Email Display Here"
-               android:textSize="12dp"
-               android:textStyle="bold"
-               android:id="@+id/email"
-               android:layout_marginTop="10dp"
-               android:gravity="center"
-               />
-           <Button
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:text="Logout"
-               android:id="@+id/bn_logout"
-               />
-       </LinearLayout>
-   </LinearLayout>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Name Display here"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Email Display Here"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/bn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/apilistcalendars"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            tools:layout_editor_absoluteX="2dp"
+            tools:layout_editor_absoluteY="82dp" />
+    </LinearLayout>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/bn_login"
@@ -58,7 +64,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="50dp">
+        app:layout_constraintVertical_bias="0.277"
+        tools:layout_editor_absoluteX="0dp">
 
     </com.google.android.gms.common.SignInButton>
 
@@ -73,9 +80,10 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.762" />
+        app:layout_constraintVertical_bias="0.48" />
 
     <Button
         android:id="@+id/button2"
@@ -85,7 +93,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="displayData"
         android:text="Show"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,12 +117,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.982" />
 
-    <ListView
+    <Button
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:id="@+id/apilistcalendars"
-
-        />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="getCalendars"
+        android:text="GetList"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85" />
 
 </android.support.constraint.ConstraintLayout>
