@@ -25,6 +25,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.api.services.calendar.model.Calendar;
+import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalUser;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,13 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private TextView token;
-    private ListView viewListOfCalendars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
@@ -200,39 +200,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void getCalendars(View view) throws IOException {
-
-        ListCalendarsInterface listCalendarsInterface = ListCalendarsInterface.retrofit.create(ListCalendarsInterface.class);
-        Call<List<Calendar>> call = listCalendarsInterface
-                .calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
-
-        call.enqueue(new Callback<List<Calendar>>() {
-            @Override
-            public void onResponse(Call<List<Calendar>> call, Response<List<Calendar>> response) {
-
-                List<Calendar> listOfCalendars = response.body();
-
-                if (listOfCalendars == null) {
-                    Toast.makeText(getApplicationContext(), "Error empty list", Toast.LENGTH_LONG).show();
-                } else {
-                    String[] myList = new String[listOfCalendars.size()];
-                    for (int i = 0; i < listOfCalendars.size(); i++) {
-                        myList[i] = listOfCalendars.get(i).getId();
-                        viewListOfCalendars = (ListView) findViewById(R.id.apilistcalendars);
-                        viewListOfCalendars.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, myList));
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Calendar>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        Call<com.google.api.services.calendar.model.Calendar> call = listCalendarsInterface.calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
-//        Calendar content = call.execute().body();
-//        return (content.toString());
-    }
 }

@@ -1,10 +1,10 @@
-package com.greenfox.kalendaryo;
+package com.greenfox.kalendaryo.models;
 
 /**
  * Created by Ezzo on 2017. 12. 15..
  */
 
-class KalUser {
+public class KalUser {
     public long id;
     public String client_token;
     public String useremail;
