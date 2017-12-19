@@ -12,6 +12,4 @@ public interface ApiInterface {
 
     @POST("/auth")
     Call<KalUser> getAuthCode(@Body KalAuth auth);
-
-
 }

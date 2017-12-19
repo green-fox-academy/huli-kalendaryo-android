@@ -199,40 +199,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myText.setText(name + " ");
 
     }
-
-    public void getCalendars(View view) throws IOException {
-
-        ListCalendarsInterface listCalendarsInterface = ListCalendarsInterface.retrofit.create(ListCalendarsInterface.class);
-        Call<List<Calendar>> call = listCalendarsInterface
-                .calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
-
-        call.enqueue(new Callback<List<Calendar>>() {
-            @Override
-            public void onResponse(Call<List<Calendar>> call, Response<List<Calendar>> response) {
-
-                List<Calendar> listOfCalendars = response.body();
-
-                if (listOfCalendars == null) {
-                    Toast.makeText(getApplicationContext(), "Error empty list", Toast.LENGTH_LONG).show();
-                } else {
-                    String[] myList = new String[listOfCalendars.size()];
-                    for (int i = 0; i < listOfCalendars.size(); i++) {
-                        myList[i] = listOfCalendars.get(i).getId();
-                        viewListOfCalendars = (ListView) findViewById(R.id.apilistcalendars);
-                        viewListOfCalendars.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, myList));
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Calendar>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        Call<com.google.api.services.calendar.model.Calendar> call = listCalendarsInterface.calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
-//        Calendar content = call.execute().body();
-//        return (content.toString());
-    }
 }
