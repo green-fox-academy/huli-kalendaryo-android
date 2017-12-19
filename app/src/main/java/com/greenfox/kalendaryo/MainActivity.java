@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             service.getAccessToken(new KalAuth(account.getServerAuthCode(), account.getEmail())).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                    Log.d("lofasz", "access_token: " + response.body().access_token);
+                    Log.d("very sorry", "access_token: " + response.body().access_token);
                 }
 
                 @Override
