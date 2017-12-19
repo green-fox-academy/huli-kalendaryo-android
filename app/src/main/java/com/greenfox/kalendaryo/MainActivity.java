@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             profileSection.setVisibility(View.VISIBLE);
             signIn.setVisibility(View.GONE);
             myText.setVisibility(View.VISIBLE);
+
         } else {
             profileSection.setVisibility(View.GONE);
             signIn.setVisibility(View.VISIBLE);
