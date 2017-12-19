@@ -128,15 +128,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             ApiInterface service = new Retrofit.Builder()
-                    .baseUrl("http://10.27.9.99:8080/")
+                    .baseUrl("https://kalendaryo-staging.greenfox.academy/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
                     .build().create(ApiInterface.class);
             Log.d("dasd","sd" + account.getServerAuthCode());
-            service.getAccessToken(new KalAuth(account.getServerAuthCode(), account.getEmail())).enqueue(new Callback<KalUser>() {
+            service.getAuthCode(new KalAuth(account.getServerAuthCode(), account.getEmail(), account.getDisplayName())).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                    Log.d("very sorry", "access_token: " + response.body().access_token);
+                    Log.d("very sorry", "accessToken: " + response.body().accessToken);
                 }
 
                 @Override

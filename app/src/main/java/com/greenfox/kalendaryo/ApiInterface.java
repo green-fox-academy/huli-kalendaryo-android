@@ -10,8 +10,8 @@ import retrofit2.http.POST;
 
 public interface ApiInterface {
 
-    @POST("auth")
-    Call<KalUser> getAccessToken(@Body KalAuth auth);
+    @POST("/auth")
+    Call<KalUser> getAuthCode(@Body KalAuth auth);
 
 
 }
