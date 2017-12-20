@@ -57,8 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        
         profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
         signIn = findViewById(R.id.bn_login);
@@ -103,14 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     public void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent, REQ_CODE);
-
-
     }
 
     public void signOut() {
@@ -128,44 +124,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInAccount account = result.getSignInAccount();
             String userName = account.getDisplayName();
             String userEmail = account.getEmail();
-
-//            ApiInterface service = new Retrofit.Builder()
-//                    .baseUrl("https://kalendaryo-staging.greenfox.academy/")
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
-//                    .build().create(ApiInterface.class);
-//            Log.d("dasd","sd" + account.getServerAuthCode());
             mApiInterface.sendAuthCode(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     Log.d("give me token", "accessToken: " + response.body().accessToken);
                 }
-
                 @Override
                 public void onFailure(Call<KalUser> call, Throwable t) {
                     t.printStackTrace();
                 }
             });
-
             loginName.setText(userName);
             loginEmail.setText(userEmail);
-
             sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
             editor = sharedPref.edit();
             editor.putString("username", userEmail);
             editor.apply();
-
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
-
             updateUI(true);
         } else {
             updateUI(false);
         }
-
     }
 
     public void updateUI(boolean isLogin) {
-
         if (isLogin) {
             profileSection.setVisibility(View.VISIBLE);
             signIn.setVisibility(View.GONE);
@@ -180,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
@@ -195,10 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void displayData() {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-
         String name = sharedPref.getString("username", "");
-
         myText.setText(name + " ");
-
     }
 }
