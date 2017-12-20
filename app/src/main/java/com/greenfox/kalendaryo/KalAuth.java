@@ -5,27 +5,38 @@ package com.greenfox.kalendaryo;
  */
 
 class KalAuth {
-    public String auth_token;
-    public String useremail;
+    public String authCode;
+    public String userEmail;
+    public String userName;
 
-    public KalAuth(String auth_token, String useremail) {
-        this.auth_token = auth_token;
-        this.useremail = useremail;
+    public KalAuth(String authToken, String userEmail, String userName) {
+        this.authCode = authToken;
+        this.userEmail = userEmail;
+        this.userName = userName;
     }
 
-    public String getAuth_token() {
-        return auth_token;
+    public String getAuthToken() {
+        return authCode;
     }
 
-    public void setAuth_token(String auth_token) {
-        this.auth_token = auth_token;
+    public void setAuthToken(String authToken) {
+        this.authCode = authToken;
     }
 
-    public String getUseremail() {
-        return useremail;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setUseremail(String useremail) {
-        this.useremail = useremail;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 }

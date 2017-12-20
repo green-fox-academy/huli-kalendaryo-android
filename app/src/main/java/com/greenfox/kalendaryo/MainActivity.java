@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences.Editor editor;
     private TextView token;
     private ListView viewListOfCalendars;
+    private ApiInterface mApiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .Builder(this).enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                 .build();
+
+        mApiInterface = ApiUtils.getApiInterface();
     }
 
     @Override
@@ -100,14 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     public void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent, REQ_CODE);
-
-
     }
 
     public void signOut() {
@@ -125,45 +124,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInAccount account = result.getSignInAccount();
             String userName = account.getDisplayName();
             String userEmail = account.getEmail();
-
-
-            ApiInterface service = new Retrofit.Builder()
-                    .baseUrl("http://10.27.9.99:8080/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
-                    .build().create(ApiInterface.class);
-            Log.d("dasd","sd" + account.getServerAuthCode());
-            service.getAccessToken(new KalAuth(account.getServerAuthCode(), account.getEmail())).enqueue(new Callback<KalUser>() {
+            mApiInterface.sendAuthCode(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                    Log.d("very sorry", "access_token: " + response.body().access_token);
+                    Log.d("give me token", "accessToken: " + response.body().accessToken);
                 }
-
                 @Override
                 public void onFailure(Call<KalUser> call, Throwable t) {
                     t.printStackTrace();
                 }
             });
-
             loginName.setText(userName);
             loginEmail.setText(userEmail);
-
             sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
             editor = sharedPref.edit();
             editor.putString("username", userEmail);
             editor.apply();
-
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
-
             updateUI(true);
         } else {
             updateUI(false);
         }
-
     }
 
     public void updateUI(boolean isLogin) {
-
         if (isLogin) {
             profileSection.setVisibility(View.VISIBLE);
             signIn.setVisibility(View.GONE);
@@ -178,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
@@ -193,46 +176,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void displayData() {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-
         String name = sharedPref.getString("username", "");
-
         myText.setText(name + " ");
-
-    }
-
-    public void getCalendars(View view) throws IOException {
-
-        ListCalendarsInterface listCalendarsInterface = ListCalendarsInterface.retrofit.create(ListCalendarsInterface.class);
-        Call<List<Calendar>> call = listCalendarsInterface
-                .calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
-
-        call.enqueue(new Callback<List<Calendar>>() {
-            @Override
-            public void onResponse(Call<List<Calendar>> call, Response<List<Calendar>> response) {
-
-                List<Calendar> listOfCalendars = response.body();
-
-                if (listOfCalendars == null) {
-                    Toast.makeText(getApplicationContext(), "Error empty list", Toast.LENGTH_LONG).show();
-                } else {
-                    String[] myList = new String[listOfCalendars.size()];
-                    for (int i = 0; i < listOfCalendars.size(); i++) {
-                        myList[i] = listOfCalendars.get(i).getId();
-                        viewListOfCalendars = (ListView) findViewById(R.id.apilistcalendars);
-                        viewListOfCalendars.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, myList));
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Calendar>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        Call<com.google.api.services.calendar.model.Calendar> call = listCalendarsInterface.calendars("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com");
-//        Calendar content = call.execute().body();
-//        return (content.toString());
     }
 }
