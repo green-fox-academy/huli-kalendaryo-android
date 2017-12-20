@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView token;
     private ListView viewListOfCalendars;
     private ApiInterface mApiInterface;
+    private Button getListButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +64,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signIn = findViewById(R.id.bn_login);
         loginName = findViewById(R.id.name);
         loginEmail = findViewById(R.id.email);
-        signIn.setOnClickListener(this);
-        signOut.setOnClickListener(this);
         profileSection.setVisibility(View.GONE);
         myText = findViewById(R.id.myText);
         token = findViewById(R.id.tokenText);
+        getListButton = findViewById(R.id.getCalendarsButton);
+        viewListOfCalendars = findViewById(R.id.apilistcalendars);
+
+        signIn.setOnClickListener(this);
+        signOut.setOnClickListener(this);
+        getListButton.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
