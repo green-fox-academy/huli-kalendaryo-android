@@ -7,8 +7,8 @@ package com.greenfox.kalendaryo;
 public class ApiUtils {
     private ApiUtils() {}
 
-    public static final String BASE_URL = "http://localhost:8080/";
-    public static ApiInterface getAPIService() {
+    public static final String BASE_URL = "https://kalendaryo-staging.greenfox.academy/";
+    public static ApiInterface getApiInterface() {
         return RetrofitClient.getClient(BASE_URL).create(ApiInterface.class);
     }
 }

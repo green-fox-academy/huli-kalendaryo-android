@@ -1,7 +1,14 @@
 package com.greenfox.kalendaryo;
 
+import android.util.Log;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.greenfox.kalendaryo.ApiUtils.BASE_URL;
 
 /**
  * Created by lica on 2017. 12. 17..
@@ -16,7 +23,19 @@ public class RetrofitClient {
                     .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+
+            ApiInterface service = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
+                    .build().create(ApiInterface.class);
         }
         return retrofit;
     }
+
+
+
+
+
+
 }

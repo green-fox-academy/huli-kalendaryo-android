@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences.Editor editor;
     private TextView token;
     private ListView viewListOfCalendars;
+    private ApiInterface mApiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .Builder(this).enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                 .build();
+
+        mApiInterface = ApiUtils.getApiInterface();
     }
 
     @Override
@@ -126,17 +129,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String userName = account.getDisplayName();
             String userEmail = account.getEmail();
 
-
-            ApiInterface service = new Retrofit.Builder()
-                    .baseUrl("https://kalendaryo-staging.greenfox.academy/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
-                    .build().create(ApiInterface.class);
-            Log.d("dasd","sd" + account.getServerAuthCode());
-            service.getAuthCode(new KalAuth(account.getServerAuthCode(), account.getEmail(), account.getDisplayName())).enqueue(new Callback<KalUser>() {
+//            ApiInterface service = new Retrofit.Builder()
+//                    .baseUrl("https://kalendaryo-staging.greenfox.academy/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
+//                    .build().create(ApiInterface.class);
+//            Log.d("dasd","sd" + account.getServerAuthCode());
+            mApiInterface.sendAuthCode(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                    Log.d("very sorry", "accessToken: " + response.body().accessToken);
+                    Log.d("give me token", "accessToken: " + response.body().accessToken);
                 }
 
                 @Override
