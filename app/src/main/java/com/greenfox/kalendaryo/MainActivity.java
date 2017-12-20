@@ -3,6 +3,7 @@ package com.greenfox.kalendaryo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,34 +54,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences.Editor editor;
     private TextView token;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        profileSection = findViewById(R.id.prof_section);
-        signOut = findViewById(R.id.bn_logout);
-        signIn = findViewById(R.id.bn_login);
-        loginName = findViewById(R.id.name);
-        loginEmail = findViewById(R.id.email);
-        signIn.setOnClickListener(this);
-        signOut.setOnClickListener(this);
-        profileSection.setVisibility(View.GONE);
-        myText = findViewById(R.id.myText);
-        token = findViewById(R.id.tokenText);
-        findViewById(R.id.button2).setOnClickListener(this);
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        String storedUsername = prefs.getString(KEY_USERNAME, "Default Value if not found");
+//        String storedPassword = prefs.getString(KEY_PASSWORD, ""); //return nothing if no pass saved
+//        if (!storedUsername .equalsIgnoreCase("") || !storedPassword .equalsIgnoreCase("")) {
+//            intent  = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//
+//        }else {
+//            intent  = new Intent(this, LoginActivity.class);
+//            startActivity(intent);
+//        }
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestIdToken("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
-                .requestServerAuthCode("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
-                .build();
+            profileSection = findViewById(R.id.prof_section);
+            signOut = findViewById(R.id.bn_logout);
+            signIn = findViewById(R.id.bn_login);
+            loginName = findViewById(R.id.name);
+            loginEmail = findViewById(R.id.email);
+            signIn.setOnClickListener(this);
+            signOut.setOnClickListener(this);
+            profileSection.setVisibility(View.GONE);
+            myText = findViewById(R.id.myText);
+            token = findViewById(R.id.tokenText);
+            findViewById(R.id.button2).setOnClickListener(this);
 
-        googleApiClient = new GoogleApiClient
-                .Builder(this).enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                .build();
+        sharedPref = getSharedPreferences("username", 0);
+        String value = sharedPref.getString("username",null);
+        if (value == null) {
+            // the key does not exist
+
+
+            GoogleSignInOptions signInOptions = new GoogleSignInOptions
+                    .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestIdToken("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
+                    .requestServerAuthCode("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
+                    .build();
+
+            googleApiClient = new GoogleApiClient
+                    .Builder(this).enableAutoManage(this, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                    .build();
+
+        } else {
+            updateUI(false);
+        }
     }
 
     @Override
