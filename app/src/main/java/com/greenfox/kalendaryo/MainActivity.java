@@ -3,7 +3,6 @@ package com.greenfox.kalendaryo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -27,9 +25,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.api.services.calendar.model.Calendar;
-import com.greenfox.kalendaryo.httpconn.RetrofitClient;
-import com.greenfox.kalendaryo.models.KalAuth;
-import com.greenfox.kalendaryo.models.KalUser;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private GoogleSignInAccount account;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             settingDisplayNameAndEamil(username, useremail);
             updateUI(true);
         }
-
     }
 
     @Override
@@ -111,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+      
     }
 
     public void signIn() {
@@ -130,40 +125,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void handleResult(GoogleSignInResult result) {
 
-        if (result.isSuccess()) {
-            account = result.getSignInAccount();
-            String userName = account.getDisplayName();
-            String userEmail = account.getEmail();
+       if (result.isSuccess()) {
+           account = result.getSignInAccount();
+           String userName = account.getDisplayName();
+           String userEmail = account.getEmail();
 //            RetrofitClient retrofitClient = new RetrofitClient();
 //            retrofitClient.getConnectionWithBackend(account);
-            settingDisplayNameAndEamil(userName, userEmail);
+           settingDisplayNameAndEamil(userName, userEmail);
 
-            sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-            editor = sharedPref.edit();
-            editor.putString("useremail", userEmail);
-            editor.putString("username", userName);
-            editor.apply();
+           sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+           editor = sharedPref.edit();
+           editor.putString("useremail", userEmail);
+           editor.putString("username", userName);
+           editor.apply();
 
-            Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
+           Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
 
-            updateUI(true);
-        } else {
-            updateUI(false);
-        }
-
+           updateUI(true);
+       } else {
+           updateUI(false);
+       }
     }
-
-    private void settingDisplayNameAndEamil(String userName, String userEmail) {
-        loginName.setText(userName);
-        loginEmail.setText(userEmail);
-    }
+      private void settingDisplayNameAndEamil(String userName, String userEmail) {
+       loginName.setText(userName);
+       loginEmail.setText(userEmail);
+   }
 
     public void updateUI(boolean isLogin) {
         if (isLogin) {
             profileSection.setVisibility(View.VISIBLE);
             signIn.setVisibility(View.GONE);
             myText.setVisibility(View.VISIBLE);
-
         } else {
             profileSection.setVisibility(View.GONE);
             signIn.setVisibility(View.VISIBLE);
@@ -174,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleResult(result);
@@ -183,11 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void displayData() {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-
         String email = sharedPref.getString("useremail", "");
-
         myText.setText(email);
-
     }
-
 }
