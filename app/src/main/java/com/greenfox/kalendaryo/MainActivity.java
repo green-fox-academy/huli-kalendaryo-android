@@ -39,7 +39,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = "MainActivity";
     private LinearLayout profileSection;
     private Button signOut;
     private SignInButton signIn;
@@ -49,15 +48,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQ_CODE = 900;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
-    private TextView token;
-    private ListView viewListOfCalendars;
-    private ApiInterface mApiInterface;
+    private GoogleSignInAccount account;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
         signIn = findViewById(R.id.bn_login);
@@ -67,22 +64,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signOut.setOnClickListener(this);
         profileSection.setVisibility(View.GONE);
         myText = findViewById(R.id.myText);
-        token = findViewById(R.id.tokenText);
+        TextView token = findViewById(R.id.tokenText);
         findViewById(R.id.button2).setOnClickListener(this);
 
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestIdToken("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
-                .requestServerAuthCode("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
-                .build();
-
-        googleApiClient = new GoogleApiClient
-                .Builder(this).enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                .build();
-
-        mApiInterface = ApiUtils.getApiInterface();
+        sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String username = sharedPref.getString("username","");
+        String useremail = sharedPref.getString("useremail","");
+        Log.d("sharedpref", username);
+                if(username.equals(null)){
+            GoogleSignInOptions signInOptions = new GoogleSignInOptions
+                    .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestIdToken("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
+                    .requestServerAuthCode("141350348735-cibla76rafmvq6c6enon40kc6eg3r9su.apps.googleusercontent.com")
+                    .build();
+            googleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .enableAutoManage(this,this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                    .build();
+        } else {
+            settingDisplayNameAndEamil(username, useremail);
+            updateUI(true);
+        }
     }
 
     @Override
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+      
     }
 
     public void signIn() {
@@ -120,32 +125,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void handleResult(GoogleSignInResult result) {
 
-        if (result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-            String userName = account.getDisplayName();
-            String userEmail = account.getEmail();
-            mApiInterface.sendAuthCode(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
-                @Override
-                public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                    Log.d("give me token", "accessToken: " + response.body().accessToken);
-                }
-                @Override
-                public void onFailure(Call<KalUser> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-            loginName.setText(userName);
-            loginEmail.setText(userEmail);
-            sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-            editor = sharedPref.edit();
-            editor.putString("username", userEmail);
-            editor.apply();
-            Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
-            updateUI(true);
-        } else {
-            updateUI(false);
-        }
+       if (result.isSuccess()) {
+           account = result.getSignInAccount();
+           String userName = account.getDisplayName();
+           String userEmail = account.getEmail();
+//            RetrofitClient retrofitClient = new RetrofitClient();
+//            retrofitClient.getConnectionWithBackend(account);
+           settingDisplayNameAndEamil(userName, userEmail);
+
+           sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+           editor = sharedPref.edit();
+           editor.putString("useremail", userEmail);
+           editor.putString("username", userName);
+           editor.apply();
+
+           Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
+
+           updateUI(true);
+       } else {
+           updateUI(false);
+       }
     }
+      private void settingDisplayNameAndEamil(String userName, String userEmail) {
+       loginName.setText(userName);
+       loginEmail.setText(userEmail);
+   }
 
     public void updateUI(boolean isLogin) {
         if (isLogin) {
@@ -164,19 +168,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
-            //backend has to create endpoint to receive data
-            //authcode comes here
-            //send it to backend to get back TOKEN
-            //once TOKEN is back send user data (email,name, bla bla bla)
-            // ++ store TOKEN in sharedpre
             handleResult(result);
         }
     }
 
     public void displayData() {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String name = sharedPref.getString("username", "");
-        myText.setText(name + " ");
+        String email = sharedPref.getString("useremail", "");
+        myText.setText(email);
     }
 }
