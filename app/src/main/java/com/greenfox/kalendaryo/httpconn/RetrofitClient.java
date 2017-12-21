@@ -24,15 +24,15 @@ public class RetrofitClient {
 
     public void getConnectionWithBackend(GoogleSignInAccount account) {
         ApiInterface service = new Retrofit.Builder()
-                .baseUrl("http://kalendaryo-staging.greenfox.academy/auth/")
+                .baseUrl("http://kalendaryo-staging.greenfox.academy/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
                 .build().create(ApiInterface.class);
         Log.d("dasd","sd" + account.getServerAuthCode());
-        service.getAccessToken(new KalAuth(account.getServerAuthCode(), account.getEmail())).enqueue(new Callback<KalUser>() {
+        service.getAccessToken(new KalAuth(account.getServerAuthCode(), account.getDisplayName(), account.getEmail())).enqueue(new Callback<KalUser>() {
             @Override
             public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                Log.d("very sorry", "access_token: " + response.body().access_token);
+                Log.d("very sorry", "access_token: " + response.body().accessToken);
             }
 
             @Override
