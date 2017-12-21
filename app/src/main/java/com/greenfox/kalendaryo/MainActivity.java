@@ -3,6 +3,7 @@ package com.greenfox.kalendaryo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -24,18 +26,17 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.calendar.model.Calendar;
+import com.google.api.services.calendar.model.CalendarList;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -50,9 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private TextView token;
-    private ListView viewListOfCalendars;
+    private ListView listOfCalendarView;
     private ApiInterface mApiInterface;
     private Button getListButton;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myText = findViewById(R.id.myText);
         token = findViewById(R.id.tokenText);
         getListButton = findViewById(R.id.getCalendarsButton);
-        viewListOfCalendars = findViewById(R.id.apilistcalendars);
+        listOfCalendarView = findViewById(R.id.apilistcalendars);
 
         signIn.setOnClickListener(this);
         signOut.setOnClickListener(this);
+
         getListButton.setOnClickListener(this);
+
         findViewById(R.id.button2).setOnClickListener(this);
 
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
@@ -88,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         mApiInterface = ApiUtils.getApiInterface();
+
+        // Barbi
+
     }
 
     @Override
@@ -100,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signOut();
                 break;
             case R.id.button2:
+                displayData();
+                break;
+            case R.id.getCalendarsButton:
                 displayData();
                 break;
         }
@@ -132,8 +142,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mApiInterface.sendAuthCode(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                    Log.d("give me token", "accessToken: " + response.body().accessToken);
+                    String accessToken = response.body().accessToken;
+                    Log.d("give me token", "accessToken: " + accessToken);
                 }
+
                 @Override
                 public void onFailure(Call<KalUser> call, Throwable t) {
                     t.printStackTrace();
