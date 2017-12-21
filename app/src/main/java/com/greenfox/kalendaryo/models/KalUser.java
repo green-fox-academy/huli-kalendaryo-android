@@ -6,9 +6,8 @@ package com.greenfox.kalendaryo.models;
 
 public class KalUser {
     public long id;
-    public String client_token;
-    public String useremail;
-    public String access_token;
+    public String accessToken;
+
 
     public long getId() {
         return id;
@@ -18,27 +17,11 @@ public class KalUser {
         this.id = id;
     }
 
-    public String getClient_token() {
-        return client_token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setClient_token(String client_token) {
-        this.client_token = client_token;
-    }
-
-    public String getUseremail() {
-        return useremail;
-    }
-
-    public void setUseremail(String useremail) {
-        this.useremail = useremail;
-    }
-
-    public String getAccess_token() {
-        return access_token;
-    }
-
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setAccessToken(String clientToken) {
+        this.accessToken = clientToken;
     }
 }
