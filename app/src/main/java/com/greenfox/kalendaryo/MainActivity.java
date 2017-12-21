@@ -3,20 +3,18 @@ package com.greenfox.kalendaryo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.provider.CalendarContract;
+
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -26,13 +24,8 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.calendar.model.Calendar;
-import com.google.api.services.calendar.model.CalendarList;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalUser;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView listOfCalendarView;
     private ApiInterface mApiInterface;
     private Button getListButton;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         mApiInterface = ApiUtils.getApiInterface();
-
-        // Barbi
-
     }
 
     @Override
@@ -169,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             profileSection.setVisibility(View.VISIBLE);
             signIn.setVisibility(View.GONE);
             myText.setVisibility(View.VISIBLE);
+
         } else {
             profileSection.setVisibility(View.GONE);
             signIn.setVisibility(View.VISIBLE);
@@ -181,12 +172,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
-            //backend has to create endpoint to receive data
-            //authcode comes here
-            //send it to backend to get back TOKEN
-            //once TOKEN is back send user data (email,name, bla bla bla)
-            // ++ store TOKEN in sharedpre
             handleResult(result);
         }
     }

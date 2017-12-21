@@ -1,13 +1,14 @@
-package com.greenfox.kalendaryo;
+package com.greenfox.kalendaryo.models;
 
 /**
  * Created by Ezzo on 2017. 12. 15..
  */
 
-class KalAuth {
+public class KalAuth {
     public String authCode;
     public String userEmail;
     public String userName;
+
 
     public KalAuth(String authToken, String userEmail, String userName) {
         this.authCode = authToken;
