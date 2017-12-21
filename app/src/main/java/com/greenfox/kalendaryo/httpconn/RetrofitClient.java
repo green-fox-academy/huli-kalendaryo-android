@@ -24,7 +24,7 @@ public class RetrofitClient {
 
     public void getConnectionWithBackend(GoogleSignInAccount account) {
         ApiInterface service = new Retrofit.Builder()
-                .baseUrl("http://kalendaryo-staging.greenfox.academy/auth/")
+                .baseUrl("http://kalendaryo-staging.greenfox.academy/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
                 .build().create(ApiInterface.class);
