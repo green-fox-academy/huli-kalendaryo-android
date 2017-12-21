@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences.Editor editor;
     private TextView token;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,24 +72,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            startActivity(intent);
 //        }
 
-            profileSection = findViewById(R.id.prof_section);
-            signOut = findViewById(R.id.bn_logout);
-            signIn = findViewById(R.id.bn_login);
-            loginName = findViewById(R.id.name);
-            loginEmail = findViewById(R.id.email);
-            signIn.setOnClickListener(this);
-            signOut.setOnClickListener(this);
-            profileSection.setVisibility(View.GONE);
-            myText = findViewById(R.id.myText);
-            token = findViewById(R.id.tokenText);
-            findViewById(R.id.button2).setOnClickListener(this);
+        profileSection = findViewById(R.id.prof_section);
+        signOut = findViewById(R.id.bn_logout);
+        signIn = findViewById(R.id.bn_login);
+        loginName = findViewById(R.id.name);
+        loginEmail = findViewById(R.id.email);
+        signIn.setOnClickListener(this);
+        signOut.setOnClickListener(this);
+        profileSection.setVisibility(View.GONE);
+        myText = findViewById(R.id.myText);
+        token = findViewById(R.id.tokenText);
+        findViewById(R.id.button2).setOnClickListener(this);
 
-        sharedPref = getSharedPreferences("username", 0);
-        String value = sharedPref.getString("username",null);
-        if (value == null) {
-            // the key does not exist
+        sharedPref = getSharedPreferences("username", Context.MODE_PRIVATE);
+        String value = sharedPref.getString("username","");
 
-
+        if (value.equalsIgnoreCase(null)) {
             GoogleSignInOptions signInOptions = new GoogleSignInOptions
                     .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
@@ -103,9 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .Builder(this).enableAutoManage(this, this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                     .build();
-
         } else {
-            updateUI(false);
+            updateUI(true);
         }
     }
 
@@ -208,12 +203,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (requestCode == REQ_CODE) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
-            //backend has to create endpoint to receive data
-            //authcode comes here
-            //send it to backend to get back TOKEN
-            //once TOKEN is back send user data (email,name, bla bla bla)
-            // ++ store TOKEN in sharedpre
             handleResult(result);
         }
     }
