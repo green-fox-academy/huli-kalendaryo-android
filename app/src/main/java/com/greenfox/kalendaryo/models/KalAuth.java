@@ -5,6 +5,7 @@ package com.greenfox.kalendaryo.models;
  */
 
 public class KalAuth {
+
     private String authCode;
     private String email;
     private String displayName;
