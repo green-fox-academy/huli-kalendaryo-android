@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo;
+package com.greenfox.kalendaryo.httpconnection;
 
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalUser;

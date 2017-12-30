@@ -1,7 +1,5 @@
 package com.greenfox.kalendaryo.httpconnection;
 
-import com.greenfox.kalendaryo.ApiService;
-
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

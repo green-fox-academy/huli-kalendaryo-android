@@ -1,8 +1,8 @@
 package com.greenfox.kalendaryo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalUser;
@@ -40,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkIfLoggedIn();
+                checkIfLoggedInAndSignIn();
             }
         });
     }
@@ -50,14 +51,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    private void checkIfLoggedIn() {
-        sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String userName = sharedPref.getString("username", "");
-        String useremail = sharedPref.getString("email","");
-        Log.d("sharedpref", useremail);
-        if(useremail.equals("") && googleApiClient != null) {
-            signIn();
-        } else if(useremail.equals("") && googleApiClient == null){
+    private void checkIfLoggedInAndSignIn() {
+        if(googleApiClient == null) {
             GoogleSignInOptions signInOptions = new GoogleSignInOptions
                     .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
@@ -69,11 +64,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     .enableAutoManage(this,this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                     .build();
-            signIn();
-        } else {
-
-            updateUI(true);
         }
+        signIn();
     }
 
     public void signIn() {
@@ -96,12 +88,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi();
-            settingDisplayNameAndEamil(userName, userEmail);
             apiService.getAccessToken(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
                     editSharedPref(userEmail, userName, accessToken);
+                    Log.d("shared", sharedPref.getString("email", ""));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
 
                 @Override
@@ -110,14 +103,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             });
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
-            updateUI(true);
-        } else {
-            updateUI(false);
         }
     }
 
     private void editSharedPref(String email, String userName, String token) {
-        sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
         editor.putString("email", email);
         editor.putString("username", userName);
