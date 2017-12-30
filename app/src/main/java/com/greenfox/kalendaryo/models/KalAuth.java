@@ -5,37 +5,38 @@ package com.greenfox.kalendaryo.models;
  */
 
 public class KalAuth {
-    public String authCode;
-    public String userEmail;
-    public String userName;
 
-    public KalAuth(String authToken, String userEmail, String userName) {
-        this.authCode = authToken;
-        this.userEmail = userEmail;
-        this.userName = userName;
+    private String authCode;
+    private String email;
+    private String displayName;
+
+    public KalAuth(String authCode, String useremail, String displayName) {
+        this.authCode = authCode;
+        this.email = useremail;
+        this.displayName = displayName;
     }
 
-    public String getAuthToken() {
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getAuthCode() {
         return authCode;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authCode = authToken;
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
