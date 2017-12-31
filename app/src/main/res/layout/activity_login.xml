@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.greenfox.kalendaryo.LoginActivity">
 
+    <Button
+        android:id="@+id/choose_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Account"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="32dp"
+        tools:ignore="MissingConstraints" />
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/bn_login"
         android:layout_width="match_parent"
@@ -19,5 +28,16 @@
         tools:ignore="MissingConstraints">
 
     </com.google.android.gms.common.SignInButton>
+
+    <TextView
+        android:id="@+id/new_accountname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.593" />
 
 </android.support.constraint.ConstraintLayout>
