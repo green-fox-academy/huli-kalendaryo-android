@@ -36,7 +36,6 @@ import static android.accounts.AccountManager.newChooseAccountIntent;
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private SignInButton signIn;
-    private Button choose;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private SharedPreferences sharedPref;
@@ -49,18 +48,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         signIn = findViewById(R.id.bn_login);
-        choose = findViewById(R.id.choose_account);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 buildGoogleApiClient();
                 signIn();
-            }
-        });
-        choose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseAccount();
             }
         });
     }

@@ -22,7 +22,7 @@ import com.greenfox.kalendaryo.services.GoogleApiService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button signOut;
+    private Button signOut, addAccount;
     private TextView loginName, loginEmail, token, myText;
     private SharedPreferences sharedPref;
 
@@ -32,11 +32,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         LinearLayout profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
+        addAccount = findViewById(R.id.choose_account);
         loginName = findViewById(R.id.name);
         loginEmail = findViewById(R.id.email);
         token = findViewById(R.id.tokenText);
         myText = findViewById(R.id.myText);
         signOut.setOnClickListener(this);
+        addAccount.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         checkSharedPreferencesForUser();
         settingDisplayNameAndEamil(sharedPref.getString("email", ""),sharedPref.getString("username", ""));
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button2:
                 displayData();
+                break;
+            case R.id.choose_account:
+
                 break;
         }
     }
