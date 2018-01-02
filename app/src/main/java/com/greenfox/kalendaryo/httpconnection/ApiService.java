@@ -9,6 +9,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -17,5 +18,5 @@ public interface ApiService {
     Call<KalUser> getAccessToken(@Body KalAuth auth);
 
     @GET("/calendars")
-    Call<List<Calendar>> getCalendarList();
+    Call<List<Calendar>> getCalendarList(@Header("Authorization") String accessToken);
 }
