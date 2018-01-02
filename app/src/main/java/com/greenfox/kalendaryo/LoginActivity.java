@@ -17,15 +17,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
-import com.google.api.services.calendar.model.AclRule;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalUser;
+import com.greenfox.kalendaryo.services.GoogleApiService;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private SignInButton signIn;
     private Button choose;
-    private GoogleApiClient googleApiClient;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private SharedPreferences sharedPref;
@@ -54,7 +53,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkIfLoggedInAndSignIn();
+                buildGoogleApiClient();
+                signIn();
             }
         });
         choose.setOnClickListener(new View.OnClickListener() {
@@ -70,23 +70,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    private void checkIfLoggedInAndSignIn() {
-        if(googleApiClient == null) {
-            GoogleSignInOptions signInOptions = new GoogleSignInOptions
-                    .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
-                    .setAccountName(googleAccountName)
-                    .requestEmail()
-                    .requestIdToken("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
-                    .requestServerAuthCode("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
-                    .build();
-            googleApiClient = new GoogleApiClient
+    private void buildGoogleApiClient() {
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
+                .requestEmail()
+                .requestIdToken("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
+                .requestServerAuthCode("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
+                .build();
+            GoogleApiService.init(new GoogleApiClient
                     .Builder(this)
-                    .enableAutoManage(this,this)
+                    .enableAutoManage(this, this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                    .build();
-        }
-        signIn();
+                    .build());
     }
 
     private void chooseAccount() {
@@ -95,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void signIn() {
-        Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(GoogleApiService.getInstance().getGoogleApiClient());
         startActivityForResult(intent, REQ_CODE);
     }
 
@@ -131,7 +127,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     String accessToken = response.body().getAccessToken();
                     editSharedPref(userEmail, userName, accessToken);
                     Log.d("shared", sharedPref.getString("email", ""));
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(signIn);
                 }
 
                 @Override

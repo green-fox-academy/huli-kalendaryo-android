@@ -2,14 +2,22 @@ package com.greenfox.kalendaryo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.greenfox.kalendaryo.services.GoogleApiService;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -17,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button signOut;
     private TextView loginName, loginEmail, token, myText;
     private SharedPreferences sharedPref;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +56,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void signOut() {
         sharedPref.edit().clear().apply();
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        GoogleApiService.getInstance().getGoogleApiClient().connect();
+        GoogleApiService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+            @Override
+            public void onConnected(@Nullable Bundle bundle) {
+                if(GoogleApiService.getInstance().getGoogleApiClient().isConnected()) {
+                    Auth.GoogleSignInApi.signOut(GoogleApiService.getInstance().getGoogleApiClient()).setResultCallback(new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(@NonNull Status status) {
+                            if (status.isSuccess()) {
+                                Log.d("Log out", "User Logged out");
+                                GoogleApiService.finish();
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onConnectionSuspended(int i) {
+                Log.d("Connection suspended", "Google API Client Connection Suspended");
+            }
+        });
     }
 
     private void checkSharedPreferencesForUser() {
