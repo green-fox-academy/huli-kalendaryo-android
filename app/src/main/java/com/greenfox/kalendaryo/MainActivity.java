@@ -8,16 +8,32 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.api.services.calendar.model.Calendar;
+import com.greenfox.kalendaryo.adapter.CalendarAdapter;
+import com.greenfox.kalendaryo.httpconnection.ApiService;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button signOut;
+    private Button signOut, showCalendars;
     private TextView loginName, loginEmail, token, myText;
     private SharedPreferences sharedPref;
-    
+    private ListView listView;
+    private CalendarAdapter adapter;
+    private ApiService service;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginEmail = findViewById(R.id.email);
         token = findViewById(R.id.tokenText);
         myText = findViewById(R.id.myText);
+        showCalendars = findViewById(R.id.showCalendars);
+        listView = findViewById(R.id.apilistcalendars);
+        showCalendars.setOnClickListener(this);
         signOut.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         checkSharedPreferencesForUser();
@@ -71,4 +90,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginName.setText(userName);
         loginEmail.setText(userEmail);
     }
+
+    public void getCalendarList() {
+
+    adapter = new CalendarAdapter(this);
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("10.27.6.188")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+    service = retrofit.create(ApiService.class);
+
+        service.getCalendarList(sharedPref.getString("token", "")).enqueue(new Callback<List<Calendar>>() {
+            @Override
+            public void onResponse(Call<List<Calendar>> call, Response<List<Calendar>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Calendar>> call, Throwable t) {
+
+            }
+        });
+
+        listView.setAdapter(adapter);
+
+        adapter.clear();
+
+        adapter.addAll();
+}
 }
