@@ -93,8 +93,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
-                    //kiszedni a clienttokent is
-                    editSharedPref(userEmail, userName, accessToken);
+                    String clientToken = response.body().getClientToken();
+                    editSharedPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", sharedPref.getString("email", ""));
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
