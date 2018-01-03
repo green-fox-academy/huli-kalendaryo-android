@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void createMergedCals() {
-        Intent intent = new Intent(this, SelectCalendars.class);
+        Intent intent = new Intent(this, SelectCalendarActivity.class);
+        startActivity(intent);
     }
 }
