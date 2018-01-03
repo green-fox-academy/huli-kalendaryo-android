@@ -3,6 +3,7 @@ package com.greenfox.kalendaryo;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,13 @@ import com.greenfox.kalendaryo.httpconnection.ApiService;
 
 import java.util.List;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -92,10 +100,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void settingDisplayNameAndEamil(String userName, String userEmail) {
         loginName.setText(userName);
         loginEmail.setText(userEmail);
+
     }
 
     public void getCalendarList() {
-
     adapter = new CalendarAdapter(this);
 
     Retrofit retrofit = new Retrofit.Builder()
@@ -122,5 +130,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.clear();
 
         adapter.addAll();
-}
+    }
 }
