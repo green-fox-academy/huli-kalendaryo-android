@@ -7,23 +7,35 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.services.calendar.model.Calendar;
+import com.google.api.client.auth.oauth2.BearerToken;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.CalendarList;
+
 import com.greenfox.kalendaryo.adapter.CalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
+import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,7 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPref;
     private ListView listView;
     private CalendarAdapter adapter;
-    private ApiService service;
+    private ApiService apiService;
+    HttpTransport httpTransport;
+    JsonFactory jsonFactory;
+    Credential credentials;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,24 +112,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getCalendarList() {
+
     adapter = new CalendarAdapter(this);
+    apiService = RetrofitClient.getApi();
+    String accessToken = sharedPref.getString("token", "");
+    credentials = new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("10.27.6.188")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+        try {
+            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        jsonFactory = JacksonFactory.getDefaultInstance();
 
-    service = retrofit.create(ApiService.class);
+    // Initialize Calendar service with valid OAuth credentials
+        Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials).setApplicationName("kalendaryo").build();
 
-        service.getCalendarList(sharedPref.getString("token", "")).enqueue(new Callback<List<Calendar>>() {
+        apiService.getCalendarList(accessToken).enqueue(new Callback<List<CalendarListEntry>>() {
             @Override
-            public void onResponse(Call<List<Calendar>> call, Response<List<Calendar>> response) {
-                
+            public void onResponse(Call<List<CalendarListEntry>> call, Response<List<CalendarListEntry>> response) {
+
+                CalendarList calendarList = null;
+
+                try {
+                    calendarList = service.calendarList().list().execute();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+
+                List<CalendarListEntry> calendarListEntries = calendarList.getItems();
+
+                for (CalendarListEntry calendarListEntry: calendarListEntries) {
+                    adapter.add(calendarListEntry);
+                }
+
+                listView.setAdapter(adapter);
+                adapter.clear();
             }
 
             @Override
-            public void onFailure(Call<List<Calendar>> call, Throwable t) {
-
+            public void onFailure(Call<List<CalendarListEntry>> call, Throwable t) {
+                t.printStackTrace();
             }
         });
 

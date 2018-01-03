@@ -1,6 +1,6 @@
 package com.greenfox.kalendaryo.httpconnection;
 
-import com.google.api.services.calendar.model.Calendar;
+import com.google.api.services.calendar.model.CalendarListEntry;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalUser;
 
@@ -18,5 +18,5 @@ public interface ApiService {
     Call<KalUser> getAccessToken(@Body KalAuth auth);
 
     @GET("/calendars")
-    Call<List<Calendar>> getCalendarList(String accessToken);
+    Call<List<CalendarListEntry>> getCalendarList(@Header("accessToken") String accessToken);
 }

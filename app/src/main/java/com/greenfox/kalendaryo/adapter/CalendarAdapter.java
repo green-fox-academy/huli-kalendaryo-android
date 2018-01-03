@@ -9,14 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.api.services.calendar.model.Calendar;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.CalendarListEntry;
 import com.greenfox.kalendaryo.R;
+
+import java.util.List;
 
 /**
  * Created by barba on 02/01/2018.
  */
 
-public class CalendarAdapter extends ArrayAdapter<Calendar> {
+public class CalendarAdapter extends ArrayAdapter<CalendarListEntry> {
 
         public CalendarAdapter(@NonNull Context context) {
             super(context, 0);
@@ -24,16 +27,16 @@ public class CalendarAdapter extends ArrayAdapter<Calendar> {
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View calendarView, @NonNull ViewGroup parent) {
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-            calendarView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_name, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_name, parent, false);
 
-            Calendar calendar = getItem(position);
+            CalendarListEntry calendarListEntry = getItem(position);
 
-            TextView calendarNameView = calendarView.findViewById(R.id.calendarname);
-            calendarNameView.setText(calendar.getDescription());
+            TextView calendarNameView = convertView.findViewById(R.id.calendarname);
+            calendarNameView.setText(calendarListEntry.getDescription());
 
-            return calendarNameView;
+            return convertView;
         }
 
     }
