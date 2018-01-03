@@ -1,5 +1,7 @@
 package com.greenfox.kalendaryo;
 
+import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -19,12 +21,15 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.services.GoogleApiService;
 
+import static android.accounts.AccountManager.newChooseAccountIntent;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button signOut, addAccount;
     private TextView loginName, loginEmail, token, myText;
     private SharedPreferences sharedPref;
+    private static final int REQUEST_ACCOUNT_PICKER = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settingDisplayNameAndEamil(sharedPref.getString("email", ""),sharedPref.getString("username", ""));
     }
 
+    private void checkSharedPreferencesForUser() {
+        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
+        if (sharedPref.getString("email", "").equals("")) {
+            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -54,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 displayData();
                 break;
             case R.id.choose_account:
-
+                chooseAccount();
                 break;
         }
     }
@@ -87,12 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void checkSharedPreferencesForUser() {
-        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
-        if (sharedPref.getString("email", "").equals("")) {
-            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }
+    private void chooseAccount() {
+        startActivityForResult(newChooseAccountIntent(null, null, new String[]{"com.google"},
+                false, null, null, null, null), REQUEST_ACCOUNT_PICKER);
     }
 
     public void displayData() {
@@ -105,5 +115,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void settingDisplayNameAndEamil(String userName, String userEmail) {
         loginName.setText(userName);
         loginEmail.setText(userEmail);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == Activity.RESULT_OK && data != null && data.getExtras() != null) {
+                    String googleAccountName = data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME);
+                    if (googleAccountName != null) {
+                        TextView newaccountName = findViewById(R.id.new_accountname);
+                        newaccountName.setText(googleAccountName);
+                    }
+                }
+                break;
+        }
     }
 }

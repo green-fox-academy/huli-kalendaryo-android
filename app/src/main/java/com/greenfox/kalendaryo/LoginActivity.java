@@ -37,11 +37,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private SignInButton signIn;
     private static final int REQ_CODE = 900;
-    private static final int REQUEST_ACCOUNT_PICKER = 500;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private GoogleSignInAccount account;
-    private String googleAccountName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +75,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     .build());
     }
 
-    private void chooseAccount() {
-        startActivityForResult(newChooseAccountIntent(null, null, new String[]{"com.google"},
-                false, null, null, null, null), REQUEST_ACCOUNT_PICKER);
-    }
-
     public void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(GoogleApiService.getInstance().getGoogleApiClient());
         startActivityForResult(intent, REQ_CODE);
@@ -94,15 +87,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case REQ_CODE:
                 GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 handleResult(result);
-                break;
-            case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == Activity.RESULT_OK && data != null && data.getExtras() != null) {
-                    googleAccountName = data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME);
-                    if (googleAccountName != null) {
-                        TextView newaccountName = findViewById(R.id.new_accountname);
-                        newaccountName.setText(googleAccountName);
-                    }
-                }
                 break;
         }
     }
