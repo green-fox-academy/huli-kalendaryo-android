@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
+                    //kiszedni a clienttokent is
                     editSharedPref(userEmail, userName, accessToken);
                     Log.d("shared", sharedPref.getString("email", ""));
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -107,12 +108,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void editSharedPref(String email, String userName, String token) {
+    private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
         editor.putString("email", email);
         editor.putString("username", userName);
-        editor.putString("token", token);
+        editor.putString("accesstoken", accessToken);
+        editor.putString("clienttoken", clientToken);
         editor.apply();
     }
 }
