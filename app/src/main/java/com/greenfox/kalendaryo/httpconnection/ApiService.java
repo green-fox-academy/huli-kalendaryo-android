@@ -5,10 +5,11 @@ import com.greenfox.kalendaryo.models.KalUser;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiService {
 
     @POST("/postAuth")
-    Call<KalUser> getAccessToken(@Body KalAuth auth);
+    Call<KalUser> getAccessToken(@Header("Token") String token, @Body KalAuth auth);
 }
