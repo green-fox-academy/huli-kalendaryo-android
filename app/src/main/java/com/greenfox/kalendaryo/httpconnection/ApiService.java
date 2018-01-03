@@ -9,6 +9,6 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
-    @POST("/auth")
+    @POST("/postAuth")
     Call<KalUser> getAccessToken(@Body KalAuth auth);
 }
