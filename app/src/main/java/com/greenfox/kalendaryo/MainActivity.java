@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button signOut;
     private TextView loginName, loginEmail, token, myText;
     private SharedPreferences sharedPref;
+    private Button mergeCalsButton;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button2).setOnClickListener(this);
         checkSharedPreferencesForUser();
         settingDisplayNameAndEamil(sharedPref.getString("email", ""),sharedPref.getString("username", ""));
+        mergeCalsButton = findViewById(R.id.mergeCalsButton);
     }
 
     @Override
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button2:
                 displayData();
                 break;
+            case R.id.mergeCalsButton:
+                createMergedCals();
         }
     }
 
@@ -70,5 +74,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void settingDisplayNameAndEamil(String userName, String userEmail) {
         loginName.setText(userName);
         loginEmail.setText(userEmail);
+    }
+
+    public void createMergedCals() {
+        Intent intent = new Intent(this, SelectCalendars.class);
     }
 }
