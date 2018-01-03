@@ -18,5 +18,5 @@ public interface ApiService {
     Call<KalUser> getAccessToken(@Body KalAuth auth);
 
     @GET("/calendars")
-    Call<List<Calendar>> getCalendarList(@Header("Authorization") String accessToken);
+    Call<List<Calendar>> getCalendarList(String accessToken);
 }

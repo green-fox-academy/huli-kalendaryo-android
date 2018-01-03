@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button2:
                 displayData();
                 break;
+            case R.id.showCalendars:
+                getCalendarList();
+                break;
         }
     }
 
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         service.getCalendarList(sharedPref.getString("token", "")).enqueue(new Callback<List<Calendar>>() {
             @Override
             public void onResponse(Call<List<Calendar>> call, Response<List<Calendar>> response) {
-
+                
             }
 
             @Override
