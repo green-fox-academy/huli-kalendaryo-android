@@ -19,13 +19,6 @@ import com.greenfox.kalendaryo.httpconnection.ApiService;
 
 import java.util.List;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.greenfox.kalendaryo.models.KalAuth;
-import com.greenfox.kalendaryo.models.KalUser;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

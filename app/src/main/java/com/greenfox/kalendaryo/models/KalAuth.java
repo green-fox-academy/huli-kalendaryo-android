@@ -5,19 +5,6 @@ package com.greenfox.kalendaryo.models;
  */
 
 public class KalAuth {
-<<<<<<< HEAD
-=======
-    public String authCode;
-    public String userEmail;
-    public String userName;
-
-
-    public KalAuth(String authToken, String userEmail, String userName) {
-        this.authCode = authToken;
-        this.userEmail = userEmail;
-        this.userName = userName;
-    }
->>>>>>> 5c29261f218d04c15c6512a33d36238018cb5862
 
     private String authCode;
     private String email;
