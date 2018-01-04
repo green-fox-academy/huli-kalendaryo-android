@@ -53,7 +53,9 @@
             android:layout_height="match_parent"
 
             tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="82dp" />
+            tools:layout_editor_absoluteY="82dp" >
+
+        </ListView>
     </LinearLayout>
 
     <TextView
@@ -103,5 +105,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.982" />
-  
+
+    <Button
+        android:id="@+id/mergeCalsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onClick"
+        android:text="Create merge calendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/prof_section"
+        app:layout_constraintTop_toBottomOf="@+id/prof_section" />
+
 </android.support.constraint.ConstraintLayout>

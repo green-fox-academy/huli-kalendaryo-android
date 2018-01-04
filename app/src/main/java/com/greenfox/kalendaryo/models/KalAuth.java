@@ -9,6 +9,8 @@ public class KalAuth {
     private String authCode;
     private String email;
     private String displayName;
+    private String accessToken;
+
 
     public KalAuth(String authCode, String useremail, String displayName) {
         this.authCode = authCode;
