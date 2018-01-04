@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi();
-            apiService.getAccessToken(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
