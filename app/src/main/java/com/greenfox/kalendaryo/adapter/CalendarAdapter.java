@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.greenfox.kalendaryo.R;
+import com.greenfox.kalendaryo.models.Kalendar;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by barba on 02/01/2018.
  */
 
-public class CalendarAdapter extends ArrayAdapter<CalendarListEntry> {
+public class CalendarAdapter extends ArrayAdapter<Kalendar> {
 
         public CalendarAdapter(@NonNull Context context) {
             super(context, 0);
@@ -31,10 +32,10 @@ public class CalendarAdapter extends ArrayAdapter<CalendarListEntry> {
 
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_name, parent, false);
 
-            CalendarListEntry calendarListEntry = getItem(position);
+            Kalendar kalendar = getItem(position);
 
             TextView calendarNameView = convertView.findViewById(R.id.calendarname);
-            calendarNameView.setText(calendarListEntry.getSummary());
+            calendarNameView.setText(kalendar.getSummary());
 
             return convertView;
         }

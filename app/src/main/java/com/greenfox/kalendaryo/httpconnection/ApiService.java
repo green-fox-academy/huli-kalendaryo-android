@@ -4,7 +4,9 @@ import android.content.SharedPreferences;
 
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalModel;
 import com.greenfox.kalendaryo.models.KalUser;
+import com.greenfox.kalendaryo.models.Kalendar;
 
 import java.util.List;
 
@@ -22,5 +24,5 @@ public interface ApiService {
 
 
     @GET("/calendarList")
-    Call<List<CalendarListEntry>> getCalendarList(@Header("Authorization") String accessToken);
+    Call<KalModel> getCalendarList(@Header("Authorization") String accessToken);
 }

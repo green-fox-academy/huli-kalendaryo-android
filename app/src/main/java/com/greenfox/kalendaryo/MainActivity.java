@@ -29,6 +29,8 @@ import com.google.api.services.calendar.model.CalendarList;
 import com.greenfox.kalendaryo.adapter.CalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
+import com.greenfox.kalendaryo.models.KalModel;
+import com.greenfox.kalendaryo.models.Kalendar;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -120,15 +122,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String accessToken = sharedPref.getString("token", "");
 
-        apiService.getCalendarList(accessToken).enqueue(new Callback<List<CalendarListEntry>>() {
+        apiService.getCalendarList(accessToken).enqueue(new Callback<KalModel>() {
             @Override
-            public void onResponse(Call<List<CalendarListEntry>> call, Response<List<CalendarListEntry>> response) {
+            public void onResponse(Call<KalModel> call, Response<KalModel> response) {
 
+                KalModel kalModel = response.body();
 
-                List<CalendarListEntry> calendarListEntries = response.body();
+                List<Kalendar> kalendars = kalModel.getItems();
 
-                for (CalendarListEntry calendarListEntry: calendarListEntries) {
-                    adapter.add(calendarListEntry);
+                for (Kalendar kalendar: kalendars) {
+                    adapter.add(kalendar);
                 }
 
                 listView.setAdapter(adapter);
@@ -137,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             @Override
-            public void onFailure(Call<List<CalendarListEntry>> call, Throwable t) {
+            public void onFailure(Call<KalModel> call, Throwable t) {
                 t.printStackTrace();
             }
         });
