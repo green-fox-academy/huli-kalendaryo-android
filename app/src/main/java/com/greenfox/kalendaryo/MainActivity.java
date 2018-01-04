@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
+
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -113,43 +114,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getCalendarList() {
 
-    adapter = new CalendarAdapter(this);
-    apiService = RetrofitClient.getApi();
-    String accessToken = sharedPref.getString("token", "");
-    credentials = new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+        adapter = new CalendarAdapter(this);
 
-        try {
-            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        jsonFactory = JacksonFactory.getDefaultInstance();
+        apiService = RetrofitClient.getApi("https://www.googleapis.com/calendar/v3/users/me/");
 
-    // Initialize Calendar service with valid OAuth credentials
-        Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials).setApplicationName("kalendaryo").build();
+        String accessToken = sharedPref.getString("token", "");
 
         apiService.getCalendarList(accessToken).enqueue(new Callback<List<CalendarListEntry>>() {
             @Override
             public void onResponse(Call<List<CalendarListEntry>> call, Response<List<CalendarListEntry>> response) {
 
-                CalendarList calendarList = null;
+                // We don't need these, feel free to delete. I left it here because at the end I can set the adapter with these steps, but you'll receive these things with the response.body().
+                credentials = new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
+                httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
+                jsonFactory = JacksonFactory.getDefaultInstance();
 
+                // Initialize Calendar service with valid OAuth credentials
+                Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials).setApplicationName("kalendaryo").build();
+
+                CalendarList calendarList = null;
                 try {
                     calendarList = service.calendarList().list().execute();
                 } catch (IOException e) {
-                        e.printStackTrace();
+                    e.printStackTrace();
                 }
 
                 List<CalendarListEntry> calendarListEntries = calendarList.getItems();
 
+                listView.setAdapter(adapter);
+                adapter.clear();
+
                 for (CalendarListEntry calendarListEntry: calendarListEntries) {
                     adapter.add(calendarListEntry);
                 }
-
-                listView.setAdapter(adapter);
-                adapter.clear();
             }
 
             @Override
@@ -157,11 +154,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 t.printStackTrace();
             }
         });
-
-        listView.setAdapter(adapter);
-
-        adapter.clear();
-
-        adapter.addAll();
     }
 }

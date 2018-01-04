@@ -34,7 +34,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarListEntry> {
             CalendarListEntry calendarListEntry = getItem(position);
 
             TextView calendarNameView = convertView.findViewById(R.id.calendarname);
-            calendarNameView.setText(calendarListEntry.getDescription());
+            calendarNameView.setText(calendarListEntry.getSummary());
 
             return convertView;
         }

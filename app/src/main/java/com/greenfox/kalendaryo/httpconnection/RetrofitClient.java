@@ -13,15 +13,15 @@ public class RetrofitClient {
 
     private static OkHttpClient client;
 
-    public static Retrofit getConnectionWithBackend() {
+    public static Retrofit getConnection(String url) {
         return new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8080/")
+                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
                 .build();
     }
 
-    public static ApiService getApi() {
-        return getConnectionWithBackend().create(ApiService.class);
+    public static ApiService getApi(String url) {
+        return getConnection(url).create(ApiService.class);
     }
 }
