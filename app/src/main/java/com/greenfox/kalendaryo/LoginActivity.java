@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton signIn;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
+    private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private GoogleSignInAccount account;
@@ -71,8 +72,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .setAccountName(googleAccountName)
                 .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                 .requestEmail()
-                .requestIdToken("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
-                .requestServerAuthCode("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
+                .requestIdToken(CLIENT_ID)
+                .requestServerAuthCode(CLIENT_ID)
                 .build();
         if(GoogleApiService.getGoogleApiClient() == null){
             GoogleApiService.init(new GoogleApiClient
