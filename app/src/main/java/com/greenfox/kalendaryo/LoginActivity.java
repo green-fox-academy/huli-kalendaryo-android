@@ -84,12 +84,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void handleResult(GoogleSignInResult result) {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String clientToken = sharedPref.getString("clienttoken", "");
         if (result.isSuccess()) {
             account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi();
-            String clientToken = sharedPref.getString("clienttoken", "");
             apiService.getAccessToken(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
