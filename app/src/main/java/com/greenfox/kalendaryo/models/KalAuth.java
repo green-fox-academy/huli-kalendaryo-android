@@ -14,6 +14,7 @@ public class KalAuth {
         this.authCode = authCode;
         this.email = useremail;
         this.displayName = displayName;
+
     }
 
     public String getDisplayName() {
