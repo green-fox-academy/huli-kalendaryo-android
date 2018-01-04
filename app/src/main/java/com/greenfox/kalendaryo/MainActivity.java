@@ -124,29 +124,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<List<CalendarListEntry>> call, Response<List<CalendarListEntry>> response) {
 
-                // We don't need these, feel free to delete. I left it here because at the end I can set the adapter with these steps, but you'll receive these things with the response.body().
-                credentials = new Credential(BearerToken.authorizationHeaderAccessMethod()).setAccessToken(accessToken);
-                httpTransport = new com.google.api.client.http.javanet.NetHttpTransport();
-                jsonFactory = JacksonFactory.getDefaultInstance();
 
-                // Initialize Calendar service with valid OAuth credentials
-                Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credentials).setApplicationName("kalendaryo").build();
-
-                CalendarList calendarList = null;
-                try {
-                    calendarList = service.calendarList().list().execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                List<CalendarListEntry> calendarListEntries = calendarList.getItems();
-
-                listView.setAdapter(adapter);
-                adapter.clear();
+                List<CalendarListEntry> calendarListEntries = response.body();
 
                 for (CalendarListEntry calendarListEntry: calendarListEntries) {
                     adapter.add(calendarListEntry);
                 }
+
+                listView.setAdapter(adapter);
+                adapter.clear();
+
             }
 
             @Override
