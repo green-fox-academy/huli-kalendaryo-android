@@ -114,8 +114,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
         editor.putString("email", email);
-        editor.putString(email + "username", userName);
-        editor.putString(email + "accesstoken", accessToken);
+        editor.putString("username", userName);
+        editor.putString("accesstoken", accessToken);
         editor.putString("clienttoken", clientToken);
         editor.apply();
     }

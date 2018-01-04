@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void displayData() {
         String email = sharedPref.getString("email", "");
-        String accessToken = sharedPref.getString("token", "");
+        String accessToken = sharedPref.getString("accesstoken", "");
         myText.setText(email);
         token.setText(accessToken);
     }
