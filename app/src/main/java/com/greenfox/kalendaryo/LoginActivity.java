@@ -37,9 +37,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private SignInButton signIn;
     private static final int REQ_CODE = 900;
+    private static final int REQUEST_ACCOUNT_PICKER = 500;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private GoogleSignInAccount account;
+    private String googleAccountName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buildGoogleApiClient();
-                signIn();
+                chooseAccount();
             }
         });
+        // By default it is false, because this is way
+        if(getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
+            chooseAccount();
+        }
     }
 
     @Override
@@ -63,21 +68,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void buildGoogleApiClient() {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .setAccountName(googleAccountName)
                 .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                 .requestEmail()
                 .requestIdToken("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
                 .requestServerAuthCode("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
                 .build();
+        if(GoogleApiService.getGoogleApiClient() == null){
             GoogleApiService.init(new GoogleApiClient
                     .Builder(this)
                     .enableAutoManage(this, this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                     .build());
+        }
+        signIn();
     }
 
     public void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(GoogleApiService.getInstance().getGoogleApiClient());
         startActivityForResult(intent, REQ_CODE);
+    }
+
+    private void chooseAccount() {
+        startActivityForResult(newChooseAccountIntent(null, null, new String[]{"com.google"},
+                false, null, null, null, null), REQUEST_ACCOUNT_PICKER);
     }
 
     @Override
@@ -87,6 +101,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case REQ_CODE:
                 GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 handleResult(result);
+                break;
+
+            case REQUEST_ACCOUNT_PICKER:
+                if (resultCode == Activity.RESULT_OK && data != null && data.getExtras() != null) {
+                    googleAccountName = data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME);
+                    if (googleAccountName != null) {
+                        buildGoogleApiClient();
+                    }
+                }
                 break;
         }
     }
@@ -104,6 +127,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     editSharedPref(userEmail, userName, accessToken);
                     Log.d("shared", sharedPref.getString("email", ""));
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
+                    signIn.putExtra("googleAccountName", googleAccountName);
                     startActivity(signIn);
                 }
 

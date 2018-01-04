@@ -8,7 +8,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 public class GoogleApiService {
 
-    private final GoogleApiClient googleApiClient;
+    private static GoogleApiClient googleApiClient = null;
     private static GoogleApiService singleton = null;
     protected GoogleApiService(GoogleApiClient googleApiClient) {
 
@@ -35,7 +35,9 @@ public class GoogleApiService {
     }
 
 
-    public GoogleApiClient getGoogleApiClient() {
+    public static GoogleApiClient getGoogleApiClient() {
         return googleApiClient;
     }
+
+
 }
