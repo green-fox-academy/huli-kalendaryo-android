@@ -1,7 +1,5 @@
 package com.greenfox.kalendaryo.models;
 
-import java.util.List;
-
 /**
  * Created by barba on 04/01/2018.
  */

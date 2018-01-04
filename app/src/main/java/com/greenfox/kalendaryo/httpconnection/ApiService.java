@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -15,7 +16,7 @@ public interface ApiService {
     @POST("/auth")
     Call<KalUser> getAccessToken(@Body KalAuth auth);
 
-
+    @Headers("Accept: application/json")
     @GET("calendarList")
     Call<KalendarsResponse> getCalendarList(@Header("Authorization") String authorization);
 }

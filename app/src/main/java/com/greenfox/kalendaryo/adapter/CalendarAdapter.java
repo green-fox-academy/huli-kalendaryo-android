@@ -9,12 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.CalendarListEntry;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.models.Kalendar;
-
-import java.util.List;
 
 /**
  * Created by barba on 02/01/2018.

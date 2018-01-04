@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginEmail = findViewById(R.id.email);
         token = findViewById(R.id.tokenText);
         myText = findViewById(R.id.myText);
-        showCalendars = findViewById(R.id.showCalendars);
-        listView = findViewById(R.id.apilistcalendars);
         adapter = new CalendarAdapter(this);
-        listView.setAdapter(adapter);
+        showCalendars = findViewById(R.id.showCalendars);
         showCalendars.setOnClickListener(this);
+        listView = findViewById(R.id.apilistcalendars);
+        listView.setAdapter(adapter);
         signOut.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         checkSharedPreferencesForUser();
@@ -108,9 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getCalendarList() {
 
-
-
-        apiService = RetrofitClient.getApi("https://www.googleapis.com/calendar/v3/users/me/");
+        apiService = RetrofitClient.getApi("google API");
 
         String accessToken = sharedPref.getString("token", "");
         String authorization = "Bearer " + accessToken;
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
 
-                adapter.clear();
+                // adapter.clear();
 
                 KalendarsResponse kalendarsResponse = response.body();
 
