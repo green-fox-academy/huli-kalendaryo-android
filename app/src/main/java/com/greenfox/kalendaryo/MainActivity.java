@@ -7,33 +7,23 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.client.auth.oauth2.BearerToken;
 import com.google.api.client.auth.oauth2.Credential;
 
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.CalendarList;
 
 import com.greenfox.kalendaryo.adapter.CalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
-import com.greenfox.kalendaryo.models.KalModel;
+import com.greenfox.kalendaryo.models.KalendarsResponse;
 import com.greenfox.kalendaryo.models.Kalendar;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myText = findViewById(R.id.myText);
         showCalendars = findViewById(R.id.showCalendars);
         listView = findViewById(R.id.apilistcalendars);
+        adapter = new CalendarAdapter(this);
+        listView.setAdapter(adapter);
         showCalendars.setOnClickListener(this);
         signOut.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
@@ -116,31 +108,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getCalendarList() {
 
-        adapter = new CalendarAdapter(this);
+
 
         apiService = RetrofitClient.getApi("https://www.googleapis.com/calendar/v3/users/me/");
 
         String accessToken = sharedPref.getString("token", "");
+        String authorization = "Bearer " + accessToken;
 
-        apiService.getCalendarList(accessToken).enqueue(new Callback<KalModel>() {
+        apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
             @Override
-            public void onResponse(Call<KalModel> call, Response<KalModel> response) {
+            public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
 
-                KalModel kalModel = response.body();
+                adapter.clear();
 
-                List<Kalendar> kalendars = kalModel.getItems();
+                KalendarsResponse kalendarsResponse = response.body();
+
+                List<Kalendar> kalendars = kalendarsResponse.getItems();
 
                 for (Kalendar kalendar: kalendars) {
                     adapter.add(kalendar);
                 }
-
-                listView.setAdapter(adapter);
-                adapter.clear();
-
             }
 
             @Override
-            public void onFailure(Call<KalModel> call, Throwable t) {
+            public void onFailure(Call<KalendarsResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });

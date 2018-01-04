@@ -6,7 +6,7 @@ import java.util.List;
  * Created by barba on 04/01/2018.
  */
 
-public class KalModel {
+public class KalendarsResponse {
 
      String kind;
      String etag;
@@ -14,15 +14,15 @@ public class KalModel {
      String nextSyncToken;
      List<Kalendar> items;
 
-    public KalModel(String kind, String etag, String nextPageToken, String nextSyncToken, List<Kalendar> items) {
-        this.kind = kind;
+    public KalendarsResponse(String etag, String nextPageToken, String nextSyncToken, List<Kalendar> items) {
+        this.kind = "calendar#calendarList";
         this.etag = etag;
         this.nextPageToken = nextPageToken;
         this.nextSyncToken = nextSyncToken;
         this.items = items;
     }
 
-    public KalModel() {
+    public KalendarsResponse() {
     }
 
     public String getKind() {

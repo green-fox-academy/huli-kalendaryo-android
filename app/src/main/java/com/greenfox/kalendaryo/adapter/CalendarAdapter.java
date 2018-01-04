@@ -30,7 +30,9 @@ public class CalendarAdapter extends ArrayAdapter<Kalendar> {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_name, parent, false);
+         if (convertView == null) {
+             convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_name, parent, false);
+         }
 
             Kalendar kalendar = getItem(position);
 
