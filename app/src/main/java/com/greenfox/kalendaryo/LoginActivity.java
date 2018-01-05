@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int REQ_CODE = 900;
     private KalPref kalPref;
     private GoogleSignInAccount account;
+    private KalAuth kalAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,10 +113,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
-        kalPref.putSting("email", email);
-        kalPref.putSting("username", userName);
-        kalPref.putSting("accestoken", accessToken);
-        kalPref.putSting("clienttoken", clientToken);
-        
+        kalAuth.setEmail(email);
+        kalAuth.setDisplayName(userName);
+        kalAuth.setAccessToken(accessToken);
+        kalAuth.setClientToken(clientToken);
+
+//        kalPref.addAccount("email");
+//        kalPref.addAccount("username");
+//        kalPref.addAccount("accestoken");
+//        kalPref.addAccount("clienttoken");
+
     }
 }

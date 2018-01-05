@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void signOut() {
-        sharedPref.edit().clear().apply();
+        kalPref.removeAccount("");
+ //       sharedPref.edit().clear().apply();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 
