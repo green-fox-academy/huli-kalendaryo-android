@@ -52,16 +52,16 @@ public class KalPref {
         return kalAuth;
     }
 
-    public void addAccount(String accountName) {
+    public void addAccount(String key) {
         Gson gson = new Gson();
-        accounts.add(accountName);
+        accounts.add(key);
         String value = gson.toJson(accounts);
         this.putSting("accountslist", value);
     }
 
-    public void removeAccount(String accountName) {
+    public void removeAccount(String key) {
         Gson gson = new Gson();
-        accounts.remove(accountName);
+        accounts.remove(key);
         String value = gson.toJson(accounts);
         this.putSting("accountslist", value);
     }

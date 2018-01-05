@@ -145,5 +145,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         kalPref.putSting("username", userName);
         kalPref.putSting("accestoken", accessToken);
         kalPref.putSting("clienttoken", clientToken);
+        
     }
 }
