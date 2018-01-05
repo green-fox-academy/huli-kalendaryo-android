@@ -65,7 +65,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
     private void buildGoogleApiClient() {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -120,12 +119,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            ApiService apiService = RetrofitClient.getApi();
-            apiService.getAccessToken(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            ApiService apiService = RetrofitClient.getApi("backend");
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String clientToken = sharedPref.getString("clienttoken", "");
+            apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+              
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
-                    editSharedPref(userEmail, userName, accessToken);
+                    String clientToken = response.body().getClientToken();
+                    editSharedPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", sharedPref.getString("email", ""));
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
                     signIn.putExtra("googleAccountName", googleAccountName);
@@ -140,13 +143,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
         }
     }
-
-    private void editSharedPref(String email, String userName, String token) {
         sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
+        private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
         editor = sharedPref.edit();
         editor.putString("email", email);
         editor.putString("username", userName);
-        editor.putString("token", token);
+        editor.putString("accesstoken", accessToken);
+        editor.putString("clienttoken", clientToken);
         editor.apply();
     }
 }
