@@ -1,5 +1,6 @@
 package com.greenfox.kalendaryo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 
 import com.greenfox.kalendaryo.models.Kalendar;
 
-public class SelectCalendarActivity extends AppCompatActivity {
+public class SelectCalendarActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
         ListView listPage = findViewById(R.id.listPage);
         Button merge = findViewById(R.id.mergeSelectedCalendars);
+        merge.setOnClickListener(this);
 
         listPage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -28,10 +30,18 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
                 String s = listPage.getItemAtPosition(i).toString();
 
-                Toast.makeText(SelectCalendarActivity.getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                // Toast.makeText(this, "Calendars selected", Toast.LENGTH_LONG).show();
             }
         });
+    }
 
-
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.mergeSelectedCalendars:
+                Intent selectAccountActivity = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
+                startActivity(selectAccountActivity);
+                break;
+        }
     }
 }
