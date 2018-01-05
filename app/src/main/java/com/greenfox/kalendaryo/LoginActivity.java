@@ -120,12 +120,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             ApiService apiService = RetrofitClient.getApi("backend");
             String clientToken = kalPref.getString("clienttoken");
             apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName, clientToken)).enqueue(new Callback<KalUser>() {
-              
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
                     String clientToken = response.body().getClientToken();
-                    editSharedPref(userEmail, userName, accessToken, clientToken);
+                    editKalPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", kalPref.getString("email"));
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
                     signIn.putExtra("googleAccountName", googleAccountName);
@@ -140,7 +139,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
         }
     }
-    private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
+
+    private void editKalPref(String email, String userName, String accessToken, String clientToken) {
         kalAuth.setEmail(email);
         kalAuth.setDisplayName(userName);
         kalAuth.setAccessToken(accessToken);
@@ -159,8 +159,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         kalPref.putAuth("username", kalAuth);
         kalPref.putAuth("accesstoken", kalAuth);
         kalPref.putAuth("clienttoken", kalAuth);
-
-
 
     }
 }
