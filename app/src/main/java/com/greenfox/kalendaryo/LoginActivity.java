@@ -3,8 +3,6 @@ package com.greenfox.kalendaryo;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -141,7 +139,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
         }
     }
+
         private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
-        
+        kalPref.putSting("email", email);
+        kalPref.putSting("username", userName);
+        kalPref.putSting("accestoken", accessToken);
+        kalPref.putSting("clienttoken", clientToken);
     }
 }
