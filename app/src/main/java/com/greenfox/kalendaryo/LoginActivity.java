@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private KalPref kalPref;
     private GoogleSignInAccount account;
     private String googleAccountName;
+    private KalAuth kalAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,12 +140,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
         }
     }
+    private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
+        kalAuth.setEmail(email);
+        kalAuth.setDisplayName(userName);
+        kalAuth.setAccessToken(accessToken);
+//        KalUser kalUser = new KalUser();
+//        clientToken = kalUser.getClientToken();
+//        kalAuth.setClientToken(clientToken);
 
-        private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
-        kalPref.putSting("email", email);
-        kalPref.putSting("username", userName);
-        kalPref.putSting("accestoken", accessToken);
-        kalPref.putSting("clienttoken", clientToken);
-        
+        kalPref.addAccount(email);
+        kalPref.addAccount(userName);
+        kalPref.addAccount(accessToken);
+        kalPref.addAccount(clientToken);
+
+
+
+        kalPref.putAuth("email", kalAuth);
+        kalPref.putAuth("username", kalAuth);
+        kalPref.putAuth("accesstoken", kalAuth);
+        kalPref.putAuth("clienttoken", kalAuth);
+
+
     }
 }
