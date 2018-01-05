@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInOptions signInOptions = new GoogleSignInOptions
                     .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
+                    .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                     .requestIdToken("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
                     .requestServerAuthCode("141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com")
                     .build();
@@ -88,10 +90,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            ApiService apiService = RetrofitClient.getApi();
+            ApiService apiService = RetrofitClient.getApi("backend");
             sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             String clientToken = sharedPref.getString("clienttoken", "");
             apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+              
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();

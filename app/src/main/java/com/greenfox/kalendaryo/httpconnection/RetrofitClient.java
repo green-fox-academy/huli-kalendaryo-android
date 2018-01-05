@@ -12,16 +12,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static OkHttpClient client;
+    static String BASE_URL_BACKEND = "http://10.0.2.2:8080/";
+    static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
 
-    public static Retrofit getConnectionWithBackend() {
+    public static Retrofit getConnection(String urlType) {
         return new Retrofit.Builder()
-                .baseUrl("http://10.27.99.10:8080/")
+                .baseUrl(urlType)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS).build())
                 .build();
     }
 
-    public static ApiService getApi() {
-        return getConnectionWithBackend().create(ApiService.class);
+    public static ApiService getApi(String urlType) {
+        if (urlType.equals("backend")) {
+            return getConnection(BASE_URL_BACKEND).create(ApiService.class);
+        } else if (urlType.equals("google API")) {
+            return getConnection(BASE_URL_GOOGLE).create(ApiService.class);
+        } else {
+            return null;
+        }
     }
 }
