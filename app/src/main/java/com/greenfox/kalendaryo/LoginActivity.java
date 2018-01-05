@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.services.GoogleApiService;
 
@@ -38,8 +39,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
-    private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
+    private KalPref kalPref;
     private GoogleSignInAccount account;
     private String googleAccountName;
 
@@ -119,8 +119,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi("backend");
-            sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            String clientToken = sharedPref.getString("clienttoken", "");
+            String clientToken = kalPref.getString("clienttoken");
             apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
               
                 @Override
@@ -128,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     String accessToken = response.body().getAccessToken();
                     String clientToken = response.body().getClientToken();
                     editSharedPref(userEmail, userName, accessToken, clientToken);
-                    Log.d("shared", sharedPref.getString("email", ""));
+                    Log.d("shared", kalPref.getString("email"));
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
                     signIn.putExtra("googleAccountName", googleAccountName);
                     startActivity(signIn);
@@ -143,12 +142,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
         private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
-        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
-        editor = sharedPref.edit();
-        editor.putString("email", email);
-        editor.putString("username", userName);
-        editor.putString("accesstoken", accessToken);
-        editor.putString("clienttoken", clientToken);
-        editor.apply();
+        
     }
 }
