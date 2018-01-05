@@ -11,13 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.kalendaryo.models.KalPref;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button signOut;
     private TextView loginName, loginEmail, token, myText;
-    private SharedPreferences sharedPref;
+ //   private SharedPreferences sharedPref;
     private Button mergeCalsButton;
+    private KalPref kalPref;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signOut.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         checkSharedPreferencesForUser();
-        settingDisplayNameAndEamil(sharedPref.getString("email", ""),sharedPref.getString("username", ""));
+        settingDisplayNameAndEamil(kalPref.getString("email"),kalPref.getString("username"));
         mergeCalsButton = findViewById(R.id.mergeCalsButton);
     }
 
@@ -56,17 +59,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkSharedPreferencesForUser() {
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String username = sharedPref.getString("usename", "");
-        if (sharedPref.getString("username", "").equals("")) {
+
+        String username = kalPref.getString("usename");
+        if (username.equals("")) {
             Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
     }
 
     public void displayData() {
-        String email = sharedPref.getString("email", "");
-        String accessToken = sharedPref.getString("accesstoken", "");
+        String email = kalPref.getString("email");
+        String accessToken = kalPref.getString("accesstoken");
         myText.setText(email);
         token.setText(accessToken);
     }
