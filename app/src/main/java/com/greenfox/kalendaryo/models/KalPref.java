@@ -33,5 +33,19 @@ public class KalPref {
         return this.sharedPref.getString(key, "");
     }
 
+    public void putAuth(String key, KalAuth kalAuth) {
+        Gson gson = new Gson();
+        String value = gson.toJson(kalAuth);
+        this.putSting(key, value);
+    }
+
+    public KalAuth getAuth(String key) {
+        Gson gson = new Gson();
+        String value = this.getString(key);
+        KalAuth kalAuth = gson.fromJson(value, KalAuth.class);
+        return kalAuth;
+    }
+
+    
 
 }
