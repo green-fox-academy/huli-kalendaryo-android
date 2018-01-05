@@ -69,7 +69,4 @@ public class KalPref {
     public List<String> getAccounts() {
         return this.accounts;
     }
-
-
-
 }
