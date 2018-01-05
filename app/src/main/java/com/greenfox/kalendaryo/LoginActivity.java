@@ -90,12 +90,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi();
             String clientToken = kalPref.getString("clienttoken");
-            apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName, clientToken)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
                     String clientToken = response.body().getClientToken();
-                    editSharedPref(userEmail, userName, accessToken, clientToken);
+                    editKalPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", kalPref.getString("email"));
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
@@ -109,15 +109,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
+    private void editKalPref(String email, String userName, String accessToken, String clientToken) {
         kalAuth.setEmail(email);
         kalAuth.setDisplayName(userName);
         kalAuth.setAccessToken(accessToken);
-        KalUser kalUser = new KalUser();
-        clientToken = kalUser.getClientToken();
-        kalAuth.
+//        KalUser kalUser = new KalUser();
+//        clientToken = kalUser.getClientToken();
+        kalAuth.setClientToken(clientToken);
+
         kalPref.putAuth("email", kalAuth);
         kalPref.putAuth("username", kalAuth);
         kalPref.putAuth("accesstoken", kalAuth);
+        kalPref.putAuth("clienttoken", kalAuth);
+
+        kalPref.addAccount(email);
+        kalPref.addAccount(userName);
+        kalPref.addAccount(accessToken);
+        kalPref.addAccount(clientToken);
     }
 }
