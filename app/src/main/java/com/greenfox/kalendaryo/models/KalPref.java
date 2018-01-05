@@ -20,7 +20,13 @@ public class KalPref {
 
     public KalPref(Context context) {
         this.sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-
+        String list = this.sharedPref.getString("accountslist", "");
+        if (list.equals("")) {
+            this.accounts = new ArrayList<>();
+        } else {
+            Gson gson = new Gson();
+            this.accounts = gson.fromJson(list, ArrayList.class);
+        }
     }
 
     public void putSting(String key, String value) {
@@ -46,6 +52,24 @@ public class KalPref {
         return kalAuth;
     }
 
-    
+    public void addAccount(String accountName) {
+        Gson gson = new Gson();
+        accounts.add(accountName);
+        String value = gson.toJson(accounts);
+        this.putSting("accountslist", value);
+    }
+
+    public void removeAccount(String accountName) {
+        Gson gson = new Gson();
+        accounts.remove(accountName);
+        String value = gson.toJson(accounts);
+        this.putSting("accountslist", value);
+    }
+
+    public List<String> getAccounts() {
+        return this.accounts;
+    }
+
+
 
 }
