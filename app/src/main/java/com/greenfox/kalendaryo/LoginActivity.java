@@ -1,8 +1,6 @@
 package com.greenfox.kalendaryo;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -110,10 +108,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
-        editor.putString("email", email);
-        editor.putString("username", userName);
-        editor.putString("accesstoken", accessToken);
-        editor.putString("clienttoken", clientToken);
-        editor.apply();
+        kalPref.putSting("email", email);
+        kalPref.putSting("username", userName);
+        kalPref.putSting("accestoken", accessToken);
+        kalPref.putSting("clienttoken", clientToken);
     }
 }
