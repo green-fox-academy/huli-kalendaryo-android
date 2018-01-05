@@ -10,12 +10,15 @@ public class KalAuth {
     private String email;
     private String displayName;
     private String accessToken;
+    private String clientToken;
 
 
-    public KalAuth(String authCode, String email, String displayName) {
+    public KalAuth(String authCode, String email, String displayName, String clientToken) {
         this.authCode = authCode;
         this.email = email;
         this.displayName = displayName;
+        this.clientToken = clientToken;
+
     }
 
     public String getDisplayName() {
@@ -49,5 +52,12 @@ public class KalAuth {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-    
+
+    public String getClientToken() {
+        return clientToken;
+    }
+
+    public void setClientToken(String clientToken) {
+        this.clientToken = clientToken;
+    }
 }
