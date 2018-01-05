@@ -23,4 +23,15 @@ public class KalPref {
 
     }
 
+    public void putSting(String key, String value) {
+        SharedPreferences.Editor editor = this.sharedPref.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public String getString(String key) {
+        return this.sharedPref.getString(key, "");
+    }
+
+
 }
