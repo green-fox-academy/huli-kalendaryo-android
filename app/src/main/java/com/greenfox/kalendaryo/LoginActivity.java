@@ -19,6 +19,10 @@ import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,5 +116,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         kalPref.putSting("username", userName);
         kalPref.putSting("accestoken", accessToken);
         kalPref.putSting("clienttoken", clientToken);
+        
     }
 }
