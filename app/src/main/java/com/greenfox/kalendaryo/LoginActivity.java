@@ -20,9 +20,6 @@ import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -116,12 +113,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         kalAuth.setEmail(email);
         kalAuth.setDisplayName(userName);
         kalAuth.setAccessToken(accessToken);
-        kalAuth.setClientToken(clientToken);
-
-//        kalPref.addAccount("email");
-//        kalPref.addAccount("username");
-//        kalPref.addAccount("accestoken");
-//        kalPref.addAccount("clienttoken");
-
+        KalUser kalUser = new KalUser();
+        clientToken = kalUser.getClientToken();
+        kalAuth.
+        kalPref.putAuth("email", kalAuth);
+        kalPref.putAuth("username", kalAuth);
+        kalPref.putAuth("accesstoken", kalAuth);
     }
 }
