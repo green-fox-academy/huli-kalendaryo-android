@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.kalendaryo.models.KalPref;
+
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,11 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button signOut, addAccount, showCalendars, mergeCalsButton;
     private TextView loginName, loginEmail, token, myText;
-    private SharedPreferences sharedPref;
     private ListView listView;
     private KalendarAdapter adapter;
     private ApiService apiService;
- 
+ //   private SharedPreferences sharedPref;
+    private KalPref kalPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,22 +64,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signOut.setOnClickListener(this);
         addAccount.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
-        checkSharedPreferencesForUser();
+//        checkSharedPreferencesForUser();
+        settingDisplayNameAndEamil(kalPref.getString("email"),kalPref.getString("username"));
         mergeCalsButton = findViewById(R.id.mergeCalsButton);
-        settingDisplayNameAndEamil(sharedPref.getString("email", ""),sharedPref.getString("username", ""));
         if(getIntent().getStringExtra("googleAccountName")!= null){
             TextView newaccountName = findViewById(R.id.new_accountname);
             newaccountName.setText(getIntent().getStringExtra("googleAccountName"));
         }
     }
 
-    private void checkSharedPreferencesForUser() {
-        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
-        if (sharedPref.getString("email", "").equals("")) {
-            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }
-    }
+//    private void checkSharedPreferencesForUser() {
+//        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
+//        if (sharedPref.getString("email", "").equals("")) {
+//            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//        }
+//    }
 
     @Override
     public void onClick(View view) {
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void signOut() {
-        sharedPref.edit().clear().apply();
+  //      sharedPref.edit().clear().apply();
         GoogleApiService.getInstance().getGoogleApiClient().connect();
         GoogleApiService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
             @Override
@@ -126,11 +129,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("Connection suspended", "Google API Client Connection Suspended");
             }
         });
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
+    private void checkSharedPreferencesForUser() {
+
+        String username = kalPref.getString("usename");
+        if (username.equals("")) {
+            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 
     public void displayData() {
-        String email = sharedPref.getString("email", "");
-        String accessToken = sharedPref.getString("accesstoken", "");
+        String email = kalPref.getString("email");
+        String accessToken = kalPref.getString("accesstoken");
         myText.setText(email);
         token.setText(accessToken);
     }
@@ -143,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getCalendarList() {
         apiService = RetrofitClient.getApi("google API");
-        String accessToken = sharedPref.getString("accesstoken", "");
+        String accessToken = kalPref.getString("accesstoken");
         String authorization = "Bearer " + accessToken;
 
         apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
