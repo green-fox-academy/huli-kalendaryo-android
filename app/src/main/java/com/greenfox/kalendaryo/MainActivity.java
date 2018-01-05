@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void displayData() {
         String email = sharedPref.getString("email", "");
-        String accessToken = sharedPref.getString("token", "");
+        String accessToken = sharedPref.getString("accesstoken", "");
         myText.setText(email);
         token.setText(accessToken);
     }
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         apiService = RetrofitClient.getApi("google API");
 
-        String accessToken = sharedPref.getString("token", "");
+        String accessToken = sharedPref.getString("accesstoken", "");
         String authorization = "Bearer " + accessToken;
 
         apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
