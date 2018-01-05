@@ -39,10 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView listView;
     private CalendarAdapter adapter;
     private ApiService apiService;
-    HttpTransport httpTransport;
-    JsonFactory jsonFactory;
-    Credential credentials;
-
+    private Button mergeCalsButton;
+ 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button2).setOnClickListener(this);
         checkSharedPreferencesForUser();
         settingDisplayNameAndEamil(sharedPref.getString("email", ""),sharedPref.getString("username", ""));
+        mergeCalsButton = findViewById(R.id.mergeCalsButton);
     }
 
     @Override
@@ -76,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.showCalendars:
                 getCalendarList();
                 break;
+            case R.id.mergeCalsButton:
+                createMergedCals();
         }
     }
 
@@ -117,8 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
 
-                // adapter.clear();
-
                 KalendarsResponse kalendarsResponse = response.body();
 
                 List<Kalendar> kalendars = kalendarsResponse.getItems();
@@ -133,5 +132,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 t.printStackTrace();
             }
         });
+    }
+
+    public void createMergedCals() {
+        Intent intent = new Intent(this, SelectCalendarActivity.class);
+        startActivity(intent);
     }
 }

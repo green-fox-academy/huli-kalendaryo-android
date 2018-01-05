@@ -14,8 +14,8 @@ import retrofit2.http.POST;
 public interface ApiService {
 
     @POST("/auth")
-    Call<KalUser> getAccessToken(@Body KalAuth auth);
-
+    Call<KalUser> postAuth(@Header("X-Client-Token") String clientToken, @Body KalAuth auth);
+  
     @Headers("Accept: application/json")
     @GET("calendarList")
     Call<KalendarsResponse> getCalendarList(@Header("Authorization") String authorization);

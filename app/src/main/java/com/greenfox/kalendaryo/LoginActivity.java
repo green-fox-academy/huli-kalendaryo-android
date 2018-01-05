@@ -91,11 +91,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi("backend");
-            apiService.getAccessToken(new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String clientToken = sharedPref.getString("clienttoken", "");
+            apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+              
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     String accessToken = response.body().getAccessToken();
-                    editSharedPref(userEmail, userName, accessToken);
+                    String clientToken = response.body().getClientToken();
+                    editSharedPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", sharedPref.getString("email", ""));
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
@@ -109,12 +113,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void editSharedPref(String email, String userName, String token) {
+    private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
         editor.putString("email", email);
-        editor.putString("username", userName);
-        editor.putString("token", token);
+        editor.putString(email + "username", userName);
+        editor.putString(email + "accesstoken", accessToken);
+        editor.putString("clienttoken", clientToken);
         editor.apply();
     }
 }
