@@ -50,9 +50,9 @@ public class KalPref {
         return kalAuth;
     }
 
-    public void addAccount(String key) {
-        this.sharedPref.getString("key", "");
-        accounts.add(key);
+    public void addAccount(String accountname) {
+        accountname = this.sharedPref.getString("key", "");
+        accounts.add(accountname);
         String value = gson.toJson(accounts);
         this.putSting("accountslist", value);
     }
