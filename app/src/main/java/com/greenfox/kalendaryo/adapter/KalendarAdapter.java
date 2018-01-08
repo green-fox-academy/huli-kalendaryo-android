@@ -16,9 +16,9 @@ import com.greenfox.kalendaryo.models.Kalendar;
  * Created by barba on 02/01/2018.
  */
 
-public class CalendarAdapter extends ArrayAdapter<Kalendar> {
+public class KalendarAdapter extends ArrayAdapter<Kalendar> {
 
-        public CalendarAdapter(@NonNull Context context) {
+        public KalendarAdapter(@NonNull Context context) {
             super(context, 0);
         }
 
