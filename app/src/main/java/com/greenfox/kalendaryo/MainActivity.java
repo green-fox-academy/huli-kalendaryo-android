@@ -28,6 +28,7 @@ import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 import com.greenfox.kalendaryo.models.Kalendar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signOut.setOnClickListener(this);
         addAccount.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
-//        checkSharedPreferencesForUser();
+        checkSharedPreferencesForUser();
         settingDisplayNameAndEamil(kalPref.getString("email"),kalPref.getString("username"));
         mergeCalsButton = findViewById(R.id.mergeCalsButton);
         if(getIntent().getStringExtra("googleAccountName")!= null){
@@ -128,15 +129,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("Connection suspended", "Google API Client Connection Suspended");
             }
         });
-        kalPref.removeAccount("");
+        kalPref.clearAccounts();
  //       sharedPref.edit().clear().apply();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 
     private void checkSharedPreferencesForUser() {
 
-        String username = kalPref.getString("usename");
-        if (username.equals("")) {
+        ArrayList<String> accounts = kalPref.getAccounts();
+        if (accounts.size() == 0) {
             Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }

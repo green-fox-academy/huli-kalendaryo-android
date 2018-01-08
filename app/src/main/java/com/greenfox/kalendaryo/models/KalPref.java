@@ -15,7 +15,7 @@ import java.util.List;
 
 public class KalPref {
     private SharedPreferences sharedPref;
-    private List<String> accounts;
+    private ArrayList<String> accounts;
     private Gson gson = new Gson();
 
 
@@ -51,7 +51,6 @@ public class KalPref {
     }
 
     public void addAccount(String accountname) {
-        accountname = this.sharedPref.getString("key", "");
         accounts.add(accountname);
         String value = gson.toJson(accounts);
         this.putSting("accountslist", value);
@@ -63,7 +62,17 @@ public class KalPref {
         this.putSting("accountslist", value);
     }
 
-    public List<String> getAccounts() {
+    public ArrayList<String> getAccounts() {
         return this.accounts;
+    }
+
+    public void clearAccounts() {
+        SharedPreferences.Editor editor = this.sharedPref.edit();
+        for (int i = 0; i < accounts.size(); i++) {
+            editor.remove(accounts.get(i));
+        }
+        editor.remove("accountslist");
+        editor.apply();
+        this.accounts = new ArrayList<>();
     }
 }
