@@ -10,15 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.KalUser;
 
 /**
- * Created by barba on 02/01/2018.
+ * Created by barba on 2018. 01. 08..
  */
 
-public class CalendarAdapter extends ArrayAdapter<Kalendar> {
+public class AccountAdapter extends ArrayAdapter<KalUser> {
 
-        public CalendarAdapter(@NonNull Context context) {
+        public AccountAdapter(@NonNull Context context) {
             super(context, 0);
         }
 
@@ -26,15 +26,16 @@ public class CalendarAdapter extends ArrayAdapter<Kalendar> {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-         if (convertView == null) {
-             convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_name, parent, false);
-         }
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.account_name_with_button, parent, false);
+            }
 
-            Kalendar kalendar = getItem(position);
+            KalUser user = getItem(position);
 
-            TextView calendarNameView = convertView.findViewById(R.id.calendarname);
-            calendarNameView.setText(kalendar.getSummary());
+            TextView calendarNameView = convertView.findViewById(R.id.accountname);
+            calendarNameView.setText(user.getUserEmail());
 
             return convertView;
         }
     }
+

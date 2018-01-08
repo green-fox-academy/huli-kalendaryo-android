@@ -10,7 +10,7 @@ import android.widget.Button;
 
 import static android.accounts.AccountManager.newChooseAccountIntent;
 
-public class ChooseAccountActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChooseAccountActivity extends AppCompatActivity {
 
     Button showAccounts;
 
@@ -19,20 +19,10 @@ public class ChooseAccountActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_account);
 
-        showAccounts = findViewById(R.id.showAccountsForMerging);
     }
 
     private void chooseAccount() {
         // getting the accounts (KalUsers) from KalPref
-        // or not
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.showAccountsForMerging:
-                chooseAccount();
-                break;
-        }
+        // or
     }
 }
