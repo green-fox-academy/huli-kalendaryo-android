@@ -142,18 +142,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getCalendarList() {
-
         apiService = RetrofitClient.getApi("google API");
-
         String accessToken = sharedPref.getString("accesstoken", "");
         String authorization = "Bearer " + accessToken;
 
         apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
             @Override
             public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-
                 KalendarsResponse kalendarsResponse = response.body();
-
                 List<Kalendar> kalendars = kalendarsResponse.getItems();
 
                 for (Kalendar kalendar: kalendars) {
@@ -172,5 +168,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, SelectCalendarActivity.class);
         startActivity(intent);
     }
-
 }
