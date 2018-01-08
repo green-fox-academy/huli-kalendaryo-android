@@ -21,6 +21,9 @@ public class KalAuth {
 
     }
 
+    public KalAuth() {
+    }
+
     public String getDisplayName() {
         return displayName;
     }
