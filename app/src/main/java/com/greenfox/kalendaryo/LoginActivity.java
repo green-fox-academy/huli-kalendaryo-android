@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        kalPref = new KalPref(this.getApplicationContext());
         setContentView(R.layout.activity_login);
         signIn = findViewById(R.id.bn_login);
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     String accessToken = kalUser.getAccessToken();
                     String clientToken = kalUser.getClientToken();
                     editKalPref(userEmail, userName, accessToken, clientToken);
-                    Log.d("shared", kalPref.getString("email"));
+                    Log.d("shared", kalPref.getString(userEmail));
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
                     signIn.putExtra("googleAccountName", googleAccountName);
                     startActivity(signIn);

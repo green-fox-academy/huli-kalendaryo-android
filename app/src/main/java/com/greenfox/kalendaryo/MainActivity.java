@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signOut.setOnClickListener(this);
         addAccount.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
+        kalPref = new KalPref(this.getApplicationContext());
         checkSharedPreferencesForUser();
         settingDisplayNameAndEamil(kalPref.getString("email"),kalPref.getString("username"));
         mergeCalsButton = findViewById(R.id.mergeCalsButton);
