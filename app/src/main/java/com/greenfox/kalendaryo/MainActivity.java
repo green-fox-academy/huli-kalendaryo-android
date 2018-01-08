@@ -21,7 +21,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.services.GoogleApiService;
 
-import com.greenfox.kalendaryo.adapter.CalendarAdapter;
+import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView loginName, loginEmail, token, myText;
     private SharedPreferences sharedPref;
     private ListView listView;
-    private CalendarAdapter adapter;
+    private KalendarAdapter adapter;
     private ApiService apiService;
  
     @Override
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginEmail = findViewById(R.id.email);
         token = findViewById(R.id.tokenText);
         myText = findViewById(R.id.myText);
-        adapter = new CalendarAdapter(this);
+        adapter = new KalendarAdapter(this);
         showCalendars = findViewById(R.id.showCalendars);
         showCalendars.setOnClickListener(this);
         listView = findViewById(R.id.apilistcalendars);
