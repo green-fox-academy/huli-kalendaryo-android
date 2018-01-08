@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 
 import com.google.android.gms.auth.api.Auth;
@@ -144,10 +145,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void displayData() {
-        String email = kalPref.getString("email");
-        String accessToken = kalPref.getString("accesstoken");
-        myText.setText(email);
-        token.setText(accessToken);
+        ArrayList<String> accounts = kalPref.getAccounts();
+        for (int i = 0; i < accounts.size(); i++) {
+            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
+            myText.append(kalAuth.getEmail() + "\n");
+            token.append(kalAuth.getAccessToken() + "\n");
+        }
     }
 
     private void settingDisplayNameAndEamil(String userName, String userEmail) {
@@ -158,25 +161,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getCalendarList() {
         apiService = RetrofitClient.getApi("google API");
-        String accessToken = kalPref.getString("accesstoken");
-        String authorization = "Bearer " + accessToken;
 
-        apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
-            @Override
-            public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                KalendarsResponse kalendarsResponse = response.body();
-                List<Kalendar> kalendars = kalendarsResponse.getItems();
+        ArrayList<String> accounts = kalPref.getAccounts();
+        for (int i = 0; i < accounts.size(); i++) {
+            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
 
-                for (Kalendar kalendar: kalendars) {
-                    adapter.add(kalendar);
+            String accessToken = kalAuth.getAccessToken();
+            String authorization = "Bearer " + accessToken;
+
+            apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
+                @Override
+                public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
+                    KalendarsResponse kalendarsResponse = response.body();
+                    List<Kalendar> kalendars = kalendarsResponse.getItems();
+
+                    for (Kalendar kalendar : kalendars) {
+                        adapter.add(kalendar);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<KalendarsResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<KalendarsResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 
     public void createMergedCals() {
