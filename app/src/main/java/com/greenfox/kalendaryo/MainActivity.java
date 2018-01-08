@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.greenfox.kalendaryo.models.KalPref;
 
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void signOut() {
-<<<<<<< HEAD
   //      sharedPref.edit().clear().apply();
         GoogleApiService.getInstance().getGoogleApiClient().connect();
         GoogleApiService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
@@ -130,10 +128,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("Connection suspended", "Google API Client Connection Suspended");
             }
         });
-=======
         kalPref.removeAccount("");
  //       sharedPref.edit().clear().apply();
->>>>>>> feat(kalpref) getting key from sharedpref, editsharedpref method updated
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 
