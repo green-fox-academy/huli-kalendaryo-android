@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -41,25 +41,31 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/showCalendars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="show calendars" />
+
+            <Button
                 android:id="@+id/bn_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Logout" />
+
+            <Button
+                android:id="@+id/choose_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Account"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="32dp"/>
         </LinearLayout>
-
-        <ListView
-            android:id="@+id/apilistcalendars"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="82dp" />
-    </LinearLayout>
-
+      
     <TextView
         android:id="@+id/myText"
+
         android:layout_width="391dp"
-        android:layout_height="137dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -67,10 +73,38 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
+        app:layout_constraintVertical_bias="0.386" />
+
+    <TextView
+        android:id="@+id/tokenText"
+        android:layout_width="235dp"
+        android:layout_height="76dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.982" />
+
+    <ListView
+        android:id="@+id/apilistcalendars"
+        android:layout_width="match_parent"
+        android:layout_height="173dp"
+
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tokenText"
+        app:layout_constraintTop_toBottomOf="@+id/myText"
+        tools:layout_editor_absoluteX="2dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button2"
@@ -88,20 +122,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.982" />
 
+
     <TextView
-        android:id="@+id/tokenText"
-        android:layout_width="235dp"
-        android:layout_height="76dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/new_accountname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.593" />
+
+      
+    <Button
+        android:id="@+id/mergeCalsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:onClick="onClick"
+        android:text="Create merge calendar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.962"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.982" />
-  
+        app:layout_constraintStart_toStartOf="@+id/prof_section"
+        app:layout_constraintTop_toBottomOf="@+id/prof_section" />
+     
 </android.support.constraint.ConstraintLayout>
