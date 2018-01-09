@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView listView;
     private KalendarAdapter adapter;
     private ApiService apiService;
- //   private SharedPreferences sharedPref;
     private KalPref kalPref;
 
     @Override
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void signOut() {
-  //      sharedPref.edit().clear().apply();
         GoogleApiService.getInstance().getGoogleApiClient().connect();
         GoogleApiService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
             @Override
