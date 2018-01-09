@@ -75,14 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//    private void checkSharedPreferencesForUser() {
-//        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
-//        if (sharedPref.getString("email", "").equals("")) {
-//            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
-//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//        }
-//    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

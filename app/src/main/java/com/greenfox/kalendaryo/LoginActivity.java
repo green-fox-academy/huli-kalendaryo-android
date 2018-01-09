@@ -155,7 +155,5 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         kalPref.putAuth(email, kalAuth);
 
         kalPref.addAccount(email);
-
-
     }
 }
