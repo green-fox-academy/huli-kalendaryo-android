@@ -32,6 +32,7 @@ public class GoogleApiService {
 
     public static void finish(){
         singleton = null;
+        googleApiClient = null;
     }
 
 
