@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RadioButton;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.models.KalAuth;
@@ -34,18 +31,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
                         recyclerLayoutManager.getOrientation());
         accountNamesView.addItemDecoration(dividerItemDecoration);
         AccountAdapter accountAdapter = new
-                AccountAdapter(getAccounts(),this);
+                AccountAdapter(kalpref.getKalAuths(),this);
         accountNamesView.setAdapter(accountAdapter);
-    }
-
-    public List<KalAuth> getAccounts() {
-         ArrayList<String> accountNameList = kalpref.getAccounts();
-         ArrayList<KalAuth> auths = new ArrayList<>();
-
-         for (int i = 0; i < accountNameList.size(); i++) {
-            KalAuth auth = kalpref.getAuth(accountNameList.get(i));
-            auths.add(auth);
-        }
-        return auths;
     }
 }
