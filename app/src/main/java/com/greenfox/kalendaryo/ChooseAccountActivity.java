@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
+import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.models.Kalendar;
@@ -14,7 +15,7 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChooseAccountActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChooseAccountActivity extends AppCompatActivity {
 
     RadioButton radioButton;
     ListView accountNames;
@@ -25,34 +26,29 @@ public class ChooseAccountActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_account);
-        radioButton = findViewById(R.id.radioButton);
+        kalpref = new KalPref(this.getApplicationContext());
+
+        // radioButton = findViewById(R.id.radioButton);
+
         adapter = new AccountAdapter(this);
         accountNames = findViewById(R.id.accountList);
         accountNames.setAdapter(adapter);
-        kalpref = new KalPref(this.getApplicationContext());
+
+        fillAdapter();
     }
 
     public void fillAdapter() {
-         // getting the accounts (KalUsers) from KalPref
+         // getting the account names from KalPref
          ArrayList<String> accountNameList = kalpref.getAccounts();
 
-        for (String s: accountNameList) {
-            adapter.add(s);
+        for (int i = 0; i < accountNameList.size(); i++) {
+            KalAuth auth = kalpref.getAuth(accountNameList.get(i));
+            adapter.add(auth);
         }
     }
 
     private void chooseAccount() {
         // radiobutton
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.radioButton:
-                fillAdapter();
-                chooseAccount();
-                break;
-        }
     }
 }
