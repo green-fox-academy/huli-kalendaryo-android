@@ -29,12 +29,12 @@ public class ChooseAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     public void fillAdapter() {
-        // getting the accounts (KalUsers) from KalPref
-        List<KalUser> accountNameList = KalPref.getObject("userlist", "");
+//         getting the accounts (KalUsers) from KalPref
+//         List<KalUser> accountNameList = KalPref.getObject("userlist", "");
 
-        for (KalUser user : accountNameList) {
-            adapter.add(user);
-        }
+//        for (KalUser user : accountNameList) {
+//            adapter.add(user);
+//        }
     }
 
     private void chooseAccount() {
