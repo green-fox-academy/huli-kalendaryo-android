@@ -40,9 +40,9 @@ public class KalPref {
         return this.sharedPref.getString(key, "");
     }
 
-    public void putAuth(String key, KalAuth kalAuth) {
+    public void putAuth(KalAuth kalAuth) {
         String value = gson.toJson(kalAuth);
-        this.putString(key, value);
+        this.putString(kalAuth.getEmail(), value);
     }
 
     public KalAuth getAuth(String key) {
