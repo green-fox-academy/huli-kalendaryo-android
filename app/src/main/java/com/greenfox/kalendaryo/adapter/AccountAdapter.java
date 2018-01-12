@@ -16,7 +16,7 @@ import com.greenfox.kalendaryo.models.KalUser;
  * Created by barba on 2018. 01. 08..
  */
 
-public class AccountAdapter extends ArrayAdapter<KalUser> {
+public class AccountAdapter extends ArrayAdapter<String> {
 
         public AccountAdapter(@NonNull Context context) {
             super(context, 0);
@@ -30,10 +30,10 @@ public class AccountAdapter extends ArrayAdapter<KalUser> {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.account_name_with_button, parent, false);
             }
 
-            KalUser user = getItem(position);
+            String accountName = getItem(position);
 
             TextView calendarNameView = convertView.findViewById(R.id.accountname);
-            calendarNameView.setText(user.getUserEmail());
+            calendarNameView.setText(accountName);
 
             return convertView;
         }

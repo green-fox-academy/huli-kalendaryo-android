@@ -7,9 +7,11 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
+import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.models.Kalendar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseAccountActivity extends AppCompatActivity implements View.OnClickListener {
@@ -17,6 +19,7 @@ public class ChooseAccountActivity extends AppCompatActivity implements View.OnC
     RadioButton radioButton;
     ListView accountNames;
     AccountAdapter adapter;
+    KalPref kalpref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +29,16 @@ public class ChooseAccountActivity extends AppCompatActivity implements View.OnC
         adapter = new AccountAdapter(this);
         accountNames = findViewById(R.id.accountList);
         accountNames.setAdapter(adapter);
+        kalpref = new KalPref(this.getApplicationContext());
     }
 
     public void fillAdapter() {
-//         getting the accounts (KalUsers) from KalPref
-//         List<KalUser> accountNameList = KalPref.getObject("userlist", "");
+         // getting the accounts (KalUsers) from KalPref
+         ArrayList<String> accountNameList = kalpref.getAccounts();
 
-//        for (KalUser user : accountNameList) {
-//            adapter.add(user);
-//        }
+        for (String s: accountNameList) {
+            adapter.add(s);
+        }
     }
 
     private void chooseAccount() {
