@@ -29,7 +29,7 @@ public class KalPref {
         }
     }
 
-    public void putSting(String key, String value) {
+    public void putString(String key, String value) {
         SharedPreferences.Editor editor = this.sharedPref.edit();
         editor.putString(key, value);
         editor.apply();
@@ -41,7 +41,7 @@ public class KalPref {
 
     public void putAuth(String key, KalAuth kalAuth) {
         String value = gson.toJson(kalAuth);
-        this.putSting(key, value);
+        this.putString(key, value);
     }
 
     public KalAuth getAuth(String key) {
@@ -53,13 +53,13 @@ public class KalPref {
     public void addAccount(String accountname) {
         accounts.add(accountname);
         String value = gson.toJson(accounts);
-        this.putSting("accountslist", value);
+        this.putString("accountslist", value);
     }
 
     public void removeAccount(String key) {
         accounts.remove(key);
         String value = gson.toJson(accounts);
-        this.putSting("accountslist", value);
+        this.putString("accountslist", value);
     }
 
     public ArrayList<String> getAccounts() {

@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void editKalPref(String email, String userName, String accessToken, String clientToken) {
-        kalPref.putSting("clienttoken", clientToken);
+        kalPref.putString("clienttoken", clientToken);
 
         kalAuth = new KalAuth();
 
