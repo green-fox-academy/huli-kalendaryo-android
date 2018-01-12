@@ -33,9 +33,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     @Override
     public AccountAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
-
         AccountAdapter.ViewHolder viewHolder = new AccountAdapter.ViewHolder(view);
-
         return viewHolder;
     }
 
@@ -43,11 +41,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
         KalAuth auth = auths.get(position);
         holder.accountName.setText(auth.getEmail());
-
-        //since only one radio button is allowed to be selected,
-        // this condition un-checks previous selections
         holder.radioButton.setChecked(lastSelectedPosition == position);
-
     }
 
     @Override
@@ -64,11 +58,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             super(view);
             accountName = view.findViewById(R.id.accountname);
             radioButton = view.findViewById(R.id.radioButton);
-
             radioButton.setOnClickListener(v -> {
                 lastSelectedPosition = getAdapterPosition();
                 notifyDataSetChanged();
-
                 Toast.makeText(AccountAdapter.this.context, accountName.getText(),
                         Toast.LENGTH_LONG).show();
             });
