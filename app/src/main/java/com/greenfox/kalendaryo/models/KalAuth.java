@@ -13,7 +13,7 @@ public class KalAuth {
     private String clientToken;
 
 
-    public KalAuth(String authCode, String email, String displayName, String clientToken) {
+    public KalAuth(String authCode, String email, String displayName) {
         this.authCode = authCode;
         this.email = email;
         this.displayName = displayName;

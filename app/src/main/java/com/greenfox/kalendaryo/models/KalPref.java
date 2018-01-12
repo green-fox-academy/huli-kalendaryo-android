@@ -17,6 +17,7 @@ public class KalPref {
     private SharedPreferences sharedPref;
     private ArrayList<String> accounts;
     private Gson gson = new Gson();
+    static final String CLIENTTOKEN = "clienttoken";
 
 
     public KalPref(Context context) {
@@ -74,5 +75,9 @@ public class KalPref {
         editor.remove("accountslist");
         editor.apply();
         this.accounts = new ArrayList<>();
+    }
+
+    public String clientToken() {
+        return this.getString(CLIENTTOKEN);
     }
 }
