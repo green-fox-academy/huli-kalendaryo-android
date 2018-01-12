@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.models.KalAuth;
@@ -17,12 +18,14 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
     RecyclerView accountNamesView;
     KalPref kalpref;
+    Button sendToBackend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
+        sendToBackend = findViewById(R.id.sendtobackend);
         accountNamesView = findViewById(R.id.accountNames);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         accountNamesView.setLayoutManager(recyclerLayoutManager);

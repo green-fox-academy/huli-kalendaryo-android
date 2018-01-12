@@ -7,6 +7,15 @@
     android:padding="10dp"
     tools:context="com.greenfox.kalendaryo.ChooseAccountActivity">
 
+    <Button
+        android:id="@+id/sendtobackend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="Create" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/accountNames"
         android:scrollbars="vertical"
@@ -14,6 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
