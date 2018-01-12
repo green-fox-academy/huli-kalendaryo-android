@@ -3,8 +3,6 @@ package com.greenfox.kalendaryo;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +20,7 @@ import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.services.GoogleApiService;
 
@@ -38,14 +37,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
-    private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
+    private KalPref kalPref;
     private GoogleSignInAccount account;
     private String googleAccountName;
+    private KalAuth kalAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        kalPref = new KalPref(this.getApplicationContext());
         setContentView(R.layout.activity_login);
         signIn = findViewById(R.id.bn_login);
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -119,16 +119,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi("backend");
-            sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            String clientToken = sharedPref.getString("clienttoken", "");
-            apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
-              
+            apiService.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
-                    String accessToken = response.body().getAccessToken();
-                    String clientToken = response.body().getClientToken();
-                    editSharedPref(userEmail, userName, accessToken, clientToken);
-                    Log.d("shared", sharedPref.getString("email", ""));
+                    KalUser kalUser = response.body();
+                    String accessToken = kalUser.getAccessToken();
+                    String clientToken = kalUser.getClientToken();
+                    editKalPref(userEmail, userName, accessToken, clientToken);
+                    Log.d("shared", kalPref.getString(userEmail));
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
                     signIn.putExtra("googleAccountName", googleAccountName);
                     startActivity(signIn);
@@ -142,13 +140,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
         }
     }
-        private void editSharedPref(String email, String userName, String accessToken, String clientToken) {
-        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
-        editor = sharedPref.edit();
-        editor.putString("email", email);
-        editor.putString("username", userName);
-        editor.putString("accesstoken", accessToken);
-        editor.putString("clienttoken", clientToken);
-        editor.apply();
+
+    private void editKalPref(String email, String userName, String accessToken, String clientToken) {
+        kalPref.setClienttoken(clientToken);
+
+        kalAuth = new KalAuth();
+
+        kalAuth.setEmail(email);
+        kalAuth.setDisplayName(userName);
+        kalAuth.setAccessToken(accessToken);
+        kalAuth.setClientToken(clientToken);
+
+        kalPref.putAuth(kalAuth);
     }
 }

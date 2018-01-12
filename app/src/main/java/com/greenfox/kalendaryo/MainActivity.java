@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalPref;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,6 +29,7 @@ import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 import com.greenfox.kalendaryo.models.Kalendar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button signOut, addAccount, showCalendars, mergeCalsButton;
     private TextView loginName, loginEmail, token, myText;
-    private SharedPreferences sharedPref;
     private ListView listView;
     private KalendarAdapter adapter;
     private ApiService apiService;
- 
+    private KalPref kalPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,20 +64,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         signOut.setOnClickListener(this);
         addAccount.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
+        kalPref = new KalPref(this.getApplicationContext());
         checkSharedPreferencesForUser();
+        settingDisplayNameAndEamil(kalPref.getString("email"),kalPref.getString("username"));
         mergeCalsButton = findViewById(R.id.mergeCalsButton);
-        settingDisplayNameAndEamil(sharedPref.getString("email", ""),sharedPref.getString("username", ""));
         if(getIntent().getStringExtra("googleAccountName")!= null){
             TextView newaccountName = findViewById(R.id.new_accountname);
             newaccountName.setText(getIntent().getStringExtra("googleAccountName"));
-        }
-    }
-
-    private void checkSharedPreferencesForUser() {
-        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
-        if (sharedPref.getString("email", "").equals("")) {
-            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
     }
 
@@ -101,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void signOut() {
-        sharedPref.edit().clear().apply();
         GoogleApiService.getInstance().getGoogleApiClient().connect();
         GoogleApiService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
             @Override
@@ -126,13 +121,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("Connection suspended", "Google API Client Connection Suspended");
             }
         });
+        kalPref.clearAccounts();
+ //       sharedPref.edit().clear().apply();
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
+    private void checkSharedPreferencesForUser() {
+
+        ArrayList<String> accounts = kalPref.getAccounts();
+        if (accounts.size() == 0) {
+            Toast.makeText(this, "You have to log in", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 
     public void displayData() {
-        String email = sharedPref.getString("email", "");
-        String accessToken = sharedPref.getString("accesstoken", "");
-        myText.setText(email);
-        token.setText(accessToken);
+        ArrayList<String> accounts = kalPref.getAccounts();
+        for (int i = 0; i < accounts.size(); i++) {
+            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
+            myText.append(kalAuth.getEmail() + "\n");
+            token.append(kalAuth.getAccessToken() + "\n");
+        }
     }
 
     private void settingDisplayNameAndEamil(String userName, String userEmail) {
@@ -143,25 +152,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getCalendarList() {
         apiService = RetrofitClient.getApi("google API");
-        String accessToken = sharedPref.getString("accesstoken", "");
-        String authorization = "Bearer " + accessToken;
 
-        apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
-            @Override
-            public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                KalendarsResponse kalendarsResponse = response.body();
-                List<Kalendar> kalendars = kalendarsResponse.getItems();
+        ArrayList<String> accounts = kalPref.getAccounts();
+        for (int i = 0; i < accounts.size(); i++) {
+            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
 
-                for (Kalendar kalendar: kalendars) {
-                    adapter.add(kalendar);
+            String accessToken = kalAuth.getAccessToken();
+            String authorization = "Bearer " + accessToken;
+
+            apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
+                @Override
+                public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
+                    KalendarsResponse kalendarsResponse = response.body();
+                    List<Kalendar> kalendars = kalendarsResponse.getItems();
+
+                    for (Kalendar kalendar : kalendars) {
+                        adapter.add(kalendar);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<KalendarsResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<KalendarsResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 
     public void createMergedCals() {
