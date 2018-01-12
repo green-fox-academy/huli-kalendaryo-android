@@ -43,6 +43,7 @@ public class KalPref {
     public void putAuth(KalAuth kalAuth) {
         String value = gson.toJson(kalAuth);
         this.putString(kalAuth.getEmail(), value);
+        addAccount(kalAuth.getEmail());
     }
 
     public KalAuth getAuth(String key) {
@@ -51,7 +52,7 @@ public class KalPref {
         return kalAuth;
     }
 
-    public void addAccount(String accountname) {
+    private void addAccount(String accountname) {
         accounts.add(accountname);
         String value = gson.toJson(accounts);
         this.putString("accountslist", value);
