@@ -1,6 +1,5 @@
 package com.greenfox.kalendaryo;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,32 +22,21 @@ import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.services.GoogleApiService;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
-import com.greenfox.kalendaryo.httpconnection.ApiService;
-import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
-import com.greenfox.kalendaryo.models.KalendarsResponse;
-import com.greenfox.kalendaryo.models.Kalendar;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button signOut, addAccount, showCalendars, mergeCalsButton;
+    private Button signOut, addAccount, showCalendars;
     private TextView loginName, loginEmail, token, myText;
     private ListView listView;
     private KalendarAdapter adapter;
-    private ApiService apiService;
     private KalPref kalPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LinearLayout profileSection = findViewById(R.id.prof_section);
         signOut = findViewById(R.id.bn_logout);
         addAccount = findViewById(R.id.choose_account);
         loginName = findViewById(R.id.name);
@@ -66,8 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button2).setOnClickListener(this);
         kalPref = new KalPref(this.getApplicationContext());
         checkSharedPreferencesForUser();
-        settingDisplayNameAndEamil(kalPref.getString("email"),kalPref.getString("username"));
-        mergeCalsButton = findViewById(R.id.mergeCalsButton);
+        settingDisplayNameAndEmail(kalPref.getString("email"),kalPref.getString("username"));
         if(getIntent().getStringExtra("googleAccountName")!= null){
             TextView newaccountName = findViewById(R.id.new_accountname);
             newaccountName.setText(getIntent().getStringExtra("googleAccountName"));
@@ -87,9 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent i = new Intent(this, LoginActivity.class);
                 i.putExtra("ifNewAccChoosen", true);
                 startActivity(i);
-                break;
-            case R.id.showCalendars:
-                //getCalendarList();
                 break;
             case R.id.mergeCalsButton:
                 createMergedCals();
@@ -143,39 +126,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void settingDisplayNameAndEamil(String userName, String userEmail) {
+    private void settingDisplayNameAndEmail(String userName, String userEmail) {
         loginName.setText(userName);
         loginEmail.setText(userEmail);
 
-    }
-
-    public void getCalendarList() {
-        apiService = RetrofitClient.getApi("google API");
-
-        ArrayList<String> accounts = kalPref.getAccounts();
-        for (int i = 0; i < accounts.size(); i++) {
-            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
-
-            String accessToken = kalAuth.getAccessToken();
-            String authorization = "Bearer " + accessToken;
-
-            apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
-                @Override
-                public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                    KalendarsResponse kalendarsResponse = response.body();
-                    List<Kalendar> kalendars = kalendarsResponse.getItems();
-
-                    for (Kalendar kalendar : kalendars) {
-                        adapter.add(kalendar);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<KalendarsResponse> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-        }
     }
 
     public void createMergedCals() {
