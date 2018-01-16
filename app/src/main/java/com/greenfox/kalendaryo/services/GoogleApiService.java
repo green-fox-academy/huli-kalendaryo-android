@@ -22,16 +22,13 @@ public class GoogleApiService {
     }
 
     public synchronized static GoogleApiService init(GoogleApiClient googleApiClient) {
-        if (singleton != null) {
-            throw new AssertionError("You already initialized me");
-        }
-
         singleton = new GoogleApiService(googleApiClient);
         return singleton;
     }
 
     public static void finish(){
         singleton = null;
+        googleApiClient = null;
     }
 
 

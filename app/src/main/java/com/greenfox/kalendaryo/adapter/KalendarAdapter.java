@@ -37,5 +37,4 @@ public class KalendarAdapter extends ArrayAdapter<Kalendar> {
 
             return convertView;
         }
-
     }
