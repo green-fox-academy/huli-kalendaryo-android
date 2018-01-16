@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SelectCalendarActivity"></activity>
+        <activity android:name=".SelectCalendarActivity" />
+        <activity android:name=".ChooseAccountActivity"></activity>
     </application>
 
 </manifest>

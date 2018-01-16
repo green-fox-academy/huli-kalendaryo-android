@@ -1,7 +1,9 @@
 package com.greenfox.kalendaryo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.widget.ListView;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
@@ -19,7 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SelectCalendarActivity extends AppCompatActivity {
+
+import com.greenfox.kalendaryo.models.Kalendar;
+
+public class SelectCalendarActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ApiService apiService;
     private KalPref kalPref;
@@ -63,4 +68,3 @@ public class SelectCalendarActivity extends AppCompatActivity {
         }
     }
 }
-

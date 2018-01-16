@@ -78,6 +78,18 @@ public class KalPref {
         this.accounts = new ArrayList<>();
     }
 
+    public List<KalAuth> getKalAuths() {
+
+        ArrayList<String> accountNameList = this.getAccounts();
+        ArrayList<KalAuth> auths = new ArrayList<>();
+
+        for (int i = 0; i < accountNameList.size(); i++) {
+            KalAuth auth = this.getAuth(accountNameList.get(i));
+            auths.add(auth);
+        }
+        return auths;
+    }
+
     public String clientToken() {
         return this.getString(CLIENTTOKEN);
     }
