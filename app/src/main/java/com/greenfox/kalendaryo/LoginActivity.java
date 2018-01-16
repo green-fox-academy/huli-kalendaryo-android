@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     String clientToken = kalUser.getClientToken();
                     editKalPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", kalPref.getString(userEmail));
-                    Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent signIn = new Intent(LoginActivity.this, TabViewActivity.class);
                     signIn.putExtra("googleAccountName", userEmail);
                     startActivity(signIn);
                 }
