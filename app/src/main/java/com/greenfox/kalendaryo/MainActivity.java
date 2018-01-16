@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i);
                 break;
             case R.id.showCalendars:
-                getCalendarList();
+                //getCalendarList();
                 break;
             case R.id.mergeCalsButton:
                 createMergedCals();
