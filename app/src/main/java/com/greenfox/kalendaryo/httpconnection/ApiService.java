@@ -1,6 +1,7 @@
 package com.greenfox.kalendaryo.httpconnection;
 
 import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 import com.greenfox.kalendaryo.models.KalUser;
 
@@ -19,4 +20,7 @@ public interface ApiService {
     @Headers("Accept: application/json")
     @GET("calendarList")
     Call<KalendarsResponse> getCalendarList(@Header("Authorization") String authorization);
+
+    @POST("/calendar")
+    Call<Kalendar> postCalendar();
 }
