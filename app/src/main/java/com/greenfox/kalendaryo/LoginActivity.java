@@ -119,8 +119,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi("backend");
-            String clientToken = kalPref.getString("clienttoken");
-            apiService.postAuth(clientToken, new KalAuth(account.getServerAuthCode(), userEmail, userName, clientToken)).enqueue(new Callback<KalUser>() {
+            apiService.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     KalUser kalUser = response.body();
@@ -143,7 +142,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void editKalPref(String email, String userName, String accessToken, String clientToken) {
-        kalPref.putSting("clienttoken", clientToken);
+        kalPref.setClienttoken(clientToken);
 
         kalAuth = new KalAuth();
 
@@ -152,8 +151,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         kalAuth.setAccessToken(accessToken);
         kalAuth.setClientToken(clientToken);
 
-        kalPref.putAuth(email, kalAuth);
-
-        kalPref.addAccount(email);
+        kalPref.putAuth(kalAuth);
     }
 }

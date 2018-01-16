@@ -17,6 +17,7 @@ public class KalPref {
     private SharedPreferences sharedPref;
     private ArrayList<String> accounts;
     private Gson gson = new Gson();
+    static final String CLIENTTOKEN = "clienttoken";
 
 
     public KalPref(Context context) {
@@ -29,7 +30,7 @@ public class KalPref {
         }
     }
 
-    public void putSting(String key, String value) {
+    public void putString(String key, String value) {
         SharedPreferences.Editor editor = this.sharedPref.edit();
         editor.putString(key, value);
         editor.apply();
@@ -39,9 +40,10 @@ public class KalPref {
         return this.sharedPref.getString(key, "");
     }
 
-    public void putAuth(String key, KalAuth kalAuth) {
+    public void putAuth(KalAuth kalAuth) {
         String value = gson.toJson(kalAuth);
-        this.putSting(key, value);
+        this.putString(kalAuth.getEmail(), value);
+        addAccount(kalAuth.getEmail());
     }
 
     public KalAuth getAuth(String key) {
@@ -50,16 +52,16 @@ public class KalPref {
         return kalAuth;
     }
 
-    public void addAccount(String accountname) {
+    private void addAccount(String accountname) {
         accounts.add(accountname);
         String value = gson.toJson(accounts);
-        this.putSting("accountslist", value);
+        this.putString("accountslist", value);
     }
 
     public void removeAccount(String key) {
         accounts.remove(key);
         String value = gson.toJson(accounts);
-        this.putSting("accountslist", value);
+        this.putString("accountslist", value);
     }
 
     public ArrayList<String> getAccounts() {
@@ -86,5 +88,13 @@ public class KalPref {
             auths.add(auth);
         }
         return auths;
+    }
+
+    public String clientToken() {
+        return this.getString(CLIENTTOKEN);
+    }
+
+    public void setClienttoken(String value) {
+        this.putString(CLIENTTOKEN, value);
     }
 }

@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         kalPref.clearAccounts();
- //       sharedPref.edit().clear().apply();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 
