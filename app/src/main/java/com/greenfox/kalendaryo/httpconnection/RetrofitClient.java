@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static OkHttpClient client;
-    static String BASE_URL_BACKEND = "http://10.0.2.2:8080/";
+    static String BASE_URL_BACKEND = "http://10.27.6.126:8080/";
     static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
 
     public static Retrofit getConnection(String urlType) {

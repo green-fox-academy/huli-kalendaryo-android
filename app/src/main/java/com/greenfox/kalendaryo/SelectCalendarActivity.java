@@ -3,45 +3,68 @@ package com.greenfox.kalendaryo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.greenfox.kalendaryo.adapter.KalendarAdapter;
+import com.greenfox.kalendaryo.httpconnection.ApiService;
+import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
+import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.KalendarsResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 import com.greenfox.kalendaryo.models.Kalendar;
 
 public class SelectCalendarActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private ApiService apiService;
+    private KalPref kalPref;
+    private KalendarAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
+        adapter = new KalendarAdapter(this);
+        kalPref = new KalPref(this.getApplicationContext());
+        ((ListView)findViewById(R.id.listView)).setAdapter(adapter);
+        getCalendarList();
 
-        ListView listPage = findViewById(R.id.listPage);
-        Button merge = findViewById(R.id.mergeSelectedCalendars);
-        merge.setOnClickListener(this);
 
-        listPage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                String s = listPage.getItemAtPosition(i).toString();
-
-                // Toast.makeText(this, "Calendars selected", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.mergeSelectedCalendars:
-                Intent selectAccountActivity = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
-                startActivity(selectAccountActivity);
-                break;
+    public void getCalendarList() {
+        apiService = RetrofitClient.getApi("google API");
+
+        ArrayList<String> accounts = kalPref.getAccounts();
+        for (int i = 0; i < accounts.size(); i++) {
+            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
+
+            String accessToken = kalAuth.getAccessToken();
+            String authorization = "Bearer " + accessToken;
+
+
+            apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
+                @Override
+                public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
+                    adapter.addAll(response.body().getItems());
+                }
+
+                @Override
+                public void onFailure(Call<KalendarsResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
         }
     }
 }

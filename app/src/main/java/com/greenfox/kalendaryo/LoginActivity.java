@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
@@ -38,8 +41,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
-    private GoogleSignInAccount account;
-    private String googleAccountName;
     private KalAuth kalAuth;
 
     @Override
@@ -51,12 +52,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chooseAccount();
+                buildGoogleApiClient(false);
             }
         });
         // By default it is false, because this is way
         if(getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
-            chooseAccount();
+            buildGoogleApiClient(true);
         }
     }
 
@@ -64,23 +65,47 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-    private void buildGoogleApiClient() {
+    private void buildGoogleApiClient(boolean addAnother) {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .setAccountName(googleAccountName)
                 .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                 .requestEmail()
                 .requestIdToken(CLIENT_ID)
                 .requestServerAuthCode(CLIENT_ID)
                 .build();
-        if(GoogleApiService.getGoogleApiClient() == null){
+        if(!addAnother){
             GoogleApiService.init(new GoogleApiClient
                     .Builder(this)
                     .enableAutoManage(this, this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                     .build());
+            signIn();
+        } else {
+            GoogleApiService.getGoogleApiClient().connect();
+            GoogleApiService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(@Nullable Bundle bundle) {
+                    if(GoogleApiService.getInstance().getGoogleApiClient().isConnected()) {
+                        Auth.GoogleSignInApi.signOut(GoogleApiService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
+                                if (status.isSuccess()) {
+                                    GoogleApiService.init(new GoogleApiClient
+                                            .Builder(LoginActivity.this)
+                                            .enableAutoManage(LoginActivity.this, LoginActivity.this)
+                                            .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                                            .build());
+
+                                    signIn();
+                                }
+                            });
+                    }
+                }
+
+                @Override
+                public void onConnectionSuspended(int i) {
+
+                }
+            });
         }
-        signIn();
     }
 
     public void signIn() {
@@ -104,9 +129,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             case REQUEST_ACCOUNT_PICKER:
                 if (resultCode == Activity.RESULT_OK && data != null && data.getExtras() != null) {
-                    googleAccountName = data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME);
+                    String googleAccountName = data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME);
                     if (googleAccountName != null) {
-                        buildGoogleApiClient();
+                        //buildGoogleApiClient(googleAccountName);
                     }
                 }
                 break;
@@ -115,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            account = result.getSignInAccount();
+            GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             ApiService apiService = RetrofitClient.getApi("backend");
@@ -128,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     editKalPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", kalPref.getString(userEmail));
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
-                    signIn.putExtra("googleAccountName", googleAccountName);
+                    signIn.putExtra("googleAccountName", userEmail);
                     startActivity(signIn);
                 }
 
