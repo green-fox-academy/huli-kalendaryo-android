@@ -10,14 +10,12 @@ public class KalAuth {
     private String email;
     private String displayName;
     private String accessToken;
-    private String clientToken;
 
 
     public KalAuth(String authCode, String email, String displayName) {
         this.authCode = authCode;
         this.email = email;
         this.displayName = displayName;
-        this.clientToken = clientToken;
 
     }
 
@@ -56,11 +54,4 @@ public class KalAuth {
         this.accessToken = accessToken;
     }
 
-    public String getClientToken() {
-        return clientToken;
-    }
-
-    public void setClientToken(String clientToken) {
-        this.clientToken = clientToken;
-    }
 }
