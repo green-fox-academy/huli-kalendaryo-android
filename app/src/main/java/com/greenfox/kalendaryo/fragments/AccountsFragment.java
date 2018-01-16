@@ -44,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AccountsFragment extends Fragment {
+public class AccountsFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     ListView accountNamesView;
     AccountsList adapter;
@@ -64,16 +64,20 @@ public class AccountsFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), LoginActivity.class);
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                i.putExtra("ifNewAccChoosen", true);
                 startActivity(i);
             }
         });
 
         List<KalAuth> auths = kalpref.getKalAuths();
-
         adapter.addAll(auths);
-
-
         return view;
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
