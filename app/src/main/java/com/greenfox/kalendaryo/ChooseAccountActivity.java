@@ -8,11 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
-import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChooseAccountActivity extends AppCompatActivity {
 
