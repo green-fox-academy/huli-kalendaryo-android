@@ -5,7 +5,6 @@ import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.models.MergedCalendarResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -25,5 +24,5 @@ public interface ApiService {
 
     @Headers("Accept: application/json")
     @POST("/calendar")
-    Call<MergedCalendarResponse> postCalendar(@Body KalMerged kalMerged);
+    Call<Kalendar> postCalendar(@Body KalMerged kalMerged);
 }
