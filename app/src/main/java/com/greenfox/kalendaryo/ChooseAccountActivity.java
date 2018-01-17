@@ -34,20 +34,20 @@ public class ChooseAccountActivity extends AppCompatActivity {
     KalPref kalpref;
     Button sendToBackend;
     ApiService apiService;
-
+    KalMerged kalMerged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
+
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
         apiService = RetrofitClient.getApi("backend");
 
-        List<String> list = new ArrayList<>();
-        list.add("huli.opal.kalendaryo@gmail.com");
         String clientToken = kalpref.clientToken();
-        KalMerged kalMerged = new KalMerged("huli.opal.kalendaryo@gmail.com", list);
 
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +78,15 @@ public class ChooseAccountActivity extends AppCompatActivity {
         accountNamesView.addItemDecoration(dividerItemDecoration);
         AccountAdapter accountAdapter = new
                 AccountAdapter(kalpref.getKalAuths(),this);
+
+        accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
+            @Override
+            public void emailChanged(String email) {
+                kalMerged.setOutputCalendarId(email);
+            }
+        });
         accountNamesView.setAdapter(accountAdapter);
+
+
     }
 }
