@@ -12,7 +12,6 @@ import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
-import com.greenfox.kalendaryo.adapter.MergedCalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalPref;
@@ -28,7 +27,7 @@ public class KalendarFragment extends Fragment {
 
     KalPref kalpref;
     FloatingActionButton floatingActionButton;
-    MergedCalendarAdapter adapter;
+    // MergedCalendarAdapter adapter;
 
 
     @Override
@@ -43,11 +42,10 @@ public class KalendarFragment extends Fragment {
             }
         });
 
-        adapter = new MergedCalendarAdapter(getContext());
+        // adapter = new MergedCalendarAdapter(getContext());
 
-        List<KalMerged> kalMergeds = kalpref.getMergeds();
-
-        adapter.addAll(kalMergeds);
+//        List<KalMerged> kalMergeds = kalpref.getMergeds();
+//        adapter.addAll(kalMergeds);
 
         kalpref = new KalPref(getActivity());
         return view;

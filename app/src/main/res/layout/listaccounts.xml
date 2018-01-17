@@ -8,7 +8,7 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addNewAccount"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="328dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:rippleColor="@android:color/white"
-        app:srcCompat="@android:color/holo_orange_light" />
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <ListView
         android:id="@+id/allaccounts"
