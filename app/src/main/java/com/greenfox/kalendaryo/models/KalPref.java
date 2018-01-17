@@ -97,4 +97,23 @@ public class KalPref {
     public void setClienttoken(String value) {
         this.putString(CLIENTTOKEN, value);
     }
+
+    public List<String> saveKalendarList(Kalendar kalendar) {
+
+        List<String> saved = new ArrayList<>();
+        saved.add(kalendar.getSummary());
+
+        return saved;
+    }
+
+    public String saveAccountName(KalAuth kalAuth) {
+        String accountName = kalAuth.getEmail();
+        return accountName;
+    }
+
+    public KalMerged makeMerged(List<String> kalendarNames, String accountName) {
+        kalendarNames = this.
+        KalMerged kalMerged = new KalMerged(kalendarNames, accountName);
+    }
+
 }
