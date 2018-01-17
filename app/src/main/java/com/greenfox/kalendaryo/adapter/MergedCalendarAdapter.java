@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
+import com.greenfox.kalendaryo.models.KalMerged;
 
 /**
  * Created by barba on 2018. 01. 17..
@@ -29,10 +30,10 @@ public class MergedCalendarAdapter extends ArrayAdapter<KalMerged> {
         KalMerged merged = getItem(position);
 
         TextView mergedCalendarName = convertView.findViewById(R.id.mergedcalendarname);
-        mergedCalendarName.setText(merged);
+        mergedCalendarName.setText(merged.getOutputAccount());
 
         TextView mergedCalendarDescription = convertView.findViewById(R.id.mergedcalendardescription);
-        mergedCalendarDescription.setText(merged);
+        mergedCalendarDescription.setText(merged.getOutputAccount());
 
         return convertView;
     }

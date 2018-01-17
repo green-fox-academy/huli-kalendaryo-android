@@ -15,6 +15,7 @@ import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.adapter.MergedCalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
+import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 
 import java.util.ArrayList;
@@ -45,9 +46,9 @@ public class KalendarFragment extends Fragment {
 
         adapter = new MergedCalendarAdapter(getContext());
 
-        List<KalMerged> kalMergeds = kalpref.getMergeds();
+        // List<KalMerged> kalMergeds = kalpref.getKalAuths();
 
-        adapter.addAll(kalMergeds);
+        // adapter.addAll(kalMergeds);
 
         kalpref = new KalPref(getActivity());
         return view;
