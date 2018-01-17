@@ -1,8 +1,11 @@
 package com.greenfox.kalendaryo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
@@ -24,12 +27,22 @@ public class SelectCalendarActivity extends AppCompatActivity {
     private ApiService apiService;
     private KalPref kalPref;
     private KalendarAdapter adapter;
+    Button goToChooseAccount;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
+        goToChooseAccount = findViewById(R.id.gotochooseaccount);
+        goToChooseAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
+                startActivity(i);
+            }
+        });
+
         adapter = new KalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
         ((ListView)findViewById(R.id.listView)).setAdapter(adapter);
