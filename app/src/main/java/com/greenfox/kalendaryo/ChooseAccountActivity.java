@@ -11,9 +11,15 @@ import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
+import com.greenfox.kalendaryo.models.CalendarId;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +32,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     KalPref kalpref;
     Button sendToBackend;
     ApiService apiService;
+    List<CalendarId> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,25 +40,26 @@ public class ChooseAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
+        KalMerged kalMerged = new KalMerged(1, "hello", "hello", "hello", list);
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiService.postCalendar(new KalMerged()).enqueue(new Callback<Kalendar>() {
+                apiService.postCalendar(kalpref.clientToken(), kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
                     @Override
-                    public void onResponse(Call<Kalendar> call, Response<Kalendar> response) {
-                        Kalendar kalendar = response.body();
-                        
+                    public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
+                        MergedKalendarResponse mergedKalendarResponse = response.body();
+                        mergedKalendarResponse.setMergedCalendarId(1);
+                        mergedKalendarResponse.setStatus("created");
                     }
 
                     @Override
-                    public void onFailure(Call<Kalendar> call, Throwable t) {
-
+                    public void onFailure(Call<MergedKalendarResponse> call, Throwable t) {
+                        t.printStackTrace();
                     }
                 });
 
                 Intent i = new Intent(ChooseAccountActivity.this, TabViewActivity.class);
                 startActivity(i);
-
             }
         });
 

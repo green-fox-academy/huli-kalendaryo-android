@@ -1,5 +1,7 @@
 package com.greenfox.kalendaryo.models;
 
+import java.util.List;
+
 /**
  * Created by bekob on 2018-01-17.
  */
@@ -11,11 +13,14 @@ public class KalMerged {
     private String outputAccount;
     private String outputCalendarId;
 
-    public KalMerged(long userId, String userName, String outputAccount, String outputCalendarId) {
+    List<CalendarId> calendarId;
+
+    public KalMerged(long userId, String userName, String outputAccount, String outputCalendarId, List<CalendarId> calendarId) {
         this.userId = userId;
         this.userName = userName;
         this.outputAccount = outputAccount;
         this.outputCalendarId = outputCalendarId;
+        this.calendarId = calendarId;
     }
 
     public KalMerged() {
@@ -51,5 +56,13 @@ public class KalMerged {
 
     public void setOutputCalendarId(String outputCalendarId) {
         this.outputCalendarId = outputCalendarId;
+    }
+
+    public List<CalendarId> getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(List<CalendarId> calendarId) {
+        this.calendarId = calendarId;
     }
 }
