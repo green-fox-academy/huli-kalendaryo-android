@@ -11,7 +11,20 @@ import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.fragments.KalendarFragment;
+import com.greenfox.kalendaryo.httpconnection.ApiService;
+import com.greenfox.kalendaryo.models.CalendarId;
+import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ChooseAccountActivity extends AppCompatActivity {
@@ -19,6 +32,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     RecyclerView accountNamesView;
     KalPref kalpref;
     Button sendToBackend;
+    ApiService apiService;
 
 
     @Override
@@ -31,13 +45,22 @@ public class ChooseAccountActivity extends AppCompatActivity {
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                apiService.postCalendar(kalpref.clientToken(), new KalMerged()).enqueue(new Callback<MergedKalendarResponse>() {
+                    @Override
+                    public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
+                        MergedKalendarResponse mergedKalendarResponse = response.body();
+                    }
 
+                    @Override
+                    public void onFailure(Call<MergedKalendarResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
 
-                Intent i = new Intent(ChooseAccountActivity.this, KalendarFragment.class);
+                Intent i = new Intent(ChooseAccountActivity.this, TabViewActivity.class);
                 startActivity(i);
             }
         });
-
 
         accountNamesView = findViewById(R.id.accountNames);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
