@@ -24,6 +24,6 @@ public interface ApiService {
     Call<KalendarsResponse> getCalendarList(@Header("Authorization") String authorization);
 
     @Headers("Accept: application/json")
-    @POST("/calendar")
+    @POST("calendar")
     Call<MergedKalendarResponse> postCalendar(@Header("X-Client-Token") String clientToken, @Body KalMerged kalMerged);
 }
