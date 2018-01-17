@@ -1,6 +1,7 @@
 package com.greenfox.kalendaryo.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     private List<KalAuth> auths;
     private Context context;
     private int lastSelectedPosition = -1;
+
 
     public AccountAdapter(List<KalAuth> authsIn, Context ctx) {
         auths = authsIn;
@@ -61,6 +63,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             radioButton.setOnClickListener(v -> {
                 lastSelectedPosition = getAdapterPosition();
                 notifyDataSetChanged();
+
+
+
                 Toast.makeText(AccountAdapter.this.context, accountName.getText(),
                         Toast.LENGTH_LONG).show();
             });

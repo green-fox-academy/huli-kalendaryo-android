@@ -97,4 +97,6 @@ public class KalPref {
     public void setClienttoken(String value) {
         this.putString(CLIENTTOKEN, value);
     }
+
+    
 }

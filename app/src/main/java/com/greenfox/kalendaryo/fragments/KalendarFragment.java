@@ -17,6 +17,7 @@ import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalPref;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +27,8 @@ public class KalendarFragment extends Fragment {
 
     KalPref kalpref;
     FloatingActionButton floatingActionButton;
+    // MergedCalendarAdapter adapter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +41,11 @@ public class KalendarFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+        // adapter = new MergedCalendarAdapter(getContext());
+
+//        List<KalMerged> kalMergeds = kalpref.getMergeds();
+//        adapter.addAll(kalMergeds);
 
         kalpref = new KalPref(getActivity());
         return view;

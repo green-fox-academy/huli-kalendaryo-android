@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
+import com.greenfox.kalendaryo.fragments.KalendarFragment;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.models.CalendarId;
 import com.greenfox.kalendaryo.models.KalMerged;
@@ -33,12 +34,14 @@ public class ChooseAccountActivity extends AppCompatActivity {
     Button sendToBackend;
     ApiService apiService;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
+
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
