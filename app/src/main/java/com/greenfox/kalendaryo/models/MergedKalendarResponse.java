@@ -5,10 +5,10 @@ package com.greenfox.kalendaryo.models;
  */
 
 public class MergedKalendarResponse {
-    long mergedCalendarId;
+    String mergedCalendarId;
     String status;
 
-    public MergedKalendarResponse(long mergedCalendarId, String status) {
+    public MergedKalendarResponse(String mergedCalendarId, String status) {
         this.mergedCalendarId = mergedCalendarId;
         this.status = status;
     }
@@ -16,11 +16,11 @@ public class MergedKalendarResponse {
     public MergedKalendarResponse() {
     }
 
-    public long getMergedCalendarId() {
+    public String getMergedCalendarId() {
         return mergedCalendarId;
     }
 
-    public void setMergedCalendarId(long mergedCalendarId) {
+    public void setMergedCalendarId(String mergedCalendarId) {
         this.mergedCalendarId = mergedCalendarId;
     }
 

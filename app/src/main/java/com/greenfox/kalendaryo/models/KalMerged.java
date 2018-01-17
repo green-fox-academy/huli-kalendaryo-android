@@ -8,46 +8,15 @@ import java.util.List;
 
 public class KalMerged {
 
-    private long userId;
-    private String userName;
-    private String outputAccount;
-    private String outputCalendarId;
+    String outputCalendarId;
+    List<String> inputCalendarIds;
 
-    List<CalendarId> calendarId;
-
-    public KalMerged(long userId, String userName, String outputAccount, String outputCalendarId, List<CalendarId> calendarId) {
-        this.userId = userId;
-        this.userName = userName;
-        this.outputAccount = outputAccount;
+    public KalMerged(String outputCalendarId, List<String> inputCalendarIds) {
         this.outputCalendarId = outputCalendarId;
-        this.calendarId = calendarId;
+        this.inputCalendarIds = inputCalendarIds;
     }
 
     public KalMerged() {
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getOutputAccount() {
-        return outputAccount;
-    }
-
-    public void setOutputAccount(String outputAccount) {
-        this.outputAccount = outputAccount;
     }
 
     public String getOutputCalendarId() {
@@ -58,11 +27,11 @@ public class KalMerged {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public List<CalendarId> getCalendarId() {
-        return calendarId;
+    public List<String> getInputCalendarIds() {
+        return inputCalendarIds;
     }
 
-    public void setCalendarId(List<CalendarId> calendarId) {
-        this.calendarId = calendarId;
+    public void setInputCalendarIds(List<String> inputCalendarIds) {
+        this.inputCalendarIds = inputCalendarIds;
     }
 }
