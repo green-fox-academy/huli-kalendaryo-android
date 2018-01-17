@@ -99,21 +99,21 @@ public class KalPref {
     }
 
     public List<String> saveKalendarList(Kalendar kalendar) {
-
-        List<String> saved = new ArrayList<>();
-        saved.add(kalendar.getSummary());
-
-        return saved;
+        List<String> savedList = new ArrayList<>();
+        savedList.add(kalendar.getSummary());
+        return savedList;
     }
 
-    public String saveAccountName(KalAuth kalAuth) {
-        String accountName = kalAuth.getEmail();
+    public String saveAccountName(String accountName) {
+        accountName = this.getAuth(accountName).getEmail();
         return accountName;
     }
 
     public KalMerged makeMerged(List<String> kalendarNames, String accountName) {
-        kalendarNames = this.
+
         KalMerged kalMerged = new KalMerged(kalendarNames, accountName);
+
+        return kalMerged;
     }
 
 }
