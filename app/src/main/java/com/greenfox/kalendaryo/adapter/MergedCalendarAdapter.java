@@ -30,10 +30,10 @@ public class MergedCalendarAdapter extends ArrayAdapter<KalMerged> {
         KalMerged merged = getItem(position);
 
         TextView mergedCalendarName = convertView.findViewById(R.id.mergedcalendarname);
-        mergedCalendarName.setText(merged.getOutputAccount());
+        // mergedCalendarName.setText(merged.getOutputAccount());
 
         TextView mergedCalendarDescription = convertView.findViewById(R.id.mergedcalendardescription);
-        mergedCalendarDescription.setText(merged.getOutputAccount());
+        // mergedCalendarDescription.setText(merged.getOutputAccount());
 
         return convertView;
     }

@@ -28,7 +28,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
     KalPref kalpref;
     Button sendToBackend;
     ApiService apiService;
-    List<String> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +35,14 @@ public class ChooseAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
-        KalMerged kalMerged = new KalMerged(list, "hello");
+
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiService.postCalendar(kalpref.clientToken(), kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
+                apiService.postCalendar(kalpref.clientToken(), new KalMerged()).enqueue(new Callback<MergedKalendarResponse>() {
                     @Override
                     public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
                         MergedKalendarResponse mergedKalendarResponse = response.body();
-                        mergedKalendarResponse.setMergedCalendarId(1);
-                        mergedKalendarResponse.setStatus("created");
                     }
 
                     @Override
@@ -58,7 +55,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
 
         accountNamesView = findViewById(R.id.accountNames);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);

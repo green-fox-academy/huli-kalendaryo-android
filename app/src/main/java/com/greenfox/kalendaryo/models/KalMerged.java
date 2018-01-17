@@ -8,31 +8,30 @@ import java.util.List;
 
 public class KalMerged {
 
-    private String outputAccount;
+    String outputCalendarId;
+    List<String> inputCalendarIds;
 
-    List<String> calendarId;
-
-    public KalMerged(List<String> calendarId, String outputAccount) {
-        this.outputAccount = outputAccount;
-        this.calendarId = calendarId;
+    public KalMerged(String outputCalendarId, List<String> inputCalendarIds) {
+        this.outputCalendarId = outputCalendarId;
+        this.inputCalendarIds = inputCalendarIds;
     }
 
     public KalMerged() {
     }
 
-    public String getOutputAccount() {
-        return outputAccount;
+    public String getOutputCalendarId() {
+        return outputCalendarId;
     }
 
-    public void setOutputAccount(String outputAccount) {
-        this.outputAccount = outputAccount;
+    public void setOutputCalendarId(String outputCalendarId) {
+        this.outputCalendarId = outputCalendarId;
     }
 
-    public List<String> getCalendarId() {
-        return calendarId;
+    public List<String> getInputCalendarIds() {
+        return inputCalendarIds;
     }
 
-    public void setCalendarId(List<String> calendarId) {
-        this.calendarId = calendarId;
+    public void setInputCalendarIds(List<String> inputCalendarIds) {
+        this.inputCalendarIds = inputCalendarIds;
     }
 }

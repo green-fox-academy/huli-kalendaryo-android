@@ -109,11 +109,11 @@ public class KalPref {
         return accountName;
     }
 
-    public KalMerged makeMerged(List<String> kalendarNames, String accountName) {
-
-        KalMerged kalMerged = new KalMerged(kalendarNames, accountName);
-
-        return kalMerged;
-    }
+//    public KalMerged makeMerged(List<String> kalendarNames, String accountName) {
+//
+//        KalMerged kalMerged = new KalMerged(kalendarNames, accountName);
+//
+//        return kalMerged;
+//    }
 
 }
