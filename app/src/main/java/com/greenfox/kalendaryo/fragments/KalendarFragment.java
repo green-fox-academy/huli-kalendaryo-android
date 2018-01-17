@@ -2,8 +2,8 @@ package com.greenfox.kalendaryo.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +11,10 @@ import android.view.ViewGroup;
 import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
-import com.greenfox.kalendaryo.TabViewActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
-import com.greenfox.kalendaryo.models.KalMerged;
-import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.models.MergedCalendarResponse;
+import com.greenfox.kalendaryo.models.KalPref;
 
 import java.util.ArrayList;
 
@@ -27,39 +24,23 @@ import retrofit2.Response;
 
 public class KalendarFragment extends Fragment {
 
+    KalPref kalpref;
+    FloatingActionButton floatingActionButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        KalMerged kalMerged;
-        ApiService apiService = RetrofitClient.getApi("backend");
-        apiService.postCalendar(kalMerged).enqueue(new Callback<MergedCalendarResponse>() {
+        View view = inflater.inflate(R.layout.kalendarlist, container, false);
+        floatingActionButton = view.findViewById(R.id.choosecalendar);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<MergedCalendarResponse> call, Response<MergedCalendarResponse> response) {
-
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), SelectCalendarActivity.class);
+                startActivity(i);
             }
+        });
 
-            @Override
-            public void onFailure(Call<MergedCalendarResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });{
-            @Override
-            public void onResponse(Call< KalUser > call, Response<KalUser> response) {
-                KalUser kalUser = response.body();
-                String accessToken = kalUser.getAccessToken();
-                String clientToken = kalUser.getClientToken();
-                editKalPref(userEmail, userName, accessToken, clientToken);
-                Log.d("shared", kalPref.getString(userEmail));
-                Intent signIn = new Intent(LoginActivity.this, TabViewActivity.class);
-                signIn.putExtra("googleAccountName", userEmail);
-                startActivity(signIn);
-            }
-
-        };
-
-
-
-        return inflater.inflate(R.layout.tab_fragment_1, container, false);
+        kalpref = new KalPref(getActivity());
+        return view;
 
     }
 }
