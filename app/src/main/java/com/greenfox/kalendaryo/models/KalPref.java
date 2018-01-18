@@ -68,12 +68,12 @@ public class KalPref {
         return this.accounts;
     }
 
-    public void clearAccounts() {
+    public void clearAccountsAndAll() {
         SharedPreferences.Editor editor = this.sharedPref.edit();
         for (int i = 0; i < accounts.size(); i++) {
             editor.remove(accounts.get(i));
         }
-        editor.remove("accountslist");
+        editor.clear();
         editor.apply();
         this.accounts = new ArrayList<>();
     }

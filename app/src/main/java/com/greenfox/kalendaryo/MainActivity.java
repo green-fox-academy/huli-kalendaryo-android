@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addAccount.setOnClickListener(this);
         findViewById(R.id.button2).setOnClickListener(this);
         kalPref = new KalPref(this.getApplicationContext());
+        kalPref.clearAccountsAndAll();
         checkSharedPreferencesForUser();
         settingDisplayNameAndEmail(kalPref.getString("email"),kalPref.getString("username"));
         if(getIntent().getStringExtra("googleAccountName")!= null){
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("Connection suspended", "Google API Client Connection Suspended");
             }
         });
-        kalPref.clearAccounts();
+        kalPref.clearAccountsAndAll();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 
