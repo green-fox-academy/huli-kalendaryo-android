@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 
@@ -39,13 +41,18 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
+                i.putExtra("list", new KalMerged());
                 startActivity(i);
             }
         });
 
         adapter = new KalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
-        ((ListView)findViewById(R.id.listView)).setAdapter(adapter);
+        KalMerged kalMerged = new KalMerged();
+        adapter.setListChange(kalMerged);
+
+        ((RecyclerView)findViewById(R.id.listView)).setAdapter(adapter);
+
         getCalendarList();
 
 
@@ -65,7 +72,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
                 @Override
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                    adapter.addAll(response.body().getItems());
+                    adapter.setKalendars(response.body().getItems());
                 }
 
                 @Override

@@ -1,12 +1,13 @@
 package com.greenfox.kalendaryo.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by bekob on 2018-01-17.
  */
 
-public class KalMerged {
+public class KalMerged implements Serializable{
 
     String outputCalendarId;
     List<String> inputCalendarIds;

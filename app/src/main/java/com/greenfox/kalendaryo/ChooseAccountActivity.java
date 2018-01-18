@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.fragments.KalendarFragment;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
+import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.CalendarId;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
@@ -33,19 +34,25 @@ public class ChooseAccountActivity extends AppCompatActivity {
     KalPref kalpref;
     Button sendToBackend;
     ApiService apiService;
-
+    KalMerged kalMerged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
+
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
+        apiService = RetrofitClient.getApi("backend");
+
+        String clientToken = kalpref.clientToken();
 
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                apiService.postCalendar(kalpref.clientToken(), new KalMerged()).enqueue(new Callback<MergedKalendarResponse>() {
+                apiService.postCalendar(clientToken, kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
                     @Override
                     public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
                         MergedKalendarResponse mergedKalendarResponse = response.body();
@@ -71,6 +78,15 @@ public class ChooseAccountActivity extends AppCompatActivity {
         accountNamesView.addItemDecoration(dividerItemDecoration);
         AccountAdapter accountAdapter = new
                 AccountAdapter(kalpref.getKalAuths(),this);
+
+        accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
+            @Override
+            public void emailChanged(String email) {
+                kalMerged.setOutputCalendarId(email);
+            }
+        });
         accountNamesView.setAdapter(accountAdapter);
+
+
     }
 }
