@@ -10,6 +10,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
+import com.greenfox.kalendaryo.models.Kalendar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,6 +22,7 @@ import com.greenfox.kalendaryo.R;
 
 public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHolder> {
 
+    private List<Kalendar> kalendars;
     private Context context;
     private ListChange listChange;
 
@@ -29,11 +34,15 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         this.listChange = listChange;
     }
 
-        public KalendarAdapter(Context context) {
-            this.context = context;
+    public KalendarAdapter(Context context) {
+        this.context = context;
+        this.kalendars = new ArrayList<>();
+    }
 
-        }
-
+    public void setKalendars(List<Kalendar> kalendars) {
+        this.kalendars = kalendars;
+        notifyDataSetChanged();
+    }
 
     @Override
     public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,13 +51,26 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(KalendarAdapter.ViewHolder holder, int position) {
+        Kalendar kalendar = kalendars.get(position);
+        holder.calendarName.setText(kalendar.getSummary());
+        holder.checkBox.setOnCheckedChangeListener(null);
 
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b)
+                    listChange.saveCalendar((String)holder.calendarName.getText());
+                else {
+                    listChange.removeCalendar((String)holder.calendarName.getText());
+                }
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return kalendars.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,21 +86,6 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
             calendarName = itemView.findViewById(R.id.calendarname);
             checkBox = itemView.findViewById(R.id.checkBox1);
             checked = checkBox.isChecked();
-
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    listChange.
-                }
-            });
-            switch(itemView.getId()) {
-                case R.id.checkBox1:
-                    if (checked)
-                        listChange.saveCalendar((String)calendarName.getText());
-                    else {
-                        listChange.removeCalendar((String)calendarName.getText());
-                    }
-            }
 
         }
 
