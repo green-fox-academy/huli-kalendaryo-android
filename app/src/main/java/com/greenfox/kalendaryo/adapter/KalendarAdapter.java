@@ -2,6 +2,7 @@ package com.greenfox.kalendaryo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -10,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
+import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.Kalendar;
 
 import java.util.ArrayList;
@@ -46,7 +48,9 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     @Override
     public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_name, parent, false);
+        KalendarAdapter.ViewHolder viewHolder = new KalendarAdapter.ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
@@ -77,16 +81,12 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
             private TextView calendarName;
             private CheckBox checkBox;
-            private boolean checked = true;
-
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             calendarName = itemView.findViewById(R.id.calendarname);
             checkBox = itemView.findViewById(R.id.checkBox1);
-            checked = checkBox.isChecked();
-
         }
 
     }
