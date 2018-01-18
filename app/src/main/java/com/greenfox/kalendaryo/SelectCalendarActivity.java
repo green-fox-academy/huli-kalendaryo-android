@@ -12,6 +12,7 @@ import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.httpconnection.ApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 
@@ -39,6 +40,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
+                i.putExtra("list", new KalMerged());
                 startActivity(i);
             }
         });

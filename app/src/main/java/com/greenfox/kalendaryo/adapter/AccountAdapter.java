@@ -24,6 +24,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     private List<KalAuth> auths;
     private Context context;
     private int lastSelectedPosition = -1;
+    private EmailChange emailChange;
 
 
     public AccountAdapter(List<KalAuth> authsIn, Context ctx) {
@@ -31,6 +32,13 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         context = ctx;
     }
 
+    public EmailChange getEmailChange() {
+        return emailChange;
+    }
+
+    public void setEmailChange(EmailChange emailChange) {
+        this.emailChange = emailChange;
+    }
 
     @Override
     public AccountAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,12 +72,18 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 lastSelectedPosition = getAdapterPosition();
                 notifyDataSetChanged();
 
-
+                if (emailChange != null) {
+                   emailChange.emailChanged((String) accountName.getText());
+                }
 
                 Toast.makeText(AccountAdapter.this.context, accountName.getText(),
                         Toast.LENGTH_LONG).show();
             });
         }
+    }
+
+    public interface EmailChange {
+        void emailChanged(String email);
     }
 }
 
