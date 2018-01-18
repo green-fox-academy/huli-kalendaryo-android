@@ -17,9 +17,11 @@ import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -80,7 +82,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
             apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
                 @Override
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                    adapter.setKalendars(response.body().getItems());
+                    List<Kalendar> kalendars = response.body().getItems();
+                    adapter.setKalendars(kalendars);
+
+
                 }
 
                 @Override
