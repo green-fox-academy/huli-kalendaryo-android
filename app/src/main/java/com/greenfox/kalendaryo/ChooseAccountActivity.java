@@ -49,6 +49,11 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
         String clientToken = kalpref.clientToken();
 
+        String[] array = new String[kalMerged.getInputCalendarIds().size()];
+        for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
+            array[j] = kalMerged.getInputCalendarIds().get(j);
+        }
+
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +61,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
                         MergedKalendarResponse mergedKalendarResponse = response.body();
+
                     }
 
                     @Override

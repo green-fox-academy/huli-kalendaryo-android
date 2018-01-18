@@ -88,7 +88,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.982" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/apilistcalendars"
         android:layout_width="match_parent"
         android:layout_height="173dp"
