@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
@@ -42,6 +43,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
     @Override
     public void onBindViewHolder(KalendarAdapter.ViewHolder holder, int position) {
 
+
     }
 
     @Override
@@ -56,12 +58,19 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
             private boolean checked = true;
 
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             calendarName = itemView.findViewById(R.id.calendarname);
             checkBox = itemView.findViewById(R.id.checkBox1);
             checked = checkBox.isChecked();
 
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    listChange.
+                }
+            });
             switch(itemView.getId()) {
                 case R.id.checkBox1:
                     if (checked)
