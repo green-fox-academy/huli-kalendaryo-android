@@ -27,8 +27,6 @@ public class KalendarFragment extends Fragment {
 
     KalPref kalpref;
     FloatingActionButton floatingActionButton;
-    // MergedCalendarAdapter adapter;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,11 +39,6 @@ public class KalendarFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        // adapter = new MergedCalendarAdapter(getContext());
-
-//        List<KalMerged> kalMergeds = kalpref.getMergeds();
-//        adapter.addAll(kalMergeds);
 
         kalpref = new KalPref(getActivity());
         return view;
