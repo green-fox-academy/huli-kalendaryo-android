@@ -84,8 +84,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
                     List<Kalendar> kalendars = response.body().getItems();
                     adapter.setKalendars(kalendars);
-
-
                 }
 
                 @Override
