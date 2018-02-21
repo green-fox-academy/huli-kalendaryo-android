@@ -37,7 +37,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
     KalMerged kalMerged;
     RecyclerView recKal;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +64,13 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
     }
 
     public void getCalendarList() {
         apiService = RetrofitClient.getApi("google API");
-
         ArrayList<String> accounts = kalPref.getAccounts();
+        List<Kalendar> accountCalendars= new ArrayList<>();
+
         for (int i = 0; i < accounts.size(); i++) {
             KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
 
@@ -82,8 +80,8 @@ public class SelectCalendarActivity extends AppCompatActivity {
             apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
                 @Override
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                    List<Kalendar> kalendars = response.body().getItems();
-                    adapter.setKalendars(kalendars);
+                    accountCalendars.addAll(response.body().getItems());
+                    adapter.setKalendars(accountCalendars);
                 }
 
                 @Override

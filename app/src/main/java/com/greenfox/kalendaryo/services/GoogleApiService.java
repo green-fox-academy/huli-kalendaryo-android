@@ -10,10 +10,12 @@ public class GoogleApiService {
 
     private static GoogleApiClient googleApiClient = null;
     private static GoogleApiService singleton = null;
+
     protected GoogleApiService(GoogleApiClient googleApiClient) {
 
         this.googleApiClient = googleApiClient;
     }
+
     public static GoogleApiService getInstance() {
         if(singleton == null) {
             throw new AssertionError("You have to call init first");
