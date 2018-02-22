@@ -46,6 +46,11 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public void addKalendars(List<Kalendar> newKalendars) {
+        this.kalendars.addAll(newKalendars);
+        notifyDataSetChanged();
+    }
+
     @Override
     public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_name, parent, false);

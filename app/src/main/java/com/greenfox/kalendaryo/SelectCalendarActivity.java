@@ -69,7 +69,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
     public void getCalendarList() {
         apiService = RetrofitClient.getApi("google API");
         ArrayList<String> accounts = kalPref.getAccounts();
-        List<Kalendar> kalendars = new ArrayList<>();
 
         for (int i = 0; i < accounts.size(); i++) {
             KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
@@ -80,8 +79,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
                 @Override
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                    kalendars.addAll(response.body().getItems());
-                    adapter.setKalendars(kalendars);
+                    adapter.addKalendars(response.body().getItems());
                 }
 
                 @Override
