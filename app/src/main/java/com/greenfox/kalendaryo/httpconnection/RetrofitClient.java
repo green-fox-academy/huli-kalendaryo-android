@@ -1,5 +1,7 @@
 package com.greenfox.kalendaryo.httpconnection;
 
+import com.greenfox.kalendaryo.BuildConfig;
+
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -13,7 +15,7 @@ public class RetrofitClient {
 
     private static OkHttpClient client;
 
-    static String BASE_URL_BACKEND = "https://kalendaryo-staging.greenfox.academy/";
+    static String BASE_URL_BACKEND = BuildConfig.LOCAL_IP_ADDRESS;
     static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
 
     public static Retrofit getConnection(String urlType) {
