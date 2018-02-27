@@ -98,5 +98,7 @@ public class KalPref {
         this.putString(CLIENTTOKEN, value);
     }
 
-    
+    public boolean isUserSignedIn () {
+        return !clientToken().equals("");
+    }
 }

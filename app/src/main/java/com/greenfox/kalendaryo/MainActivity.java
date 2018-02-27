@@ -22,7 +22,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pref = new KalPref(this.getApplicationContext());
-        checkIfUserSignedIn();
+        if (!pref.isUserSignedIn()) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_tab_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,12 +58,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void checkIfUserSignedIn () {
-        if (pref.clientToken().equals("")) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
     }
 }
