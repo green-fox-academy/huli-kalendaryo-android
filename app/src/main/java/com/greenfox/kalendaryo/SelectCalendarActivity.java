@@ -9,19 +9,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
-import com.greenfox.kalendaryo.httpconnection.ApiService;
+import com.greenfox.kalendaryo.httpconnection.BackendApiService;
+import com.greenfox.kalendaryo.httpconnection.GoogleApiService;
 import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +28,7 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
-    private ApiService apiService;
+    private GoogleApiService googleApiService;
     private KalPref kalPref;
     private KalendarAdapter adapter;
     Button goToChooseAccount;
@@ -67,7 +65,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     }
 
     public void getCalendarList() {
-        apiService = RetrofitClient.getApi("google API");
+        googleApiService = RetrofitClient.getGoogleApi("google API");
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
@@ -76,7 +74,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             String accessToken = kalAuth.getAccessToken();
             String authorization = "Bearer " + accessToken;
 
-            apiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
+            googleApiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
                 @Override
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
                     adapter.addKalendars(response.body().getItems());
