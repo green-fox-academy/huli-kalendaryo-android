@@ -40,7 +40,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
-        backendApiService = RetrofitClient.getBackendApi("backend");
+        backendApiService = RetrofitClient.getBackendApi();
 
         String clientToken = kalpref.clientToken();
 

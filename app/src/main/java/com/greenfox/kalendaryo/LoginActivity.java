@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            backendApiService = RetrofitClient.getBackendApi("backend");
+            backendApiService = RetrofitClient.getBackendApi();
             backendApiService.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {

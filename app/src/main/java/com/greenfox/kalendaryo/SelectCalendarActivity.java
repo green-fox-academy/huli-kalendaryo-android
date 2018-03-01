@@ -65,7 +65,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     }
 
     public void getCalendarList() {
-        googleApiService = RetrofitClient.getGoogleApi("google API");
+        googleApiService = RetrofitClient.getGoogleApi();
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {

@@ -2,8 +2,6 @@ package com.greenfox.kalendaryo.httpconnection;
 
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
-import com.greenfox.kalendaryo.models.Kalendar;
-import com.greenfox.kalendaryo.models.KalendarsResponse;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
 
