@@ -34,7 +34,7 @@ public class RetrofitClient {
         }
     }
 
-    public static GoogleApiService getGoogleApi (String urlType) {
+    public static GoogleApiService getGoogleApi(String urlType) {
         if (urlType.equals("google API")) {
             return getConnection(BASE_URL_GOOGLE).create(GoogleApiService.class);
         } else {
