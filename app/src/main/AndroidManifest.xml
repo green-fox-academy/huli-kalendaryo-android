@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".SelectCalendarActivity" />
         <activity android:name=".ChooseAccountActivity"/>
+        <activity android:name=".MergedCalendarActivity"/>
     </application>
 
 </manifest>

@@ -66,7 +66,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
                     }
                 });
 
-                Intent i = new Intent(ChooseAccountActivity.this, MainActivity.class);
+                Intent i = new Intent(ChooseAccountActivity.this, MergedCalendarActivity.class);
                 startActivity(i);
             }
         });
