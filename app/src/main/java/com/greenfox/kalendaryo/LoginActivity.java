@@ -32,6 +32,7 @@ import static android.accounts.AccountManager.newChooseAccountIntent;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    private BackendApiService backendApiService;
     private SignInButton signIn;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
@@ -139,7 +140,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            BackendApiService backendApiService = RetrofitClient.getBackendApi("backend");
+            backendApiService = RetrofitClient.getBackendApi();
             backendApiService.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {

@@ -26,19 +26,11 @@ public class RetrofitClient {
                 .build();
     }
 
-    public static BackendApiService getBackendApi(String urlType) {
-        if (urlType.equals("backend")) {
-            return getConnection(BASE_URL_BACKEND).create(BackendApiService.class);
-        } else {
-            return null;
-        }
+    public static BackendApiService getBackendApi() {
+        return getConnection(BASE_URL_BACKEND).create(BackendApiService.class);
     }
 
-    public static GoogleApiService getGoogleApi (String urlType) {
-        if (urlType.equals("google API")) {
-            return getConnection(BASE_URL_GOOGLE).create(GoogleApiService.class);
-        } else {
-            return null;
-        }
+    public static GoogleApiService getGoogleApi() {
+        return getConnection(BASE_URL_GOOGLE).create(GoogleApiService.class);
     }
 }
