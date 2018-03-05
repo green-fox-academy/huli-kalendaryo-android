@@ -6,25 +6,25 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * Created by Szilvi on 2018. 01. 02..
  */
 
-public class GoogleApiService {
+public class GoogleService {
 
     private static GoogleApiClient googleApiClient = null;
-    private static GoogleApiService singleton = null;
+    private static GoogleService singleton = null;
 
-    protected GoogleApiService(GoogleApiClient googleApiClient) {
+    protected GoogleService(GoogleApiClient googleApiClient) {
 
         this.googleApiClient = googleApiClient;
     }
 
-    public static GoogleApiService getInstance() {
+    public static GoogleService getInstance() {
         if(singleton == null) {
             throw new AssertionError("You have to call init first");
         }
         return singleton;
     }
 
-    public synchronized static GoogleApiService init(GoogleApiClient googleApiClient) {
-        singleton = new GoogleApiService(googleApiClient);
+    public synchronized static GoogleService init(GoogleApiClient googleApiClient) {
+        singleton = new GoogleService(googleApiClient);
         return singleton;
     }
 
