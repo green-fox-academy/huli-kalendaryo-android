@@ -1,6 +1,4 @@
-package com.greenfox.kalendaryo.httpconnection;
-
-import com.greenfox.kalendaryo.models.KalUser;
+package com.greenfox.kalendaryo.http.backend;
 
 import java.io.IOException;
 

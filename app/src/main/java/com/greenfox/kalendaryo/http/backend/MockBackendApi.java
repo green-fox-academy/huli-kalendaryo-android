@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo.httpconnection;
+package com.greenfox.kalendaryo.http.backend;
 
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
@@ -13,7 +13,7 @@ import retrofit2.Response;
  * Created by BalazsSalfay on 2018. 02. 28..
  */
 
-public class MockBackendApi implements BackendApiService {
+public class MockBackendApi implements BackendApi {
 
     @Override
     public Call<KalUser> postAuth(String clientToken, KalAuth auth) {

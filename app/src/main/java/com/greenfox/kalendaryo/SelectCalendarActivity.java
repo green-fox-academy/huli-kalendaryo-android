@@ -11,9 +11,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
-import com.greenfox.kalendaryo.httpconnection.BackendApiService;
-import com.greenfox.kalendaryo.httpconnection.GoogleApiService;
-import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
+import com.greenfox.kalendaryo.http.google.GoogleApi;
+import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
@@ -28,7 +27,7 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
-    private GoogleApiService googleApiService;
+    private GoogleApi googleApi;
     private KalPref kalPref;
     private KalendarAdapter adapter;
     Button goToChooseAccount;
@@ -65,7 +64,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     }
 
     public void getCalendarList() {
-        googleApiService = RetrofitClient.getGoogleApi();
+        googleApi = RetrofitClient.getGoogleApi();
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
@@ -74,7 +73,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             String accessToken = kalAuth.getAccessToken();
             String authorization = "Bearer " + accessToken;
 
-            googleApiService.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
+            googleApi.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
                 @Override
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
                     adapter.addKalendars(response.body().getItems());
