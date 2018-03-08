@@ -15,7 +15,7 @@ public class RetrofitClient {
 
     private static OkHttpClient client;
 
-    static String BASE_URL_BACKEND = BuildConfig.LOCAL_IP_ADDRESS;
+    static String BASE_URL_BACKEND = /*BuildConfig.LOCAL_IP_ADDRESS;*/"http://10.27.6.34:8080/";
     static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
 
     public static Retrofit getConnection(String urlType) {
