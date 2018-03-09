@@ -67,7 +67,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
                 });
 
                 Intent i = new Intent(ChooseAccountActivity.this, MainActivity.class);
-                kalpref.setClienttoken(clientToken);
                 startActivity(i);
             }
         });

@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class KalendarFragment extends Fragment {
 
-    KalPref kalpref;
+    KalPref kalPref;
     FloatingActionButton floatingActionButton;
     private MergedKalendarAdapter adapter;
     private RecyclerView recyclerView;
@@ -41,12 +41,21 @@ public class KalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.kalendarlist, container, false);
-        adapter = new MergedKalendarAdapter(view.getContext());
+        adapter = new MergedKalendarAdapter(getActivity());
         floatingActionButton = view.findViewById(R.id.choosecalendar);
         recyclerView = view.findViewById(R.id.apilistcalendars);
-        KalPref kalPref = new KalPref(this.getContext());
-        String clientToken = kalPref.clientToken();
-        getCalendarResponse(clientToken);
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
+                        recyclerLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        kalPref = new KalPref(this.getContext());
+        if (!kalPref.clientToken().equals("")) {
+            getCalendarResponse(kalPref.clientToken());
+        }
+
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +65,6 @@ public class KalendarFragment extends Fragment {
             }
         });
 
-        kalpref = new KalPref(getActivity());
         return view;
 
     }
@@ -68,7 +76,7 @@ public class KalendarFragment extends Fragment {
             @Override
             public void onResponse(Call<MergedCalendarListResponse> call, Response<MergedCalendarListResponse> response) {
                 adapter.addMergedCalendarResponse(response.body().getMergedCalendars());
-                recyclerView.setAdapter(adapter);
+
             }
 
             @Override
