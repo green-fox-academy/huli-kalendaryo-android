@@ -18,12 +18,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
-import com.greenfox.kalendaryo.httpconnection.BackendApiService;
-import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.services.GoogleApiService;
+import com.greenfox.kalendaryo.services.GoogleService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +32,7 @@ import static android.accounts.AccountManager.newChooseAccountIntent;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    private BackendApi backendApi;
     private SignInButton signIn;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
@@ -70,21 +71,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         .requestServerAuthCode(CLIENT_ID)
                         .build();
         if(!addAnother){
-                    GoogleApiService.init(new GoogleApiClient
+                    GoogleService.init(new GoogleApiClient
                             .Builder(this)
                             .enableAutoManage(this, this)
                             .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
                             .build());
                     signIn();
                 } else {
-                    GoogleApiService.getGoogleApiClient().connect();
-                    GoogleApiService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                    GoogleService.getGoogleApiClient().connect();
+                    GoogleService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                         @Override
                         public void onConnected(@Nullable Bundle bundle) {
-                            if(GoogleApiService.getInstance().getGoogleApiClient().isConnected()) {
-                                Auth.GoogleSignInApi.signOut(GoogleApiService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
+                            if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
+                                Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
                                     if (status.isSuccess()) {
-                                        GoogleApiService.init(new GoogleApiClient
+                                        GoogleService.init(new GoogleApiClient
                                                 .Builder(LoginActivity.this)
                                                 .enableAutoManage(LoginActivity.this, LoginActivity.this)
                                                 .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
@@ -105,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void signIn() {
-        Intent intent = Auth.GoogleSignInApi.getSignInIntent(GoogleApiService.getInstance().getGoogleApiClient());
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(GoogleService.getInstance().getGoogleApiClient());
         startActivityForResult(intent, REQ_CODE);
     }
 
@@ -139,8 +140,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            BackendApiService backendApiService = RetrofitClient.getBackendApi("backend");
-            backendApiService.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            backendApi = RetrofitClient.getBackendApi();
+            backendApi.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     KalUser kalUser = response.body();

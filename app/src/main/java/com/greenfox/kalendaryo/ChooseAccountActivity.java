@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
-import com.greenfox.kalendaryo.httpconnection.BackendApiService;
-import com.greenfox.kalendaryo.httpconnection.RetrofitClient;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
@@ -28,7 +28,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     RecyclerView accountNamesView;
     KalPref kalpref;
     Button sendToBackend;
-    BackendApiService backendApiService;
+    BackendApi backendApi;
     KalMerged kalMerged;
 
     @Override
@@ -40,7 +40,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
-        backendApiService = RetrofitClient.getBackendApi("backend");
+        backendApi = RetrofitClient.getBackendApi();
 
         String clientToken = kalpref.clientToken();
 
@@ -53,7 +53,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backendApiService.postCalendar(clientToken, kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
+                backendApi.postCalendar(clientToken, kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
                     @Override
                     public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
                         MergedKalendarResponse mergedKalendarResponse = response.body();

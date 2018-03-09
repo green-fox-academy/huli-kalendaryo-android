@@ -18,9 +18,9 @@ import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.services.GoogleApiService;
+import com.greenfox.kalendaryo.services.GoogleService;
 
-import static com.greenfox.kalendaryo.services.GoogleApiService.finish;
+import static com.greenfox.kalendaryo.services.GoogleService.finish;
 
 public class SettingsFragment extends Fragment {
 
@@ -41,12 +41,12 @@ public class SettingsFragment extends Fragment {
     }
 
     public void signOut() {
-        GoogleApiService.getInstance().getGoogleApiClient().connect();
-        GoogleApiService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+        GoogleService.getInstance().getGoogleApiClient().connect();
+        GoogleService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
             @Override
             public void onConnected(@Nullable Bundle bundle) {
-                if(GoogleApiService.getInstance().getGoogleApiClient().isConnected()) {
-                    Auth.GoogleSignInApi.signOut(GoogleApiService.getInstance().getGoogleApiClient()).setResultCallback(new ResultCallback<Status>() {
+                if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
+                    Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback(new ResultCallback<Status>() {
                         @Override
                         public void onResult(@NonNull Status status) {
                             if (status.isSuccess()) {

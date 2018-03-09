@@ -11,6 +11,16 @@ public class KalUser {
     private String userEmail;
     private String accessToken;
 
+    public KalUser() {
+    }
+
+    public KalUser(long userId, String clientToken, String userEmail, String accessToken) {
+        this.userId = userId;
+        this.clientToken = clientToken;
+        this.userEmail = userEmail;
+        this.accessToken = accessToken;
+    }
+
     public long getId() {
         return userId;
     }

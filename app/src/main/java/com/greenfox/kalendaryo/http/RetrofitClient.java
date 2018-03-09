@@ -1,6 +1,8 @@
-package com.greenfox.kalendaryo.httpconnection;
+package com.greenfox.kalendaryo.http;
 
 import com.greenfox.kalendaryo.BuildConfig;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.google.GoogleApi;
 
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
@@ -26,19 +28,11 @@ public class RetrofitClient {
                 .build();
     }
 
-    public static BackendApiService getBackendApi(String urlType) {
-        if (urlType.equals("backend")) {
-            return getConnection(BASE_URL_BACKEND).create(BackendApiService.class);
-        } else {
-            return null;
-        }
+    public static BackendApi getBackendApi() {
+        return getConnection(BASE_URL_BACKEND).create(BackendApi.class);
     }
 
-    public static GoogleApiService getGoogleApi (String urlType) {
-        if (urlType.equals("google API")) {
-            return getConnection(BASE_URL_GOOGLE).create(GoogleApiService.class);
-        } else {
-            return null;
-        }
+    public static GoogleApi getGoogleApi() {
+        return getConnection(BASE_URL_GOOGLE).create(GoogleApi.class);
     }
 }

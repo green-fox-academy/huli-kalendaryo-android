@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo.httpconnection;
+package com.greenfox.kalendaryo.http.google;
 
 import com.greenfox.kalendaryo.models.KalendarsResponse;
 
@@ -11,7 +11,7 @@ import retrofit2.http.Headers;
  * Created by BalazsSalfay on 2018. 02. 28..
  */
 
-public interface GoogleApiService {
+public interface GoogleApi {
 
     @Headers("Accept: application/json")
     @GET("calendarList")
