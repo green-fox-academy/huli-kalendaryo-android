@@ -89,7 +89,7 @@
         app:layout_constraintVertical_bias="0.982" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/apilistcalendars"
+        android:id="@+id/apilistcalendarsadsad"
         android:layout_width="match_parent"
         android:layout_height="173dp"
 
@@ -97,8 +97,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/tokenText"
         app:layout_constraintTop_toBottomOf="@+id/myText"
-        tools:layout_editor_absoluteX="2dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="2dp" />
 
     <Button
         android:id="@+id/button2"

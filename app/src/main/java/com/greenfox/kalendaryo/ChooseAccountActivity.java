@@ -88,7 +88,5 @@ public class ChooseAccountActivity extends AppCompatActivity {
             }
         });
         accountNamesView.setAdapter(accountAdapter);
-
-
     }
 }
