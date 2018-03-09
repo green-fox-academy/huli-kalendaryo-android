@@ -30,5 +30,4 @@ public interface BackendApiService {
     @GET("calendar")
     Call<MergedCalendarListResponse> getCalendar(@Header("X-Client-Token") String clientToken);
 
-
 }

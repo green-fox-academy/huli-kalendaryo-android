@@ -37,7 +37,6 @@ public class KalendarFragment extends Fragment {
     private RecyclerView recyclerView;
     private BackendApiService backendApiService;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.kalendarlist, container, false);
@@ -56,7 +55,6 @@ public class KalendarFragment extends Fragment {
             getCalendarResponse(kalPref.clientToken());
         }
 
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,9 +62,7 @@ public class KalendarFragment extends Fragment {
                 startActivity(i);
             }
         });
-
         return view;
-
     }
 
     private void getCalendarResponse(String clientToken) {
