@@ -3,6 +3,7 @@ package com.greenfox.kalendaryo.http.backend;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalUser;
+import com.greenfox.kalendaryo.models.MergedCalendarListResponse;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
 
 import retrofit2.Call;
@@ -37,5 +38,10 @@ public class MockBackendApi implements BackendApi {
             }
         };
         return call;
+    }
+
+    @Override
+    public Call<MergedCalendarListResponse> getCalendar(String clientToken) {
+        return null;
     }
 }
