@@ -9,6 +9,13 @@ import java.util.List;
 public class MergedCalendarListResponse {
     private List<MergedCalendarResponse> mergedCalendars;
 
+    public MergedCalendarListResponse() {
+    }
+
+    public MergedCalendarListResponse(List<MergedCalendarResponse> mergedCalendars) {
+        this.mergedCalendars = mergedCalendars;
+    }
+
     public List<MergedCalendarResponse> getMergedCalendars() {
         return mergedCalendars;
     }
