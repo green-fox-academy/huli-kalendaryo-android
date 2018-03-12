@@ -14,6 +14,11 @@ public class MergedCalendarResponse {
     public MergedCalendarResponse() {
     }
 
+    public MergedCalendarResponse(String outputAccountId, String outputCalendarId) {
+        this.outputAccountId = outputAccountId;
+        this.outputCalendarId = outputCalendarId;
+    }
+
     public MergedCalendarResponse(String outputAccountId, String outputCalendarId, List<String> inputCalendarIds) {
         this.outputAccountId = outputAccountId;
         this.outputCalendarId = outputCalendarId;

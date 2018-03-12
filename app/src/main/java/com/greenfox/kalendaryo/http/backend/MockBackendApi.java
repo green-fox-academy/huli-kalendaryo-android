@@ -4,7 +4,12 @@ import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.models.MergedCalendarListResponse;
+import com.greenfox.kalendaryo.models.MergedCalendarResponse;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +47,25 @@ public class MockBackendApi implements BackendApi {
 
     @Override
     public Call<MergedCalendarListResponse> getCalendar(String clientToken) {
-        return null;
+        MergedCalendarListResponse listResponse = new MergedCalendarListResponse();
+
+        MergedCalendarResponse mergedCalResponse1 = new MergedCalendarResponse("elon@musk.com", "Spurs-Opal");
+        List<String> inputCalendarIds1 = new ArrayList<>(Arrays.asList("Spurs", "Opal"));
+        mergedCalResponse1.setInputCalendarIds(inputCalendarIds1);
+
+        MergedCalendarResponse mergedCalResponse2 = new MergedCalendarResponse("tung@quoc.com", "Lazio-Apple");
+        List<String> inputCalendarIds2 = new ArrayList<>(Arrays.asList("Lazio", "Apple"));
+        mergedCalResponse2.setInputCalendarIds(inputCalendarIds2);
+
+        listResponse.getMergedCalendars().add(mergedCalResponse1);
+        listResponse.getMergedCalendars().add(mergedCalResponse2);
+
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this,Response.success(listResponse));
+            }
+        };
+        return call;
     }
 }
