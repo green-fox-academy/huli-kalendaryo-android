@@ -68,6 +68,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
                 Intent i = new Intent(ChooseAccountActivity.this, MainActivity.class);
                 startActivity(i);
+
             }
         });
 

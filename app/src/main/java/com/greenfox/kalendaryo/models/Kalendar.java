@@ -8,6 +8,7 @@ public class Kalendar {
 
     String id;
     String summary;
+    SharingOptions sharingOptions;
 
     public Kalendar(String id, String summary) {
         this.id = id;
@@ -31,5 +32,13 @@ public class Kalendar {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public SharingOptions getSharingOptions() {
+        return sharingOptions;
+    }
+
+    public void setSharingOptions(SharingOptions sharingOptions) {
+        this.sharingOptions = sharingOptions;
     }
 }
