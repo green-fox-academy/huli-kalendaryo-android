@@ -40,8 +40,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
-    private KalPref kalPref;
-    private KalAuth kalAuth;
+
+    @Inject
+    KalPref kalPref;
+
+    @Inject
+    KalAuth kalAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,8 +172,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void editKalPref(String email, String userName, String accessToken, String clientToken) {
         kalPref.setClienttoken(clientToken);
-
-        kalAuth = new KalAuth();
 
         kalAuth.setEmail(email);
         kalAuth.setDisplayName(userName);

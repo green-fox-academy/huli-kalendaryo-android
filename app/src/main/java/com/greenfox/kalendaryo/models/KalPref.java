@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Created by lica on 2018. 01. 04..
  */
 
+@Singleton
 public class KalPref {
     private SharedPreferences sharedPref;
     private ArrayList<String> accounts;
