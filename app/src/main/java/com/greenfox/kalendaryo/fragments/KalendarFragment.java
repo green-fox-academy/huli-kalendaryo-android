@@ -50,9 +50,7 @@ public class KalendarFragment extends Fragment {
                         recyclerLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         kalPref = new KalPref(this.getContext());
-        if (!kalPref.clientToken().equals("")) {
-            getCalendarResponse(kalPref.clientToken());
-        }
+        getCalendarResponse(kalPref.clientToken());
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

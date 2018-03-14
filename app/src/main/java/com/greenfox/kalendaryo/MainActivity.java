@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         if (!pref.isUserSignedIn()) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         }
         setContentView(R.layout.activity_tab_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
