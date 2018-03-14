@@ -1,7 +1,7 @@
 package com.greenfox.kalendaryo.http.google;
 
-import com.greenfox.kalendaryo.models.event.EventsResource;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
+import com.greenfox.kalendaryo.models.event.EventsResource;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -19,6 +19,6 @@ public interface GoogleApi {
     Call<KalendarsResponse> getCalendarList(@Header("Authorization") String authorization);
 
     @Headers("Accept: application/json")
-    @GET("calendarId/events/eventId")
+    @GET("{calendarId}/events/{eventId}")
     Call<EventsResource> getEvents(@Header("Authorization") String authorization);
 }
