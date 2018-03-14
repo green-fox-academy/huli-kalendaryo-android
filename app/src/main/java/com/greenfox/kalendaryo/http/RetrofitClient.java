@@ -19,6 +19,7 @@ public class RetrofitClient {
 
     static String BASE_URL_BACKEND = BuildConfig.LOCAL_IP_ADDRESS;
     static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
+    static String BASE_URL_GOOGLE_EVENT = "https://www.googleapis.com/calendar/v3/calendars/";
 
     public static Retrofit getConnection(String urlType) {
         return new Retrofit.Builder()
@@ -34,5 +35,9 @@ public class RetrofitClient {
 
     public static GoogleApi getGoogleApi() {
         return getConnection(BASE_URL_GOOGLE).create(GoogleApi.class);
+    }
+
+    public static GoogleApi getGoogleEvents() {
+        return getConnection(BASE_URL_GOOGLE_EVENT).create(GoogleApi.class);
     }
 }
