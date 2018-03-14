@@ -1,9 +1,15 @@
 package com.greenfox.kalendaryo.models;
 
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by Ezzo on 2017. 12. 15..
  */
 
+@Module
 public class KalAuth {
 
     private String authCode;
@@ -21,6 +27,7 @@ public class KalAuth {
 
     public KalAuth() {
     }
+
 
     public String getDisplayName() {
         return displayName;

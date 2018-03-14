@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by lica on 2018. 01. 04..
  */
@@ -19,6 +21,9 @@ public class KalPref {
     private Gson gson = new Gson();
     static final String CLIENTTOKEN = "clienttoken";
 
+    @Inject
+    public KalPref() {
+    }
 
     public KalPref(Context context) {
         this.sharedPref = PreferenceManager.getDefaultSharedPreferences(context);

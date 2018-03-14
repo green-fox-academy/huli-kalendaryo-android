@@ -8,21 +8,21 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
 
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
-import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.KalUser;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
-    private KalPref pref;
+    @Inject
+    KalPref kalPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref = new KalPref(this.getApplicationContext());
-        if (!pref.isUserSignedIn()) {
+        kalPref = new KalPref(this.getApplicationContext());
+        if (!kalPref.isUserSignedIn()) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
