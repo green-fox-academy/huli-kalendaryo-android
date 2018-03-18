@@ -1,31 +1,31 @@
 package com.greenfox.kalendaryo.models.event;
 
+import android.util.EventLogTags;
+
 import com.google.api.client.util.DateTime;
+import com.greenfox.kalendaryo.models.KalAuth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Created by Lilla on 2018. 03. 14..
- */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class EventsResource {
+public class GoogleEvent {
 
     String kind;
-    String etag;
+    EventLogTags etag;
     String id;
     String status;
     DateTime created;
     DateTime updated;
     String summary;
     String colorId;
-    EventAuth creator;
-    EventAuth organizer;
+    KalAuth creator;
+    KalAuth organizer;
     EventDate start;
     EventDate end;
 

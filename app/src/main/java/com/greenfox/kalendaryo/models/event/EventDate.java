@@ -9,10 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Created by Lilla on 2018. 03. 14..
- */
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
