@@ -27,6 +27,7 @@ public class EventAdapter {
         //notifyDataSetChanged();
     }
 
+    /**
     @Override
     public void onBindViewHolder(EventAdapter.ViewHolder holder, int position) {
         GoogleEvent event = events.get(position);
@@ -63,5 +64,5 @@ public class EventAdapter {
             checkBox = itemView.findViewById(R.id.checkBox1);
         }
 
-    }
+    }*/
 }
