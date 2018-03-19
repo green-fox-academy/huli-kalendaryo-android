@@ -8,7 +8,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".BaseActivity"
+        tools:context=".WeekViewActivity"
         android:background="#fff">
 
         <com.alamkanak.weekview.WeekView
@@ -19,15 +19,15 @@
             app:textSize="12sp"
             app:hourHeight="60dp"
             app:headerColumnPadding="8dp"
-            app:headerColumnTextColor="@color/toolbar_text"
+            app:headerColumnTextColor="#8f00000"
             app:headerRowPadding="12dp"
             app:columnGap="8dp"
             app:noOfVisibleDays="3"
-            app:headerRowBackgroundColor="@color/toolbar"
+            app:headerRowBackgroundColor="#ffefefef"
             app:dayBackgroundColor="#05000000"
             app:todayBackgroundColor="#1848adff"
             app:headerColumnBackground="#ffffffff"
-            app:todayHeaderTextColor="@color/accent" />
+            app:todayHeaderTextColor="@color/colorAccent" />
 
     </RelativeLayout>
 

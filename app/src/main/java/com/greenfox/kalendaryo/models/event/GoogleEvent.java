@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.util.EventLogTags;
 import android.graphics.Color;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 import com.greenfox.kalendaryo.models.KalAuth;
 
@@ -40,6 +41,7 @@ public class GoogleEvent {
     private String startTime;
     private String endTime;
     private int dayOfMonth;
+    private String color;
 
     @SuppressLint("SimpleDateFormat")
     public WeekViewEvent toWeekViewEvent(){
