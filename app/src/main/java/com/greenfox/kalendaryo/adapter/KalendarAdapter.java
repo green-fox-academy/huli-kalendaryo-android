@@ -11,8 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.models.KalMerged;
-import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.GoogleCalendar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHolder> {
 
-    private List<Kalendar> kalendars;
+    private List<GoogleCalendar> googleCalendars;
     private Context context;
     private ListChange listChange;
 
@@ -38,16 +37,16 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     public KalendarAdapter(Context context) {
         this.context = context;
-        this.kalendars = new ArrayList<>();
+        this.googleCalendars = new ArrayList<>();
     }
 
-    public void setKalendars(List<Kalendar> kalendars) {
-        this.kalendars = kalendars;
+    public void setGoogleCalendars(List<GoogleCalendar> googleCalendars) {
+        this.googleCalendars = googleCalendars;
         notifyDataSetChanged();
     }
 
-    public void addKalendars(List<Kalendar> newKalendars) {
-        this.kalendars.addAll(newKalendars);
+    public void addGoogleCalendars(List<GoogleCalendar> newGoogleCalendars) {
+        this.googleCalendars.addAll(newGoogleCalendars);
         notifyDataSetChanged();
     }
 
@@ -60,8 +59,8 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(KalendarAdapter.ViewHolder holder, int position) {
-        Kalendar kalendar = kalendars.get(position);
-        holder.calendarName.setText(kalendar.getSummary());
+        GoogleCalendar googleCalendar = googleCalendars.get(position);
+        holder.calendarName.setText(googleCalendar.getSummary());
         holder.checkBox.setOnCheckedChangeListener(null);
 
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -79,7 +78,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return kalendars.size();
+        return googleCalendars.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

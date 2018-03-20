@@ -4,17 +4,17 @@ package com.greenfox.kalendaryo.models;
  * Created by barba on 04/01/2018.
  */
 
-public class Kalendar {
+public class GoogleCalendar {
 
     String id;
     String summary;
 
-    public Kalendar(String id, String summary) {
+    public GoogleCalendar(String id, String summary) {
         this.id = id;
         this.summary = summary;
     }
 
-    public Kalendar() {
+    public GoogleCalendar() {
     }
 
     public String getId() {

@@ -16,7 +16,7 @@ import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.KalendarsResponse;
+import com.greenfox.kalendaryo.models.GoogleCalendarsResponse;
 
 import java.util.ArrayList;
 
@@ -73,14 +73,14 @@ public class SelectCalendarActivity extends AppCompatActivity {
             String accessToken = googleAuth.getAccessToken();
             String authorization = "Bearer " + accessToken;
 
-            googleApi.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
+            googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
                 @Override
-                public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                    adapter.addKalendars(response.body().getItems());
+                public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
+                    adapter.addGoogleCalendars(response.body().getItems());
                 }
 
                 @Override
-                public void onFailure(Call<KalendarsResponse> call, Throwable t) {
+                public void onFailure(Call<GoogleCalendarsResponse> call, Throwable t) {
                     t.printStackTrace();
                 }
             });
