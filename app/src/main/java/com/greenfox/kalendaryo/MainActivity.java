@@ -8,11 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
 
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
-import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.KalUser;
 
 public class MainActivity extends AppCompatActivity {
 

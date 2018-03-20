@@ -7,7 +7,7 @@ package com.greenfox.kalendaryo.models;
 public class CalendarId {
 
     private String id;
-    KalAuth kalAuth;
+    GoogleAuth googleAuth;
     KalMerged kalMerged;
 
 }

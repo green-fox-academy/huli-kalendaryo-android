@@ -1,6 +1,6 @@
 package com.greenfox.kalendaryo.http.backend;
 
-import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.models.MergedCalendarListResponse;
@@ -22,7 +22,7 @@ import retrofit2.Response;
 public class MockBackendApi implements BackendApi {
 
     @Override
-    public Call<KalUser> postAuth(String clientToken, KalAuth auth) {
+    public Call<KalUser> postAuth(String clientToken, GoogleAuth auth) {
         KalUser user = new KalUser(2, "sdsdfkj34231", "jimbo@jimbo.com", "56365ghgsg1223");
         ImplCall call = new ImplCall() {
             @Override

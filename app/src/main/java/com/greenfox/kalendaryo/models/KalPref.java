@@ -40,16 +40,16 @@ public class KalPref {
         return this.sharedPref.getString(key, "");
     }
 
-    public void putAuth(KalAuth kalAuth) {
-        String value = gson.toJson(kalAuth);
-        this.putString(kalAuth.getEmail(), value);
-        addAccount(kalAuth.getEmail());
+    public void putAuth(GoogleAuth googleAuth) {
+        String value = gson.toJson(googleAuth);
+        this.putString(googleAuth.getEmail(), value);
+        addAccount(googleAuth.getEmail());
     }
 
-    public KalAuth getAuth(String key) {
+    public GoogleAuth getAuth(String key) {
         String value = this.getString(key);
-        KalAuth kalAuth = gson.fromJson(value, KalAuth.class);
-        return kalAuth;
+        GoogleAuth googleAuth = gson.fromJson(value, GoogleAuth.class);
+        return googleAuth;
     }
 
     private void addAccount(String accountname) {
@@ -78,13 +78,13 @@ public class KalPref {
         this.accounts = new ArrayList<>();
     }
 
-    public List<KalAuth> getKalAuths() {
+    public List<GoogleAuth> getGoogleAuths() {
 
         ArrayList<String> accountNameList = this.getAccounts();
-        ArrayList<KalAuth> auths = new ArrayList<>();
+        ArrayList<GoogleAuth> auths = new ArrayList<>();
 
         for (int i = 0; i < accountNameList.size(); i++) {
-            KalAuth auth = this.getAuth(accountNameList.get(i));
+            GoogleAuth auth = this.getAuth(accountNameList.get(i));
             auths.add(auth);
         }
         return auths;

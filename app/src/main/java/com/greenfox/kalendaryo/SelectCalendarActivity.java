@@ -13,7 +13,7 @@ import android.widget.Button;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
-import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
@@ -68,9 +68,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
-            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
+            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
 
-            String accessToken = kalAuth.getAccessToken();
+            String accessToken = googleAuth.getAccessToken();
             String authorization = "Bearer " + accessToken;
 
             googleApi.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {

@@ -79,7 +79,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
                         recyclerLayoutManager.getOrientation());
         accountNamesView.addItemDecoration(dividerItemDecoration);
         AccountAdapter accountAdapter = new
-                AccountAdapter(kalpref.getKalAuths(),this);
+                AccountAdapter(kalpref.getGoogleAuths(),this);
 
         accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
             @Override
