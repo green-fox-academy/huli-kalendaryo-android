@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Kalendaryo</string>
+    <string name="which_options">Which parameters do you want to share?</string>
 
     <!-- Strings related to login -->
 </resources>
