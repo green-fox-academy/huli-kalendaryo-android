@@ -13,16 +13,11 @@ import android.view.ViewGroup;
 
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
-import com.greenfox.kalendaryo.adapter.MergedKalendarAdapter;
+import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.MergedCalendarListResponse;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.greenfox.kalendaryo.models.GetKalendarListResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,14 +27,14 @@ public class KalendarFragment extends Fragment {
 
     KalPref kalPref;
     FloatingActionButton floatingActionButton;
-    private MergedKalendarAdapter adapter;
+    private KalendarAdapter adapter;
     private RecyclerView recyclerView;
     private BackendApi backendApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.kalendarlist, container, false);
-        adapter = new MergedKalendarAdapter(getActivity());
+        adapter = new KalendarAdapter(getActivity());
         floatingActionButton = view.findViewById(R.id.choosecalendar);
         recyclerView = view.findViewById(R.id.apilistcalendars);
         recyclerView.setAdapter(adapter);
@@ -64,16 +59,16 @@ public class KalendarFragment extends Fragment {
 
     private void getCalendarResponse(String clientToken) {
         backendApi = RetrofitClient.getBackendApi();
-        backendApi.getCalendar(clientToken).enqueue(new Callback<MergedCalendarListResponse>() {
+        backendApi.getCalendar(clientToken).enqueue(new Callback<GetKalendarListResponse>() {
 
             @Override
-            public void onResponse(Call<MergedCalendarListResponse> call, Response<MergedCalendarListResponse> response) {
-                adapter.addMergedCalendarResponse(response.body().getMergedCalendars());
+            public void onResponse(Call<GetKalendarListResponse> call, Response<GetKalendarListResponse> response) {
+                adapter.addKalendarResponse(response.body().getKalendars());
 
             }
 
             @Override
-            public void onFailure(Call<MergedCalendarListResponse> call, Throwable t) {
+            public void onFailure(Call<GetKalendarListResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });

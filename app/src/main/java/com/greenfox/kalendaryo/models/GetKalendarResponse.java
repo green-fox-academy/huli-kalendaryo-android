@@ -6,20 +6,20 @@ import java.util.List;
  * Created by tung on 2/28/18.
  */
 
-public class MergedCalendarResponse {
+public class GetKalendarResponse {
     private String outputAccountId;
     private String outputCalendarId;
     private List<String> inputCalendarIds;
 
-    public MergedCalendarResponse() {
+    public GetKalendarResponse() {
     }
 
-    public MergedCalendarResponse(String outputAccountId, String outputCalendarId) {
+    public GetKalendarResponse(String outputAccountId, String outputCalendarId) {
         this.outputAccountId = outputAccountId;
         this.outputCalendarId = outputCalendarId;
     }
 
-    public MergedCalendarResponse(String outputAccountId, String outputCalendarId, List<String> inputCalendarIds) {
+    public GetKalendarResponse(String outputAccountId, String outputCalendarId, List<String> inputCalendarIds) {
         this.outputAccountId = outputAccountId;
         this.outputCalendarId = outputCalendarId;
         this.inputCalendarIds = inputCalendarIds;

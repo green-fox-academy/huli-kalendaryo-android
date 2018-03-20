@@ -14,7 +14,7 @@ import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+import com.greenfox.kalendaryo.models.PostKalendarResponse;
 
 import java.util.Arrays;
 
@@ -53,15 +53,15 @@ public class ChooseAccountActivity extends AppCompatActivity {
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<MergedKalendarResponse>() {
+                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
-                    public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
-                        MergedKalendarResponse mergedKalendarResponse = response.body();
+                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+                        PostKalendarResponse postKalendarResponse = response.body();
 
                     }
 
                     @Override
-                    public void onFailure(Call<MergedKalendarResponse> call, Throwable t) {
+                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
                         t.printStackTrace();
                     }
                 });

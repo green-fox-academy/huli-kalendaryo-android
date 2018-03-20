@@ -3,8 +3,8 @@ package com.greenfox.kalendaryo.http.backend;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.models.MergedCalendarListResponse;
-import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+import com.greenfox.kalendaryo.models.GetKalendarListResponse;
+import com.greenfox.kalendaryo.models.PostKalendarResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,10 +20,10 @@ public interface BackendApi {
 
     @Headers("Accept: application/json")
     @POST("calendar")
-    Call<MergedKalendarResponse> postCalendar(@Header("X-Client-Token") String clientToken, @Body Kalendar kalendar);
+    Call<PostKalendarResponse> postCalendar(@Header("X-Client-Token") String clientToken, @Body Kalendar kalendar);
 
     @Headers("Accept: application/json")
     @GET("calendar")
-    Call<MergedCalendarListResponse> getCalendar(@Header("X-Client-Token") String clientToken);
+    Call<GetKalendarListResponse> getCalendar(@Header("X-Client-Token") String clientToken);
 
 }
