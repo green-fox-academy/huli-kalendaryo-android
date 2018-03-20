@@ -10,12 +10,12 @@ import java.util.List;
  * Created by bekob on 2018-01-17.
  */
 
-public class KalMerged implements Serializable,KalendarAdapter.ListChange {
+public class Kalendar implements Serializable,KalendarAdapter.ListChange {
 
     String outputCalendarId;
     List<String> inputCalendarIds;
 
-    public KalMerged() {
+    public Kalendar() {
         this.inputCalendarIds = new ArrayList<>();
     }
 

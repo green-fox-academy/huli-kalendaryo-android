@@ -14,7 +14,7 @@ import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.GoogleAuth;
-import com.greenfox.kalendaryo.models.KalMerged;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.GoogleCalendarsResponse;
 
@@ -31,7 +31,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     private KalPref kalPref;
     private KalendarAdapter adapter;
     Button goToChooseAccount;
-    KalMerged kalMerged;
+    Kalendar kalendar;
     RecyclerView recKal;
 
     @Override
@@ -41,9 +41,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
         adapter = new KalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
-        kalMerged = new KalMerged();
+        kalendar = new Kalendar();
         getCalendarList();
-        adapter.setListChange(kalMerged);
+        adapter.setListChange(kalendar);
         recKal = findViewById(R.id.listView);
         recKal.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
@@ -57,7 +57,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
-                i.putExtra("list", kalMerged);
+                i.putExtra("list", kalendar);
                 startActivity(i);
             }
         });

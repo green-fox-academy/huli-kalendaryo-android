@@ -12,7 +12,7 @@ import android.widget.Button;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
-import com.greenfox.kalendaryo.models.KalMerged;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
 
@@ -29,13 +29,13 @@ public class ChooseAccountActivity extends AppCompatActivity {
     KalPref kalpref;
     Button sendToBackend;
     BackendApi backendApi;
-    KalMerged kalMerged;
+    Kalendar kalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
+        kalendar = (Kalendar) getIntent().getSerializableExtra("list");
 
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
@@ -44,16 +44,16 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
         String clientToken = kalpref.clientToken();
 
-        String[] array = new String[kalMerged.getInputCalendarIds().size()];
-        for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
-            array[j] = kalMerged.getInputCalendarIds().get(j);
+        String[] array = new String[kalendar.getInputCalendarIds().size()];
+        for (int j = 0; j < kalendar.getInputCalendarIds().size(); j++) {
+            array[j] = kalendar.getInputCalendarIds().get(j);
         }
 
-        kalMerged.setInputCalendarIds(Arrays.asList(array));
+        kalendar.setInputCalendarIds(Arrays.asList(array));
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backendApi.postCalendar(clientToken, kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
+                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<MergedKalendarResponse>() {
                     @Override
                     public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
                         MergedKalendarResponse mergedKalendarResponse = response.body();
@@ -84,7 +84,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
             @Override
             public void emailChanged(String email) {
-                kalMerged.setOutputCalendarId(email);
+                kalendar.setOutputCalendarId(email);
             }
         });
         accountNamesView.setAdapter(accountAdapter);

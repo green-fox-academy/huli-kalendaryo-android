@@ -8,6 +8,6 @@ public class CalendarId {
 
     private String id;
     GoogleAuth googleAuth;
-    KalMerged kalMerged;
+    Kalendar kalendar;
 
 }
