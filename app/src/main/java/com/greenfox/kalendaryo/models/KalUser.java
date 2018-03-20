@@ -51,6 +51,5 @@ public class KalUser {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
-
     }
 }

@@ -37,7 +37,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     @Override
     public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.merged_calemdar_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kalendar_item, parent, false);
         return new KalendarAdapter.ViewHolder(view);
     }
 
