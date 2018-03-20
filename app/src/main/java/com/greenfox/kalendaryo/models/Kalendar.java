@@ -1,6 +1,6 @@
 package com.greenfox.kalendaryo.models;
 
-import com.greenfox.kalendaryo.adapter.KalendarAdapter;
+import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by bekob on 2018-01-17.
  */
 
-public class Kalendar implements Serializable,KalendarAdapter.ListChange {
+public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
 
     String outputCalendarId;
     List<String> inputCalendarIds;

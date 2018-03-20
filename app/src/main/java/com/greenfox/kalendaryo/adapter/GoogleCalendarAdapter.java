@@ -21,7 +21,7 @@ import java.util.List;
  * Created by barba on 02/01/2018.
  */
 
-public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHolder> {
+public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAdapter.ViewHolder> {
 
     private List<GoogleCalendar> googleCalendars;
     private Context context;
@@ -35,7 +35,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         this.listChange = listChange;
     }
 
-    public KalendarAdapter(Context context) {
+    public GoogleCalendarAdapter(Context context) {
         this.context = context;
         this.googleCalendars = new ArrayList<>();
     }
@@ -51,14 +51,14 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
     }
 
     @Override
-    public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GoogleCalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_name, parent, false);
-        KalendarAdapter.ViewHolder viewHolder = new KalendarAdapter.ViewHolder(view);
+        GoogleCalendarAdapter.ViewHolder viewHolder = new GoogleCalendarAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(KalendarAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(GoogleCalendarAdapter.ViewHolder holder, int position) {
         GoogleCalendar googleCalendar = googleCalendars.get(position);
         holder.calendarName.setText(googleCalendar.getSummary());
         holder.checkBox.setOnCheckedChangeListener(null);

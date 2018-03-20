@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.greenfox.kalendaryo.adapter.KalendarAdapter;
+import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.GoogleAuth;
@@ -29,7 +29,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     private GoogleApi googleApi;
     private KalPref kalPref;
-    private KalendarAdapter adapter;
+    private GoogleCalendarAdapter adapter;
     Button goToChooseAccount;
     Kalendar kalendar;
     RecyclerView recKal;
@@ -39,7 +39,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
 
-        adapter = new KalendarAdapter(this);
+        adapter = new GoogleCalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
         kalendar = new Kalendar();
         getCalendarList();
