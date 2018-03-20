@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
@@ -56,8 +57,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
         goToSharingOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("FIRST CALENDAR ID: " + kalMerged.getInputCalendarIds().get(0));
                 Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
-                i.putExtra("list", kalMerged);
+                i.putExtra("kalMerged", kalMerged);
                 startActivity(i);
             }
         });

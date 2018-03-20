@@ -13,7 +13,7 @@ import java.util.List;
 public class KalMerged implements Serializable,KalendarAdapter.ListChange {
 
     String outputCalendarId;
-    List<String> inputCalendarIds;
+    List<CalendarId> inputCalendarIds;
 
     public KalMerged() {
         this.inputCalendarIds = new ArrayList<>();
@@ -27,21 +27,21 @@ public class KalMerged implements Serializable,KalendarAdapter.ListChange {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public List<String> getInputCalendarIds() {
+    public List<CalendarId> getInputCalendarIds() {
         return inputCalendarIds;
     }
 
-    public void setInputCalendarIds(List<String> inputCalendarIds) {
+    public void setInputCalendarIds(List<CalendarId> inputCalendarIds) {
         this.inputCalendarIds = inputCalendarIds;
     }
 
     @Override
     public void saveCalendar(String calendarTitle) {
-        inputCalendarIds.add(calendarTitle);
+        inputCalendarIds.add(new CalendarId(calendarTitle));
     }
 
     @Override
-    public void removeCalendar(String calderTitle) {
-        inputCalendarIds.remove(calderTitle);
+    public void removeCalendar(String calendarTitle) {
+        inputCalendarIds.remove(calendarTitle);
     }
 }

@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
+import com.greenfox.kalendaryo.models.CalendarId;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.Kalendar;
 
@@ -68,7 +69,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b)
-                    listChange.saveCalendar((String)holder.calendarName.getText());
+                    listChange.saveCalendar((String) holder.calendarName.getText());
                 else {
                     listChange.removeCalendar((String)holder.calendarName.getText());
                 }
@@ -97,7 +98,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
     }
     public interface ListChange {
         void saveCalendar(String calendarTitle);
-        void removeCalendar(String calderTitle);
+        void removeCalendar(String calendarTitle);
     }
 }
 

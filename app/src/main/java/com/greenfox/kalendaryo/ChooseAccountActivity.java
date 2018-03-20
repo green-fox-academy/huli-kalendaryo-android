@@ -35,7 +35,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
+        kalMerged = (KalMerged) getIntent().getSerializableExtra("kalMerged");
 
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
@@ -46,10 +46,13 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
         String[] array = new String[kalMerged.getInputCalendarIds().size()];
         for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
-            array[j] = kalMerged.getInputCalendarIds().get(j);
+            array[j] = kalMerged.getInputCalendarIds().get(j).getId();
         }
 
-        kalMerged.setInputCalendarIds(Arrays.asList(array));
+//        kalMerged.setInputCalendarIds(Arrays.asList(array));
+        for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
+            kalMerged.getInputCalendarIds().get(j).setId(array[j]);
+        }
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
