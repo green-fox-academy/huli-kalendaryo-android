@@ -15,7 +15,6 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
     KalPref kalPref;
 
     @Override

@@ -18,6 +18,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
+import com.greenfox.kalendaryo.components.ApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
@@ -40,18 +41,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
+    private KalPref kalPref;
+    private KalAuth kalAuth;
 
     @Inject
-    KalPref kalPref;
-
-    @Inject
-    KalAuth kalAuth;
+    RetrofitClient retrofitClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         kalPref = new KalPref(this.getApplicationContext());
         setContentView(R.layout.activity_login);
+        ApiComponent.builder().build().inject(this);
         signIn = findViewById(R.id.bn_login);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
