@@ -64,5 +64,4 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
             calendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
         }
     }
-
 }

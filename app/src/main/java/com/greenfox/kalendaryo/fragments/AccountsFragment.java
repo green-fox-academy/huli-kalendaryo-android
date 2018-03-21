@@ -27,7 +27,6 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     KalPref kalpref;
     FloatingActionButton floatingActionButton;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -51,9 +50,7 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
         return view;
     }
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 }

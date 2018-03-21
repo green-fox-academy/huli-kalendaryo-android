@@ -19,7 +19,6 @@ public class KalPref {
     private Gson gson = new Gson();
     static final String CLIENTTOKEN = "clienttoken";
 
-
     public KalPref(Context context) {
         this.sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         String list = this.sharedPref.getString("accountslist", "");

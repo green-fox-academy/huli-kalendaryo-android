@@ -11,12 +11,10 @@ public class GoogleAuth {
     private String displayName;
     private String accessToken;
 
-
     public GoogleAuth(String authCode, String email, String displayName) {
         this.authCode = authCode;
         this.email = email;
         this.displayName = displayName;
-
     }
 
     public GoogleAuth() {
@@ -53,5 +51,4 @@ public class GoogleAuth {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
 }

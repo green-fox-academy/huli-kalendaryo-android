@@ -85,4 +85,3 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         void emailChanged(String email);
     }
 }
-

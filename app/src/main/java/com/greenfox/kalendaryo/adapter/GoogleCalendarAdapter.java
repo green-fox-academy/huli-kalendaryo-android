@@ -99,5 +99,3 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
         void removeCalendar(String calderTitle);
     }
 }
-
-

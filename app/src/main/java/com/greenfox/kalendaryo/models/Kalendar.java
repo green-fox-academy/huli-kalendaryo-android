@@ -41,7 +41,7 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
     }
 
     @Override
-    public void removeCalendar(String calderTitle) {
-        inputCalendarIds.remove(calderTitle);
+    public void removeCalendar(String calendarTitle) {
+        inputCalendarIds.remove(calendarTitle);
     }
 }
