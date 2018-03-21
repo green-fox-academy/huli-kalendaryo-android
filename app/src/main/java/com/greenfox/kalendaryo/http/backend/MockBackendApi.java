@@ -50,12 +50,12 @@ public class MockBackendApi implements BackendApi {
         GetKalendarListResponse listResponse = new GetKalendarListResponse();
 
         GetKalendarResponse kalendarResponse1 = new GetKalendarResponse("elon@musk.com", "Spurs-Opal");
-        List<String> inputCalendarIds1 = new ArrayList<>(Arrays.asList("Spurs", "Opal"));
-        kalendarResponse1.setInputCalendarIds(inputCalendarIds1);
+        List<String> inputGoogleCalendars1 = new ArrayList<>(Arrays.asList("Spurs", "Opal"));
+        kalendarResponse1.setInputGoogleCalendars(inputGoogleCalendars1);
 
         GetKalendarResponse kalendarResponse2 = new GetKalendarResponse("tung@quoc.com", "Lazio-Apple");
-        List<String> inputCalendarIds2 = new ArrayList<>(Arrays.asList("Lazio", "Apple"));
-        kalendarResponse2.setInputCalendarIds(inputCalendarIds2);
+        List<String> inputGoogleCalendars2 = new ArrayList<>(Arrays.asList("Lazio", "Apple"));
+        kalendarResponse2.setInputGoogleCalendars(inputGoogleCalendars2);
 
         listResponse.getKalendars().add(kalendarResponse1);
         listResponse.getKalendars().add(kalendarResponse2);

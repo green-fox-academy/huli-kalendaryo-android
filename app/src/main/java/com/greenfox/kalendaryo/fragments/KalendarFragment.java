@@ -45,7 +45,7 @@ public class KalendarFragment extends Fragment {
                         recyclerLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         kalPref = new KalPref(this.getContext());
-        getCalendarResponse(kalPref.clientToken());
+        getKalendarResponse(kalPref.clientToken());
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +57,7 @@ public class KalendarFragment extends Fragment {
         return view;
     }
 
-    private void getCalendarResponse(String clientToken) {
+    private void getKalendarResponse(String clientToken) {
         backendApi = RetrofitClient.getBackendApi();
         backendApi.getCalendar(clientToken).enqueue(new Callback<GetKalendarListResponse>() {
 

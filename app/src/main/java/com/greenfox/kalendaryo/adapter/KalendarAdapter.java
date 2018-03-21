@@ -44,8 +44,8 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
     @Override
     public void onBindViewHolder(KalendarAdapter.ViewHolder holder, int position) {
         GetKalendarResponse getKalendarResponse = getKalendarResponses.get(position);
-        holder.calendarDescription.setText(getKalendarResponse.getOutputCalendarId());
-        holder.kalendarName.setText(getKalendarResponse.getOutputAccountId());
+        holder.kalendarDescription.setText(getKalendarResponse.getOutputCalendarId());
+        holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
     }
 
     @Override
@@ -56,12 +56,12 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView kalendarName;
-        private TextView calendarDescription;
+        private TextView kalendarDescription;
 
         public ViewHolder(View itemView) {
             super(itemView);
             kalendarName = itemView.findViewById(R.id.mergedcalendarname);
-            calendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
+            kalendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
         }
     }
 }

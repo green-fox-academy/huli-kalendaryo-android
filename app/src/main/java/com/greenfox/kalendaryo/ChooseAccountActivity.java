@@ -44,12 +44,12 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
         String clientToken = kalpref.clientToken();
 
-        String[] array = new String[kalendar.getInputCalendarIds().size()];
-        for (int j = 0; j < kalendar.getInputCalendarIds().size(); j++) {
-            array[j] = kalendar.getInputCalendarIds().get(j);
+        String[] array = new String[kalendar.getInputGoogleCalendars().size()];
+        for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {
+            array[j] = kalendar.getInputGoogleCalendars().get(j);
         }
 
-        kalendar.setInputCalendarIds(Arrays.asList(array));
+        kalendar.setInputGoogleCalendars(Arrays.asList(array));
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +84,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
             @Override
             public void emailChanged(String email) {
-                kalendar.setOutputCalendarId(email);
+                kalendar.setOutputGoogleAuthId(email);
             }
         });
         accountNamesView.setAdapter(accountAdapter);

@@ -12,36 +12,36 @@ import java.util.List;
 
 public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
 
-    String outputCalendarId;
-    List<String> inputCalendarIds;
+    String outputGoogleAuthId;
+    List<String> inputGoogleCalendars;
 
     public Kalendar() {
-        this.inputCalendarIds = new ArrayList<>();
+        this.inputGoogleCalendars = new ArrayList<>();
     }
 
-    public String getOutputCalendarId() {
-        return outputCalendarId;
+    public String getOutputGoogleAuthId() {
+        return outputGoogleAuthId;
     }
 
-    public void setOutputCalendarId(String outputCalendarId) {
-        this.outputCalendarId = outputCalendarId;
+    public void setOutputGoogleAuthId(String outputGoogleAuthId) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
     }
 
-    public List<String> getInputCalendarIds() {
-        return inputCalendarIds;
+    public List<String> getInputGoogleCalendars() {
+        return inputGoogleCalendars;
     }
 
-    public void setInputCalendarIds(List<String> inputCalendarIds) {
-        this.inputCalendarIds = inputCalendarIds;
+    public void setInputGoogleCalendars(List<String> inputGoogleCalendars) {
+        this.inputGoogleCalendars = inputGoogleCalendars;
     }
 
     @Override
     public void saveCalendar(String calendarTitle) {
-        inputCalendarIds.add(calendarTitle);
+        inputGoogleCalendars.add(calendarTitle);
     }
 
     @Override
     public void removeCalendar(String calendarTitle) {
-        inputCalendarIds.remove(calendarTitle);
+        inputGoogleCalendars.remove(calendarTitle);
     }
 }

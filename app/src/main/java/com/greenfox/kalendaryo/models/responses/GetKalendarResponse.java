@@ -7,30 +7,30 @@ import java.util.List;
  */
 
 public class GetKalendarResponse {
-    private String outputAccountId;
+    private String outputGoogleAuthId;
     private String outputCalendarId;
-    private List<String> inputCalendarIds;
+    private List<String> inputGoogleCalendars;
 
     public GetKalendarResponse() {
     }
 
-    public GetKalendarResponse(String outputAccountId, String outputCalendarId) {
-        this.outputAccountId = outputAccountId;
+    public GetKalendarResponse(String outputGoogleAuthId, String outputCalendarId) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
         this.outputCalendarId = outputCalendarId;
     }
 
-    public GetKalendarResponse(String outputAccountId, String outputCalendarId, List<String> inputCalendarIds) {
-        this.outputAccountId = outputAccountId;
+    public GetKalendarResponse(String outputGoogleAuthId, String outputCalendarId, List<String> inputGoogleCalendars) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
         this.outputCalendarId = outputCalendarId;
-        this.inputCalendarIds = inputCalendarIds;
+        this.inputGoogleCalendars = inputGoogleCalendars;
     }
 
-    public String getOutputAccountId() {
-        return outputAccountId;
+    public String getOutputGoogleAuthId() {
+        return outputGoogleAuthId;
     }
 
-    public void setOutputAccountId(String outputAccountId) {
-        this.outputAccountId = outputAccountId;
+    public void setOutputGoogleAuthId(String outputGoogleAuthId) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
     }
 
     public String getOutputCalendarId() {
@@ -41,11 +41,11 @@ public class GetKalendarResponse {
         this.outputCalendarId = outputCalendarId;
     }
 
-    public List<String> getInputCalendarIds() {
-        return inputCalendarIds;
+    public List<String> getInputGoogleCalendars() {
+        return inputGoogleCalendars;
     }
 
-    public void setInputCalendarIds(List<String> inputCalendarIds) {
-        this.inputCalendarIds = inputCalendarIds;
+    public void setInputGoogleCalendars(List<String> inputGoogleCalendars) {
+        this.inputGoogleCalendars = inputGoogleCalendars;
     }
 }
