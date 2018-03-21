@@ -1,6 +1,6 @@
 package com.greenfox.kalendaryo.http.google;
 
-import com.greenfox.kalendaryo.models.GoogleCalendarsResponse;
+import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
 import com.greenfox.kalendaryo.models.event.EventsResource;
 
 import retrofit2.Call;

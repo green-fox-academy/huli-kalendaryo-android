@@ -14,7 +14,7 @@ import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.PostKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.Arrays;
 

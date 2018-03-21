@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.models.GetKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo.models;
+package com.greenfox.kalendaryo.models.responses;
 
 import java.util.List;
 

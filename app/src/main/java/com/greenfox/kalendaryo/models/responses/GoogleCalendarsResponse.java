@@ -1,4 +1,6 @@
-package com.greenfox.kalendaryo.models;
+package com.greenfox.kalendaryo.models.responses;
+
+import com.greenfox.kalendaryo.models.GoogleCalendar;
 
 import java.util.List;
 

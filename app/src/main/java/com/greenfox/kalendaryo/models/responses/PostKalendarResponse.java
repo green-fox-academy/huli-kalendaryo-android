@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo.models;
+package com.greenfox.kalendaryo.models.responses;
 
 /**
  * Created by bekob on 2018-01-17.

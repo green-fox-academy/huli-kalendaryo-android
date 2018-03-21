@@ -3,8 +3,8 @@ package com.greenfox.kalendaryo.http.backend;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.models.GetKalendarListResponse;
-import com.greenfox.kalendaryo.models.PostKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
+import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

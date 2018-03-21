@@ -16,7 +16,7 @@ import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.GoogleCalendarsResponse;
+import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
 
 import java.util.ArrayList;
 

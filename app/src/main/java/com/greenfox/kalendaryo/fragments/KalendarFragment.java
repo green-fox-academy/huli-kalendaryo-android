@@ -17,7 +17,7 @@ import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.GetKalendarListResponse;
+import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
