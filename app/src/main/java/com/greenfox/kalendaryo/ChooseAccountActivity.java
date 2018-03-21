@@ -10,25 +10,16 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
-import com.greenfox.kalendaryo.http.RetrofitClient;
-import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.event.EventResponse;
 
 import java.util.Arrays;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 
 public class ChooseAccountActivity extends AppCompatActivity {
 
     RecyclerView accountNamesView;
     KalPref kalpref;
     Button next;
-    GoogleApi googleApi;
     KalMerged kalMerged;
 
     @Override
@@ -52,9 +43,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (String calendarId : kalMerged.getInputCalendarIds()) {
-                    getEventResponse(clientToken, calendarId);
-                }
+
                 Intent i = new Intent(ChooseAccountActivity.this, AsynchActivity.class);
                 i.putExtra("list", kalMerged);
                 startActivity(i);
@@ -82,18 +71,5 @@ public class ChooseAccountActivity extends AppCompatActivity {
         accountNamesView.setAdapter(accountAdapter);
     }
 
-    private void getEventResponse(String clientToken, String calendarId) {
-        googleApi = RetrofitClient.getGoogleEvents();
-        googleApi.getEventList(clientToken, calendarId).enqueue(new Callback<EventResponse>() {
-            @Override
-            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
-                response.body();
-            }
 
-            @Override
-            public void onFailure(Call<EventResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
 }

@@ -33,6 +33,10 @@ public class EventAdapter {
         //notifyDataSetChanged();
     }
 
+    public void addEvent(GoogleEvent event) {
+        this.events.add(event);
+    }
+
     /**
     @Override
     public void onBindViewHolder(EventAdapter.ViewHolder holder, int position) {
