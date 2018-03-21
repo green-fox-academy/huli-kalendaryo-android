@@ -1,6 +1,7 @@
 package com.greenfox.kalendaryo.models;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
+import com.greenfox.kalendaryo.adapter.SharingOptionsAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,4 +45,5 @@ public class KalMerged implements Serializable,KalendarAdapter.ListChange {
     public void removeCalendar(String calendarTitle) {
         inputCalendarIds.remove(calendarTitle);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.greenfox.kalendaryo.models;
 
+import com.greenfox.kalendaryo.adapter.SharingOptionsAdapter;
+
 import java.io.Serializable;
 
 /**

@@ -17,6 +17,7 @@ import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
+import com.greenfox.kalendaryo.models.SharingOptions;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,6 @@ public class SharingOptionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sharing_options);
 
         adapter = new SharingOptionsAdapter(this, kalMerged);
-//        adapter.setListChange(kalMerged.getInputCalendarIds());
         System.out.println(adapter.getItemCount());
 
         recKal = findViewById(R.id.sharingOptionsList);
@@ -58,7 +58,7 @@ public class SharingOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SharingOptionsActivity.this, ChooseAccountActivity.class);
-                i.putExtra("list", kalMerged);
+                i.putExtra("kalMerged", kalMerged);
                 startActivity(i);
             }
         });
