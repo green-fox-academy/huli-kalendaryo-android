@@ -27,6 +27,6 @@ public class EventResponse {
     List<EventReminder> defaultReminder;
     String nextPageToken;
     String nextSyncToken;
-    List<GoogleEvent> items;
+    List<WeekViewEvent> items;
 
 }

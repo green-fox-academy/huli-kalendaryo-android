@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
+import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+import com.greenfox.kalendaryo.models.event.EventResponse;
 
 import java.util.Arrays;
 
@@ -27,8 +27,8 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
     RecyclerView accountNamesView;
     KalPref kalpref;
-    Button sendToBackend;
-    BackendApi backendApi;
+    Button next;
+    GoogleApi googleApi;
     KalMerged kalMerged;
 
     @Override
@@ -39,8 +39,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
-        sendToBackend = findViewById(R.id.sendtobackend);
-        backendApi = RetrofitClient.getBackendApi();
+        next = findViewById(R.id.gottoweekview);
 
         String clientToken = kalpref.clientToken();
 
@@ -50,36 +49,29 @@ public class ChooseAccountActivity extends AppCompatActivity {
         }
 
         kalMerged.setInputCalendarIds(Arrays.asList(array));
-        sendToBackend.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backendApi.postCalendar(clientToken, kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
-                    @Override
-                    public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
-                        MergedKalendarResponse mergedKalendarResponse = response.body();
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<MergedKalendarResponse> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-
-                Intent i = new Intent(ChooseAccountActivity.this, MainActivity.class);
+                for (String calendarId : kalMerged.getInputCalendarIds()) {
+                    getEventResponse(clientToken, calendarId);
+                }
+                Intent i = new Intent(ChooseAccountActivity.this, AsynchActivity.class);
+                i.putExtra("list", kalMerged);
                 startActivity(i);
             }
         });
 
-        accountNamesView = findViewById(R.id.accountNames);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
+
+        accountNamesView = findViewById(R.id.accountNames);
         accountNamesView.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(accountNamesView.getContext(),
                         recyclerLayoutManager.getOrientation());
         accountNamesView.addItemDecoration(dividerItemDecoration);
+
         AccountAdapter accountAdapter = new
-                AccountAdapter(kalpref.getKalAuths(),this);
+                AccountAdapter(kalpref.getKalAuths(), this);
 
         accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
             @Override
@@ -88,5 +80,20 @@ public class ChooseAccountActivity extends AppCompatActivity {
             }
         });
         accountNamesView.setAdapter(accountAdapter);
+    }
+
+    private void getEventResponse(String clientToken, String calendarId) {
+        googleApi = RetrofitClient.getGoogleEvents();
+        googleApi.getEventList(clientToken, calendarId).enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                response.body();
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }

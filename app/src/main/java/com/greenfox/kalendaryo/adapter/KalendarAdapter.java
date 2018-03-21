@@ -95,6 +95,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         }
 
     }
+
     public interface ListChange {
         void saveCalendar(String calendarTitle);
         void removeCalendar(String calderTitle);

@@ -6,6 +6,7 @@ import android.widget.CompoundButton;
 
 import com.greenfox.kalendaryo.models.event.GoogleEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +22,11 @@ public class EventAdapter {
 
     private List<GoogleEvent> events;
     private Context context;
+
+    public EventAdapter(Context context) {
+        this.context = context;
+        this.events = new ArrayList<>();
+    }
 
     public void addEvents(List<GoogleEvent> newEvents) {
         this.events.addAll(newEvents);

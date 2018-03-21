@@ -1,5 +1,6 @@
 package com.greenfox.kalendaryo;
 
+import android.annotation.SuppressLint;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.weekview);
+        setContentView(R.layout.week_view_base);
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -58,9 +59,10 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     }
 
 
+    @SuppressLint("ResourceType")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.layout.week_view_main, menu);
         return true;
     }
 
@@ -164,4 +166,3 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         return mWeekView;
     }
 }
-
