@@ -44,7 +44,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(ChooseAccountActivity.this, AsynchActivity.class);
+                Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
                 i.putExtra("list", kalMerged);
                 startActivity(i);
             }

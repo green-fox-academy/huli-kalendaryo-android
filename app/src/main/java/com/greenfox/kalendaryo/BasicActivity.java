@@ -1,5 +1,7 @@
 package com.greenfox.kalendaryo;
 
+import android.graphics.RectF;
+
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.ArrayList;
@@ -155,4 +157,22 @@ public class BasicActivity extends BaseActivity {
         return events;
     }
 
+    private String getEventTitle(Calendar startTime) {
+        return startTime.toString();
+    }
+
+    @Override
+    public void onEmptyViewLongPress(Calendar time) {
+
+    }
+
+    @Override
+    public void onEventClick(WeekViewEvent event, RectF eventRect) {
+
+    }
+
+    @Override
+    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
+    }
 }
