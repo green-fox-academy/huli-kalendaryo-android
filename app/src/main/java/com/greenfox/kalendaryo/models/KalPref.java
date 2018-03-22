@@ -9,16 +9,22 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by lica on 2018. 01. 04..
  */
 
+@Singleton
 public class KalPref {
     private SharedPreferences sharedPref;
     private ArrayList<String> accounts;
     private Gson gson = new Gson();
     static final String CLIENTTOKEN = "clienttoken";
 
+    public KalPref() {
+    }
 
     public KalPref(Context context) {
         this.sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
