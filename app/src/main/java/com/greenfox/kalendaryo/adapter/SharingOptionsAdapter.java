@@ -1,6 +1,7 @@
 package com.greenfox.kalendaryo.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,11 @@ import com.greenfox.kalendaryo.models.SharingOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 
 /**
@@ -34,6 +39,10 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
         this.context = context;
         this.kalMerged = kalMerged;
         this.inputCalendarIds = kalMerged.getInputCalendarIds();
+    }
+
+    public void removeInputCalendarIds() {
+        inputCalendarIds.clear();
     }
 
     @Override

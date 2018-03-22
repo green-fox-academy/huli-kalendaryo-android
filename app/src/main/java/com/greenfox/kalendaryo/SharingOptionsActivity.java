@@ -58,6 +58,7 @@ public class SharingOptionsActivity extends AppCompatActivity {
                 Intent i = new Intent(SharingOptionsActivity.this, ChooseAccountActivity.class);
                 i.putExtra("kalMerged", kalMerged);
                 startActivity(i);
+                adapter.removeInputCalendarIds();
             }
         });
     }
