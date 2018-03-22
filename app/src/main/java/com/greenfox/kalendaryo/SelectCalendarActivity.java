@@ -40,9 +40,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DaggerApiComponent.builder().build().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
+        DaggerApiComponent.builder().build().inject(this);
         adapter = new KalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
         kalMerged = new KalMerged();

@@ -43,9 +43,9 @@ public class KalendarFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        DaggerApiComponent.builder().build().inject(this);
         View view = inflater.inflate(R.layout.kalendarlist, container, false);
         adapter = new MergedKalendarAdapter(getActivity());
+        DaggerApiComponent.builder().build().inject(this);
         floatingActionButton = view.findViewById(R.id.choosecalendar);
         recyclerView = view.findViewById(R.id.apilistcalendars);
         recyclerView.setAdapter(adapter);

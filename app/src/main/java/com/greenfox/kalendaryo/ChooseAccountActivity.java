@@ -37,12 +37,10 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DaggerApiComponent.builder().build().inject(this);
         super.onCreate(savedInstanceState);
-
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
-
         setContentView(R.layout.activity_choose_account);
+        DaggerApiComponent.builder().build().inject(this);
+        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
         String clientToken = kalpref.clientToken();

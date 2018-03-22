@@ -47,10 +47,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DaggerApiComponent.builder().build().inject(this);
         super.onCreate(savedInstanceState);
-        kalPref = new KalPref(this.getApplicationContext());
         setContentView(R.layout.activity_login);
+        DaggerApiComponent.builder().build().inject(this);
+        kalPref = new KalPref(this.getApplicationContext());
         signIn = findViewById(R.id.bn_login);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
