@@ -37,7 +37,6 @@ public class KalendarFragment extends Fragment {
     FloatingActionButton floatingActionButton;
     private MergedKalendarAdapter adapter;
     private RecyclerView recyclerView;
-    //private BackendApi backendApi;
 
     @Inject
     BackendApi backendApi;
@@ -70,7 +69,6 @@ public class KalendarFragment extends Fragment {
     }
 
     private void getCalendarResponse(String clientToken) {
-        //backendApi = RetrofitClient.getBackendApi();
         backendApi.getCalendar(clientToken).enqueue(new Callback<MergedCalendarListResponse>() {
 
             @Override

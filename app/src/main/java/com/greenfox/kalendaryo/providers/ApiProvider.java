@@ -16,10 +16,7 @@ import retrofit2.Retrofit;
 @Module
 public class ApiProvider {
 
-    static String BASE_URL_BACKEND = BuildConfig.LOCAL_IP_ADDRESS;
-    static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
-
-   @Provides
+    @Provides
     BackendApi provideBackEndApi() {
         return RetrofitClient.getBackendApi();
     }

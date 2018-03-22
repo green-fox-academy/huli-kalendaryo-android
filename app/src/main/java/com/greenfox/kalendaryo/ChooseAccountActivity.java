@@ -12,7 +12,6 @@ import android.widget.Button;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
@@ -31,7 +30,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
     RecyclerView accountNamesView;
     KalPref kalpref;
     Button sendToBackend;
-    //BackendApi backendApi;
     KalMerged kalMerged;
 
     @Inject
@@ -39,16 +37,14 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         DaggerApiComponent.builder().build().inject(this);
+        super.onCreate(savedInstanceState);
 
         kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
 
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
-        //backendApi = RetrofitClient.getBackendApi();
-
         String clientToken = kalpref.clientToken();
 
         String[] array = new String[kalMerged.getInputCalendarIds().size()];

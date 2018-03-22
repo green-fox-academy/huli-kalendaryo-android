@@ -18,15 +18,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
-import com.greenfox.kalendaryo.components.ApiComponent;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.RetrofitClient;
-import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.providers.ApiProvider;
 import com.greenfox.kalendaryo.services.GoogleService;
 
 import javax.inject.Inject;
@@ -51,10 +47,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DaggerApiComponent.builder().build().inject(this);
         super.onCreate(savedInstanceState);
         kalPref = new KalPref(this.getApplicationContext());
         setContentView(R.layout.activity_login);
-        DaggerApiComponent.builder().build().inject(this);
         signIn = findViewById(R.id.bn_login);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +143,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            DaggerApiComponent.builder().build().inject(this);
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
@@ -175,6 +170,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void editKalPref(String email, String userName, String accessToken, String clientToken) {
         kalPref.setClienttoken(clientToken);
+
+        kalAuth = new KalAuth();
 
         kalAuth.setEmail(email);
         kalAuth.setDisplayName(userName);
