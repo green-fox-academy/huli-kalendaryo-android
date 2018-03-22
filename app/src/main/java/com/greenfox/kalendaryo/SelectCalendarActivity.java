@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
@@ -20,6 +21,8 @@ import com.greenfox.kalendaryo.models.KalendarsResponse;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,18 +30,21 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
-    private GoogleApi googleApi;
+    //private GoogleApi googleApi;
     private KalPref kalPref;
     private KalendarAdapter adapter;
     Button goToChooseAccount;
     KalMerged kalMerged;
     RecyclerView recKal;
 
+    @Inject
+    GoogleApi googleApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
-
+        DaggerApiComponent.builder().build().inject(this);
         adapter = new KalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
         kalMerged = new KalMerged();
@@ -64,7 +70,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     }
 
     public void getCalendarList() {
-        googleApi = RetrofitClient.getGoogleApi();
+        //googleApi = RetrofitClient.getGoogleApi();
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
