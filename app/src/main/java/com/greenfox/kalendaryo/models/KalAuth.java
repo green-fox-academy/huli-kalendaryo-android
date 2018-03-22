@@ -24,10 +24,8 @@ public class KalAuth {
         this.displayName = displayName;
     }
 
-    @Inject
     public KalAuth() {
     }
-
 
     public String getDisplayName() {
         return displayName;

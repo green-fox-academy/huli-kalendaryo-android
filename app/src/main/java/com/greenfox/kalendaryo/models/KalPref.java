@@ -23,7 +23,6 @@ public class KalPref {
     private Gson gson = new Gson();
     static final String CLIENTTOKEN = "clienttoken";
 
-    @Inject
     public KalPref() {
     }
 
