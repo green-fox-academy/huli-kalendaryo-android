@@ -16,7 +16,6 @@ import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
 
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +48,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
             array[j] = kalMerged.getInputCalendarIds().get(j).getId();
         }
 
-//        kalMerged.setInputCalendarIds(Arrays.asList(array));
         for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
             kalMerged.getInputCalendarIds().get(j).setId(array[j]);
         }

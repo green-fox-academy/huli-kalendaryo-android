@@ -39,11 +39,9 @@ public class SharingOptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         kalMerged = (KalMerged) getIntent().getSerializableExtra("kalMerged");
-        System.out.println("LATLAK: " +  kalMerged.getInputCalendarIds().get(0).getId());
         setContentView(R.layout.activity_sharing_options);
 
         adapter = new SharingOptionsAdapter(this, kalMerged);
-        System.out.println(adapter.getItemCount());
 
         recKal = findViewById(R.id.sharingOptionsList);
         recKal.setAdapter(adapter);

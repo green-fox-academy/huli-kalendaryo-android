@@ -19,7 +19,9 @@ public class CalendarId implements Serializable {
     }
 
     public CalendarId(String id) {
+
         this.id = id;
+        this.sharingOptions = new SharingOptions();
     }
 
     public String getId() {

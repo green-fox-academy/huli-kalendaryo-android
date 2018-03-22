@@ -16,6 +16,7 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.SharingOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -44,61 +45,27 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
     @Override
     public void onBindViewHolder(SharingOptionsAdapter.ViewHolder holder, int position) {
-        SharingOptions sharingOptions = new SharingOptions();
-        String kalendar = inputCalendarIds.get(position).getId();
 
-        holder.calendarName.setText(kalendar);
-        holder.check_title.setOnCheckedChangeListener(null);
-        holder.check_description.setOnCheckedChangeListener(null);
-        holder.check_attendants.setOnCheckedChangeListener(null);
-        holder.check_location.setOnCheckedChangeListener(null);
-        holder.check_organizer.setOnCheckedChangeListener(null);
+        CalendarId kalendar = inputCalendarIds.get(position);
+        SharingOptions sharingOptions = kalendar.getSharingOptions();
 
-        holder.check_title.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    sharingOptions.setTitle(true);
-                } else {
-                    sharingOptions.setTitle(false);
+        holder.calendarName.setText(kalendar.getId());
+
+        ArrayList<CheckBox> checkBoxes = new ArrayList(Arrays.asList(holder.check_title, holder.check_description, holder.check_attendants, holder.check_location, holder.check_organizer));
+
+        for (int i = 0; i < checkBoxes.size(); i++) {
+            int index = i;
+            checkBoxes.get(i).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b ) {
+                    if (b) {
+                        sharingOptions.setOption(checkBoxes.get(index).getText().toString());
+                    } else {
+                        sharingOptions.removeOption(checkBoxes.get(index).getText().toString());
+                    }
                 }
-                inputCalendarIds.get(holder.getAdapterPosition()).setSharingOptions(sharingOptions);
-                kalMerged.setInputCalendarIds(inputCalendarIds);
-                System.out.println("FIRST CALENDAR TITLE SHARING: " + kalMerged.getInputCalendarIds().get(0).getSharingOptions().getTitle());
-            }
-        });
-
-        holder.check_description.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                sharingOptions.setDescription(true);
-                inputCalendarIds.get(holder.getAdapterPosition()).setSharingOptions(sharingOptions);
-            }
-        });
-
-        holder.check_attendants.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                sharingOptions.setAttendants(true);
-                inputCalendarIds.get(holder.getAdapterPosition()).setSharingOptions(sharingOptions);
-            }
-        });
-
-        holder.check_location.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                sharingOptions.setLocation(true);
-                inputCalendarIds.get(holder.getAdapterPosition()).setSharingOptions(sharingOptions);
-            }
-        });
-
-        holder.check_organizer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                sharingOptions.setOrganizer(true);
-                inputCalendarIds.get(holder.getAdapterPosition()).setSharingOptions(sharingOptions);
-            }
-        });
+            });
+        }
     }
 
     @Override

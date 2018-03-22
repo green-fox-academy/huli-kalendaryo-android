@@ -16,10 +16,21 @@ public class SharingOptions implements Serializable {
     Boolean description;
 
     public SharingOptions() {
+        this.title = false;
+        this.organizer = false;
+        this.location = false;
+        this.attendants = false;
+        this.description = false;
     }
 
     public SharingOptions(String calendarName) {
+
         this.calendarName = calendarName;
+        this.title = false;
+        this.organizer = false;
+        this.location = false;
+        this.attendants = false;
+        this.description = false;
     }
 
     public SharingOptions(String calendarName, Boolean title, Boolean organizer, Boolean location, Boolean attendants, Boolean description) {
@@ -77,5 +88,33 @@ public class SharingOptions implements Serializable {
 
     public void setDescription(Boolean description) {
         this.description = description;
+    }
+
+    public void setOption(String option){
+        if (option.equals("check_title")) {
+            setTitle(true);
+        } else if (option.equals("check_attendants")) {
+            setAttendants(true);
+        } else if (option.equals("check_description")) {
+            setDescription(true);
+        } else if (option.equals("check_location")) {
+            setLocation(true);
+        } else if (option.equals("check_organizer")) {
+            setOrganizer(true);
+        }
+    }
+
+    public void removeOption(String option){
+        if (option.equals("check_title")) {
+            setTitle(false);
+        } else if (option.equals("check_attendants")) {
+            setAttendants(false);
+        } else if (option.equals("check_description")) {
+            setDescription(false);
+        } else if (option.equals("check_location")) {
+            setLocation(false);
+        } else if (option.equals("check_organizer")) {
+            setOrganizer(false);
+        }
     }
 }
