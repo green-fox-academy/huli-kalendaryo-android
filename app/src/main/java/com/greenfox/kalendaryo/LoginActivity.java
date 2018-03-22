@@ -19,11 +19,14 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.components.ApiComponent;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
+import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
+import com.greenfox.kalendaryo.providers.ApiProvider;
 import com.greenfox.kalendaryo.services.GoogleService;
 
 import javax.inject.Inject;
@@ -52,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         kalPref = new KalPref(this.getApplicationContext());
         setContentView(R.layout.activity_login);
-        ApiComponent.builder().build().inject(this);
+        DaggerApiComponent.builder().build().inject(this);
         signIn = findViewById(R.id.bn_login);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,10 +148,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void handleResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
+            DaggerApiComponent.builder().build().inject(this);
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            backendApi = RetrofitClient.getBackendApi();
+            retrofitClient.getBackendApi();
+            //backendApi = RetrofitClient.getBackendApi();
             backendApi.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {

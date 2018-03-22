@@ -4,6 +4,7 @@ import com.greenfox.kalendaryo.ChooseAccountActivity;
 import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.http.RetrofitClient;
+import com.greenfox.kalendaryo.providers.ApiProvider;
 
 import javax.inject.Singleton;
 
@@ -13,7 +14,7 @@ import dagger.Component;
  * Created by a- on 20/03/2018.
  */
 
-@Component(modules = RetrofitClient.class)
+@Component(modules = {ApiProvider.class})
 @Singleton
 public interface ApiComponent {
     void inject(LoginActivity loginActivity);

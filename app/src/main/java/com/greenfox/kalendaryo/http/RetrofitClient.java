@@ -16,7 +16,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Szilvi on 2017. 12. 21..
  */
 
-@Module
 public class RetrofitClient {
 
     private static OkHttpClient client;
@@ -24,7 +23,6 @@ public class RetrofitClient {
     static String BASE_URL_BACKEND = BuildConfig.LOCAL_IP_ADDRESS;
     static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
 
-    @Provides
     public static Retrofit getConnection(String urlType) {
         return new Retrofit.Builder()
                 .baseUrl(urlType)
@@ -33,12 +31,10 @@ public class RetrofitClient {
                 .build();
     }
 
-    @Provides
     public static BackendApi getBackendApi() {
         return getConnection(BASE_URL_BACKEND).create(BackendApi.class);
     }
 
-    @Provides
     public static GoogleApi getGoogleApi() {
         return getConnection(BASE_URL_GOOGLE).create(GoogleApi.class);
     }
