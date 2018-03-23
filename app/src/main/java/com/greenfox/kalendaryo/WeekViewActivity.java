@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.services.calendar.model.Event;
-import com.greenfox.kalendaryo.adapter.EventAdapter;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
@@ -17,7 +16,6 @@ import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
 import com.greenfox.kalendaryo.models.event.EventResponse;
-import com.greenfox.kalendaryo.models.event.GoogleEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,14 +31,12 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     private KalMerged kalMerged;
     private GoogleApi googleApi;
     private BackendApi backendApi;
-    private EventAdapter adapter;
-    private GoogleEvent event;
+    List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
 
     Button sendToBackend;
 
     public WeekViewActivity() {
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +89,7 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
                 googleApi.getEventList(authorization,calendarId).enqueue(new Callback<EventResponse>() {
                     @Override
                     public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
-                        adapter.addEvents(response.body().getItems());
+                        eventsFromGoogle.addAll(response.body().getItems());
                     }
 
                     @Override

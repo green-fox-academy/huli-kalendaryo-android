@@ -21,7 +21,6 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
-    MonthLoader.MonthChangeListener monthChangeListener;
 
 
     @Override
@@ -29,7 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.week_view_base);
         mWeekView = findViewById(R.id.weekView);
-        mWeekView.setMonthChangeListener(monthChangeListener);
+        mWeekView.setMonthChangeListener(this);
     }
 
     @Override

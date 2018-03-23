@@ -2,6 +2,7 @@ package com.greenfox.kalendaryo.models.event;
 
 import android.util.EventLogTags;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 
 import java.util.List;
@@ -27,6 +28,6 @@ public class EventResponse {
     List<EventReminder> defaultReminder;
     String nextPageToken;
     String nextSyncToken;
-    List<GoogleEvent> items;
+    List<WeekViewEvent> items;
 
 }
