@@ -18,12 +18,15 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.services.GoogleService;
+
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +35,6 @@ import static android.accounts.AccountManager.newChooseAccountIntent;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private BackendApi backendApi;
     private SignInButton signIn;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
@@ -40,11 +42,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private KalPref kalPref;
     private GoogleAuth googleAuth;
 
+    @Inject
+    BackendApi backendApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        kalPref = new KalPref(this.getApplicationContext());
         setContentView(R.layout.activity_login);
+        DaggerApiComponent.builder().build().inject(this);
+        kalPref = new KalPref(this.getApplicationContext());
         signIn = findViewById(R.id.bn_login);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,8 +146,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            backendApi = RetrofitClient.getBackendApi();
             backendApi.postAuth(kalPref.clientToken(), new GoogleAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     KalUser kalUser = response.body();

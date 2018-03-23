@@ -13,13 +13,13 @@ import com.greenfox.kalendaryo.models.KalPref;
 
 public class MainActivity extends AppCompatActivity {
 
-    private KalPref pref;
+    KalPref kalPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pref = new KalPref(this.getApplicationContext());
-        if (!pref.isUserSignedIn()) {
+        kalPref = new KalPref(this.getApplicationContext());
+        if (!kalPref.isUserSignedIn()) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

@@ -12,13 +12,15 @@ import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
-import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,18 +29,20 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
-    private GoogleApi googleApi;
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
     Button goToChooseAccount;
     Kalendar kalendar;
     RecyclerView recKal;
 
+    @Inject
+    GoogleApi googleApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
-
+        DaggerApiComponent.builder().build().inject(this);
         adapter = new GoogleCalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
         kalendar = new Kalendar();
@@ -64,7 +68,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
     }
 
     public void getCalendarList() {
-        googleApi = RetrofitClient.getGoogleApi();
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {

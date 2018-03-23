@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
-import com.greenfox.kalendaryo.http.RetrofitClient;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,12 +31,15 @@ public class KalendarFragment extends Fragment {
     FloatingActionButton floatingActionButton;
     private KalendarAdapter adapter;
     private RecyclerView recyclerView;
-    private BackendApi backendApi;
+
+    @Inject
+    BackendApi backendApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.kalendarlist, container, false);
         adapter = new KalendarAdapter(getActivity());
+        DaggerApiComponent.builder().build().inject(this);
         floatingActionButton = view.findViewById(R.id.choosecalendar);
         recyclerView = view.findViewById(R.id.apilistcalendars);
         recyclerView.setAdapter(adapter);
@@ -58,13 +63,11 @@ public class KalendarFragment extends Fragment {
     }
 
     private void getKalendarResponse(String clientToken) {
-        backendApi = RetrofitClient.getBackendApi();
         backendApi.getCalendar(clientToken).enqueue(new Callback<GetKalendarListResponse>() {
 
             @Override
             public void onResponse(Call<GetKalendarListResponse> call, Response<GetKalendarListResponse> response) {
                 adapter.addKalendarResponse(response.body().getKalendars());
-
             }
 
             @Override

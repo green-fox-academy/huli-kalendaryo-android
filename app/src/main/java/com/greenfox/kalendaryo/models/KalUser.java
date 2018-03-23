@@ -1,5 +1,8 @@
 package com.greenfox.kalendaryo.models;
 
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by Ezzo on 2017. 12. 15..
  */
@@ -13,6 +16,7 @@ public class KalUser {
 
     public KalUser() {
     }
+
 
     public KalUser(long userId, String clientToken, String userEmail, String accessToken) {
         this.userId = userId;
