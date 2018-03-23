@@ -10,14 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.models.KalAuth;
-import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 
 /**
  * Created by barba on 2018. 01. 16..
  */
 
-public class AccountsList extends ArrayAdapter<KalAuth> {
+public class AccountsList extends ArrayAdapter<GoogleAuth> {
 
     public AccountsList(@NonNull Context context) {
         super(context, 0);
@@ -31,10 +30,10 @@ public class AccountsList extends ArrayAdapter<KalAuth> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.oneaccount, parent, false);
         }
 
-        KalAuth kalAuth = getItem(position);
+        GoogleAuth googleAuth = getItem(position);
 
         TextView calendarNameView = convertView.findViewById(R.id.oneaccountname);
-        calendarNameView.setText(kalAuth.getEmail());
+        calendarNameView.setText(googleAuth.getEmail());
 
         return convertView;
     }

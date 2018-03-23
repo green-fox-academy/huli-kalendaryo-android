@@ -15,7 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.adapter.AccountsList;
-import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 
 import java.util.List;
@@ -26,7 +26,6 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     AccountsList adapter;
     KalPref kalpref;
     FloatingActionButton floatingActionButton;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,14 +45,12 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
             }
         });
 
-        List<KalAuth> auths = kalpref.getKalAuths();
+        List<GoogleAuth> auths = kalpref.getGoogleAuths();
         adapter.addAll(auths);
         return view;
     }
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 }

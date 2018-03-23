@@ -10,13 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.greenfox.kalendaryo.adapter.KalendarAdapter;
-import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
-import com.greenfox.kalendaryo.models.KalAuth;
-import com.greenfox.kalendaryo.models.KalMerged;
+import com.greenfox.kalendaryo.models.GoogleAuth;
+import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.KalendarsResponse;
+import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
 
 import java.util.ArrayList;
 
@@ -30,9 +30,9 @@ import retrofit2.Response;
 public class SelectCalendarActivity extends AppCompatActivity {
 
     private KalPref kalPref;
-    private KalendarAdapter adapter;
+    private GoogleCalendarAdapter adapter;
     Button goToChooseAccount;
-    KalMerged kalMerged;
+    Kalendar kalendar;
     RecyclerView recKal;
 
     @Inject
@@ -43,11 +43,11 @@ public class SelectCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_calendar);
         DaggerApiComponent.builder().build().inject(this);
-        adapter = new KalendarAdapter(this);
+        adapter = new GoogleCalendarAdapter(this);
         kalPref = new KalPref(this.getApplicationContext());
-        kalMerged = new KalMerged();
+        kalendar = new Kalendar();
         getCalendarList();
-        adapter.setListChange(kalMerged);
+        adapter.setListChange(kalendar);
         recKal = findViewById(R.id.listView);
         recKal.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
@@ -61,7 +61,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
-                i.putExtra("list", kalMerged);
+                i.putExtra("list", kalendar);
                 startActivity(i);
             }
         });
@@ -71,19 +71,19 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
-            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
+            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
 
-            String accessToken = kalAuth.getAccessToken();
+            String accessToken = googleAuth.getAccessToken();
             String authorization = "Bearer " + accessToken;
 
-            googleApi.getCalendarList(authorization).enqueue(new Callback<KalendarsResponse>() {
+            googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
                 @Override
-                public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
-                    adapter.addKalendars(response.body().getItems());
+                public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
+                    adapter.addGoogleCalendars(response.body().getItems());
                 }
 
                 @Override
-                public void onFailure(Call<KalendarsResponse> call, Throwable t) {
+                public void onFailure(Call<GoogleCalendarsResponse> call, Throwable t) {
                     t.printStackTrace();
                 }
             });

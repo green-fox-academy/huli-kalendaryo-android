@@ -1,11 +1,11 @@
 package com.greenfox.kalendaryo.http.backend;
 
-import com.greenfox.kalendaryo.models.KalAuth;
-import com.greenfox.kalendaryo.models.KalMerged;
+import com.greenfox.kalendaryo.models.GoogleAuth;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.models.MergedCalendarListResponse;
-import com.greenfox.kalendaryo.models.MergedCalendarResponse;
-import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
+import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ import retrofit2.Response;
 public class MockBackendApi implements BackendApi {
 
     @Override
-    public Call<KalUser> postAuth(String clientToken, KalAuth auth) {
+    public Call<KalUser> postAuth(String clientToken, GoogleAuth auth) {
         KalUser user = new KalUser(2, "sdsdfkj34231", "jimbo@jimbo.com", "56365ghgsg1223");
         ImplCall call = new ImplCall() {
             @Override
@@ -36,31 +36,31 @@ public class MockBackendApi implements BackendApi {
     }
 
     @Override
-    public Call<MergedKalendarResponse> postCalendar(String clientToken, KalMerged kalMerged) {
-        MergedKalendarResponse mergKalResponse = new MergedKalendarResponse("jimbo@jimbo.com","created");
+    public Call<PostKalendarResponse> postCalendar(String clientToken, Kalendar kalendar) {
+        PostKalendarResponse kalendarResponse = new PostKalendarResponse("jimbo@jimbo.com","created");
         ImplCall call = new ImplCall() {
             @Override
             public void enqueue(Callback callback) {
-                callback.onResponse(this, Response.success(mergKalResponse));
+                callback.onResponse(this, Response.success(kalendarResponse));
             }
         };
         return call;
     }
 
     @Override
-    public Call<MergedCalendarListResponse> getCalendar(String clientToken) {
-        MergedCalendarListResponse listResponse = new MergedCalendarListResponse();
+    public Call<GetKalendarListResponse> getCalendar(String clientToken) {
+        GetKalendarListResponse listResponse = new GetKalendarListResponse();
 
-        MergedCalendarResponse mergedCalResponse1 = new MergedCalendarResponse("elon@musk.com", "Spurs-Opal");
-        List<String> inputCalendarIds1 = new ArrayList<>(Arrays.asList("Spurs", "Opal"));
-        mergedCalResponse1.setInputCalendarIds(inputCalendarIds1);
+        GetKalendarResponse kalendarResponse1 = new GetKalendarResponse("elon@musk.com", "Spurs-Opal");
+        List<String> inputGoogleCalendars1 = new ArrayList<>(Arrays.asList("Spurs", "Opal"));
+        kalendarResponse1.setInputGoogleCalendars(inputGoogleCalendars1);
 
-        MergedCalendarResponse mergedCalResponse2 = new MergedCalendarResponse("tung@quoc.com", "Lazio-Apple");
-        List<String> inputCalendarIds2 = new ArrayList<>(Arrays.asList("Lazio", "Apple"));
-        mergedCalResponse2.setInputCalendarIds(inputCalendarIds2);
+        GetKalendarResponse kalendarResponse2 = new GetKalendarResponse("tung@quoc.com", "Lazio-Apple");
+        List<String> inputGoogleCalendars2 = new ArrayList<>(Arrays.asList("Lazio", "Apple"));
+        kalendarResponse2.setInputGoogleCalendars(inputGoogleCalendars2);
 
-        listResponse.getMergedCalendars().add(mergedCalResponse1);
-        listResponse.getMergedCalendars().add(mergedCalResponse2);
+        listResponse.getKalendars().add(kalendarResponse1);
+        listResponse.getKalendars().add(kalendarResponse2);
 
         ImplCall call = new ImplCall() {
             @Override

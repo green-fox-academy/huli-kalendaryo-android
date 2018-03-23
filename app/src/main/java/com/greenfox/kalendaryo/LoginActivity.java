@@ -20,7 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.services.GoogleService;
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
-    private KalAuth kalAuth;
+    private GoogleAuth googleAuth;
 
     @Inject
     BackendApi backendApi;
@@ -146,7 +146,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
-            backendApi.postAuth(kalPref.clientToken(), new KalAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            backendApi.postAuth(kalPref.clientToken(), new GoogleAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {
                     KalUser kalUser = response.body();
@@ -171,12 +172,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void editKalPref(String email, String userName, String accessToken, String clientToken) {
         kalPref.setClienttoken(clientToken);
 
-        kalAuth = new KalAuth();
+        googleAuth = new GoogleAuth();
 
-        kalAuth.setEmail(email);
-        kalAuth.setDisplayName(userName);
-        kalAuth.setAccessToken(accessToken);
+        googleAuth.setEmail(email);
+        googleAuth.setDisplayName(userName);
+        googleAuth.setAccessToken(accessToken);
 
-        kalPref.putAuth(kalAuth);
+        kalPref.putAuth(googleAuth);
     }
 }

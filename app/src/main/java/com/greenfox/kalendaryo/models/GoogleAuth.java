@@ -10,21 +10,20 @@ import dagger.Provides;
  * Created by Ezzo on 2017. 12. 15..
  */
 
-public class KalAuth {
+public class GoogleAuth {
 
     private String authCode;
     private String email;
     private String displayName;
     private String accessToken;
 
-
-    public KalAuth(String authCode, String email, String displayName) {
+    public GoogleAuth(String authCode, String email, String displayName) {
         this.authCode = authCode;
         this.email = email;
         this.displayName = displayName;
     }
 
-    public KalAuth() {
+    public GoogleAuth() {
     }
 
     public String getDisplayName() {
@@ -58,5 +57,4 @@ public class KalAuth {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
 }

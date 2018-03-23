@@ -12,9 +12,9 @@ import android.widget.Button;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.models.KalMerged;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.MergedKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.Arrays;
 
@@ -30,7 +30,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     RecyclerView accountNamesView;
     KalPref kalpref;
     Button sendToBackend;
-    KalMerged kalMerged;
+    Kalendar kalendar;
 
     @Inject
     BackendApi backendApi;
@@ -40,29 +40,29 @@ public class ChooseAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_account);
         DaggerApiComponent.builder().build().inject(this);
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
+        kalendar = (Kalendar) getIntent().getSerializableExtra("list");
         kalpref = new KalPref(this.getApplicationContext());
         sendToBackend = findViewById(R.id.sendtobackend);
         String clientToken = kalpref.clientToken();
 
-        String[] array = new String[kalMerged.getInputCalendarIds().size()];
-        for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
-            array[j] = kalMerged.getInputCalendarIds().get(j);
+        String[] array = new String[kalendar.getInputGoogleCalendars().size()];
+        for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {
+            array[j] = kalendar.getInputGoogleCalendars().get(j);
         }
 
-        kalMerged.setInputCalendarIds(Arrays.asList(array));
+        kalendar.setInputGoogleCalendars(Arrays.asList(array));
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backendApi.postCalendar(clientToken, kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
+                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
-                    public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
-                        MergedKalendarResponse mergedKalendarResponse = response.body();
+                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+                        PostKalendarResponse postKalendarResponse = response.body();
 
                     }
 
                     @Override
-                    public void onFailure(Call<MergedKalendarResponse> call, Throwable t) {
+                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
                         t.printStackTrace();
                     }
                 });
@@ -80,12 +80,12 @@ public class ChooseAccountActivity extends AppCompatActivity {
                         recyclerLayoutManager.getOrientation());
         accountNamesView.addItemDecoration(dividerItemDecoration);
         AccountAdapter accountAdapter = new
-                AccountAdapter(kalpref.getKalAuths(),this);
+                AccountAdapter(kalpref.getGoogleAuths(),this);
 
         accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
             @Override
             public void emailChanged(String email) {
-                kalMerged.setOutputCalendarId(email);
+                kalendar.setOutputGoogleAuthId(email);
             }
         });
         accountNamesView.setAdapter(accountAdapter);

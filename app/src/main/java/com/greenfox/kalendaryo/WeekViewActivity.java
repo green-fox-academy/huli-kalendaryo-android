@@ -24,5 +24,4 @@ public class WeekViewActivity {
                 .setApplicationName("Kalendaryo").build();
         Event event = service.events().get("primary", "eventId").execute();
     }
-
 }

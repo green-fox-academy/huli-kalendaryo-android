@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
 import com.greenfox.kalendaryo.models.KalPref;
 
-import javax.inject.Inject;
-
 public class MainActivity extends AppCompatActivity {
 
     KalPref kalPref;
