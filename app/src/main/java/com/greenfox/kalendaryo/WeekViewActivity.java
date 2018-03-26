@@ -14,6 +14,7 @@ import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.MergedKalendarResponse;
 import com.greenfox.kalendaryo.models.event.EventResponse;
 
@@ -32,7 +33,8 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     private GoogleApi googleApi;
     private BackendApi backendApi;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
-
+    List<WeekViewEvent> weekViewEvents = new ArrayList<>();
+    List<Kalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
 
     public WeekViewActivity() {
@@ -41,7 +43,6 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.week_view_base);
 
         sendToBackend = findViewById(R.id.sendtobackend);
@@ -49,6 +50,9 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
         kalPref = new KalPref(this.getApplicationContext());
 
         kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
+
+        Bundle bundle = getIntent().getExtras();
+        googleCalendars = bundle.getParcelableArrayList("googeleCalendars");
 
         getEventList();
 
@@ -84,9 +88,9 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
 
             String accessToken = kalAuth.getAccessToken();
             String authorization = "Bearer " + accessToken;
-            for (String calendarId : kalMerged.getInputCalendarIds()) {
+            for (Kalendar kalendar : googleCalendars) {
 
-                googleApi.getEventList(authorization,calendarId).enqueue(new Callback<EventResponse>() {
+                googleApi.getEventList(authorization,kalendar.getId()).enqueue(new Callback<EventResponse>() {
                     @Override
                     public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
                         eventsFromGoogle.addAll(response.body().getItems());
@@ -107,7 +111,16 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        return null;
+        for (WeekViewEvent event : eventsFromGoogle) {
+            if (eventMatches(event, newYear, newMonth)) {
+                weekViewEvents.add(event);
+            }
+        }
+        return weekViewEvents;
+    }
+
+    private boolean eventMatches(WeekViewEvent event, int year, int month) {
+        return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }
 
     @Override

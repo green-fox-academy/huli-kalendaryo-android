@@ -1,24 +1,31 @@
 package com.greenfox.kalendaryo;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.models.KalAuth;
 import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalendarsResponse;
+import com.greenfox.kalendaryo.models.event.EventResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +40,8 @@ public class SelectCalendarActivity extends AppCompatActivity {
     Button goToChooseAccount;
     KalMerged kalMerged;
     RecyclerView recKal;
+    List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
+    List<Kalendar> googleCalendars = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("googeleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
                 i.putExtra("list", kalMerged);
+                i.putExtras(bundle);
                 startActivity(i);
             }
         });
@@ -77,6 +89,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<KalendarsResponse> call, Response<KalendarsResponse> response) {
                     adapter.addKalendars(response.body().getItems());
+                    googleCalendars.addAll(response.body().getItems());
                 }
 
                 @Override

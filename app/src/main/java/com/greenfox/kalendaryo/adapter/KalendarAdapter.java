@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.models.KalMerged;
 import com.greenfox.kalendaryo.models.Kalendar;
 
 import java.util.ArrayList;
