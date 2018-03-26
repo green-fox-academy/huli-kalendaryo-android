@@ -57,7 +57,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
         goToSharingOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("FIRST CALENDAR ID: " + kalMerged.getInputCalendarIds().get(0));
                 Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
                 i.putExtra("kalMerged", kalMerged);
                 startActivity(i);
