@@ -1,7 +1,6 @@
 package com.greenfox.kalendaryo.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 
 import java.util.List;
 
@@ -21,13 +20,13 @@ import java.util.List;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
-    private List<KalAuth> auths;
+    private List<GoogleAuth> auths;
     private Context context;
     private int lastSelectedPosition = -1;
     private EmailChange emailChange;
 
 
-    public AccountAdapter(List<KalAuth> authsIn, Context ctx) {
+    public AccountAdapter(List<GoogleAuth> authsIn, Context ctx) {
         auths = authsIn;
         context = ctx;
     }
@@ -49,7 +48,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
-        KalAuth auth = auths.get(position);
+        GoogleAuth auth = auths.get(position);
         holder.accountName.setText(auth.getEmail());
         holder.radioButton.setChecked(lastSelectedPosition == position);
     }
@@ -86,4 +85,3 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         void emailChanged(String email);
     }
 }
-

@@ -11,53 +11,72 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
-import com.greenfox.kalendaryo.models.KalMerged;
+import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.inject.Inject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class ChooseAccountActivity extends AppCompatActivity {
 
     RecyclerView accountNamesView;
     KalPref kalpref;
+    List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button next;
-    KalMerged kalMerged;
-    List<Kalendar> googleCalendars = new ArrayList<>();
+    Kalendar kalendar;
+
+    @Inject
+    BackendApi backendApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
-
         setContentView(R.layout.activity_choose_account);
-
         kalpref = new KalPref(this.getApplicationContext());
         next = findViewById(R.id.gottoweekview);
 
         Bundle bundle = getIntent().getExtras();
-        googleCalendars = bundle.getParcelableArrayList("googeleCalendars");
+        googleCalendars = bundle.getParcelableArrayList("googleCalendars");
 
+        DaggerApiComponent.builder().build().inject(this);
+        kalendar = (Kalendar) getIntent().getSerializableExtra("list");
 
         String clientToken = kalpref.clientToken();
 
-        String[] array = new String[kalMerged.getInputCalendarIds().size()];
-        for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
-            array[j] = kalMerged.getInputCalendarIds().get(j);
+        String[] array = new String[kalendar.getInputGoogleCalendars().size()];
+        for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {
+            array[j] = kalendar.getInputGoogleCalendars().get(j);
         }
-
-        kalMerged.setInputCalendarIds(Arrays.asList(array));
+        kalendar.setInputGoogleCalendars(Arrays.asList(array));
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
+                    @Override
+                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+                        PostKalendarResponse postKalendarResponse = response.body();
 
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
                 Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("googeleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-                i.putExtra("list", kalMerged);
+                i.putExtra("list", kalendar);
                 i.putExtras(bundle);
                 startActivity(i);
             }
@@ -73,12 +92,12 @@ public class ChooseAccountActivity extends AppCompatActivity {
         accountNamesView.addItemDecoration(dividerItemDecoration);
 
         AccountAdapter accountAdapter = new
-                AccountAdapter(kalpref.getKalAuths(), this);
+                AccountAdapter(kalpref.getGoogleAuths(),this);
 
         accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
             @Override
             public void emailChanged(String email) {
-                kalMerged.setOutputCalendarId(email);
+                kalendar.setOutputGoogleAuthId(email);
             }
         });
         accountNamesView.setAdapter(accountAdapter);

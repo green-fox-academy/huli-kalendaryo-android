@@ -19,7 +19,6 @@ public class StaticWeekViewActivity extends AppCompatActivity implements WeekVie
         WeekView.EmptyViewLongPressListener {
 
     //From BaseActivity
-    private static final int TYPE_WEEK_VIEW = 3;
     private WeekView mWeekView;
 
 

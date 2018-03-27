@@ -6,7 +6,7 @@ import android.graphics.Color;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
-import com.greenfox.kalendaryo.models.KalAuth;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,8 +32,8 @@ public class GoogleEvent {
     private DateTime updated;
     private String summary;
     private String colorId;
-    private KalAuth creator;
-    private KalAuth organizer;
+    private GoogleAuth creator;
+    private GoogleAuth organizer;
     private EventDate start;
     private  EventDate end;
     //from alamkanak

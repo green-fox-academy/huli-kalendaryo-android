@@ -1,66 +1,49 @@
 package com.greenfox.kalendaryo.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by barba on 04/01/2018.
+ * Created by bekob on 2018-01-17.
  */
 
-public class Kalendar implements Parcelable {
+public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
 
-    String id;
-    String summary;
-
-    public Kalendar(String id, String summary) {
-        this.id = id;
-        this.summary = summary;
-    }
+    String outputGoogleAuthId;
+    List<String> inputGoogleCalendars;
 
     public Kalendar() {
+        this.inputGoogleCalendars = new ArrayList<>();
     }
 
-    public Kalendar(Parcel in) {
-        id = in.readString();
-        summary = in.readString();
+    public String getOutputGoogleAuthId() {
+        return outputGoogleAuthId;
     }
 
-    public static final Creator<Kalendar> CREATOR = new Creator<Kalendar>() {
-        @Override
-        public Kalendar createFromParcel(Parcel in) {
-            return new Kalendar(in);
-        }
-
-        @Override
-        public Kalendar[] newArray(int size) {
-            return new Kalendar[size];
-        }
-    };
-
-    public String getId() {
-        return id;
+    public void setOutputGoogleAuthId(String outputGoogleAuthId) {
+        this.outputGoogleAuthId = outputGoogleAuthId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public List<String> getInputGoogleCalendars() {
+        return inputGoogleCalendars;
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setInputGoogleCalendars(List<String> inputGoogleCalendars) {
+        this.inputGoogleCalendars = inputGoogleCalendars;
     }
 
     @Override
-    public int describeContents() {
-        return 0;
+    public void saveCalendar(String calendarTitle) {
+        inputGoogleCalendars.add(calendarTitle);
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(summary);
+    public void removeCalendar(String calendarTitle) {
+        inputGoogleCalendars.remove(calendarTitle);
     }
+
+
 }

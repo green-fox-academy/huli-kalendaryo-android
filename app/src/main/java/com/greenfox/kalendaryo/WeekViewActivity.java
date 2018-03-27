@@ -11,12 +11,12 @@ import com.google.api.services.calendar.model.Event;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
-import com.greenfox.kalendaryo.models.KalAuth;
-import com.greenfox.kalendaryo.models.KalMerged;
+import com.greenfox.kalendaryo.models.GoogleAuth;
+import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
-import com.greenfox.kalendaryo.models.MergedKalendarResponse;
 import com.greenfox.kalendaryo.models.event.EventResponse;
+import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,12 +29,12 @@ import retrofit2.Response;
 public class WeekViewActivity extends BaseActivity implements Callback<List<Event>>  {
 
     private KalPref kalPref;
-    private KalMerged kalMerged;
     private GoogleApi googleApi;
     private BackendApi backendApi;
+    Kalendar kalendar;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
     List<WeekViewEvent> weekViewEvents = new ArrayList<>();
-    List<Kalendar> googleCalendars = new ArrayList<>();
+    List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
 
     public WeekViewActivity() {
@@ -44,15 +44,11 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.week_view_base);
-
         sendToBackend = findViewById(R.id.sendtobackend);
-
         kalPref = new KalPref(this.getApplicationContext());
 
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("list");
-
         Bundle bundle = getIntent().getExtras();
-        googleCalendars = bundle.getParcelableArrayList("googeleCalendars");
+        googleCalendars = bundle.getParcelableArrayList("googleCalendars");
 
         getEventList();
 
@@ -60,20 +56,20 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
             @Override
             public void onClick(View v) {
                 backendApi = RetrofitClient.getBackendApi();
-                backendApi.postCalendar(getClientToken(), kalMerged).enqueue(new Callback<MergedKalendarResponse>() {
+                backendApi.postCalendar(getClientToken(), kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
-                    public void onResponse(Call<MergedKalendarResponse> call, Response<MergedKalendarResponse> response) {
+                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
                         response.body();
                     }
 
                     @Override
-                    public void onFailure(Call<MergedKalendarResponse> call, Throwable t) {
+                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
                         t.printStackTrace();
                     }
                 });
 
                 Intent i = new Intent(WeekViewActivity.this, MainActivity.class);
-                i.putExtra("list", kalMerged);
+                i.putExtra("list", kalendar);
                 startActivity(i);
             }
         });
@@ -84,16 +80,16 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
-            KalAuth kalAuth = kalPref.getAuth(accounts.get(i));
+            GoogleAuth auth = kalPref.getAuth(accounts.get(i));
 
-            String accessToken = kalAuth.getAccessToken();
+            String accessToken = auth.getAccessToken();
             String authorization = "Bearer " + accessToken;
-            for (Kalendar kalendar : googleCalendars) {
+            for (GoogleCalendar googleCalendar : googleCalendars) {
 
-                googleApi.getEventList(authorization,kalendar.getId()).enqueue(new Callback<EventResponse>() {
+                googleApi.getEventList(authorization,googleCalendar.getId()).enqueue(new Callback<EventResponse>() {
                     @Override
                     public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
-                        eventsFromGoogle.addAll(response.body().getItems());
+                        //eventsFromGoogle.addAll(response.body().getItems());
                     }
 
                     @Override
