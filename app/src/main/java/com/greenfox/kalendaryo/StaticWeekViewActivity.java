@@ -1,14 +1,36 @@
 package com.greenfox.kalendaryo;
 
 import android.graphics.RectF;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class BasicActivity extends BaseActivity {
+//public class StaticWeekViewActivity extends BaseActivity {
+
+public class StaticWeekViewActivity extends AppCompatActivity implements WeekView.EventClickListener,
+        MonthLoader.MonthChangeListener, WeekView.EventLongPressListener,
+        WeekView.EmptyViewLongPressListener {
+
+    //From BaseActivity
+    private static final int TYPE_WEEK_VIEW = 3;
+    private WeekView mWeekView;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.week_view_base);
+        mWeekView = findViewById(R.id.weekView);
+        mWeekView.setMonthChangeListener(this);
+    }
+    //until here
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {

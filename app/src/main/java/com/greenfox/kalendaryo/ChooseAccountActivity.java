@@ -54,7 +54,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(ChooseAccountActivity.this, BasicActivity.class);
+                Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("googeleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
                 i.putExtra("list", kalMerged);

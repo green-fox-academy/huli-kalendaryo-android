@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".SelectCalendarActivity" />
         <activity android:name=".ChooseAccountActivity" />
-        <activity android:name=".BasicActivity" />
+        <activity android:name=".StaticWeekViewActivity" />
         <activity android:name=".WeekViewActivity" />
     </application>
 
