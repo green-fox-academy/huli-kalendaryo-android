@@ -25,7 +25,7 @@ public class StaticWeekViewActivity extends AppCompatActivity implements WeekVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.week_view_static);
-        mWeekView = findViewById(R.id.week_view);
+        mWeekView = findViewById(R.id.weekview);
         mWeekView.setMonthChangeListener(this);
         Button next = findViewById(R.id.send_to_backend);
         next.setOnClickListener(new View.OnClickListener() {

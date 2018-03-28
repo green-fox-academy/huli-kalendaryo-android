@@ -13,7 +13,7 @@
         android:background="#fff">
 
         <com.alamkanak.weekview.WeekView
-            android:id="@+id/week_view"
+            android:id="@+id/weekview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:eventTextColor="@android:color/white"

@@ -43,7 +43,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
-        next = findViewById(R.id.gottoweekview);
+        next = findViewById(R.id.go_to_weekview);
 
         Bundle bundle = getIntent().getExtras();
         googleCalendars = bundle.getParcelableArrayList("googleCalendars");
