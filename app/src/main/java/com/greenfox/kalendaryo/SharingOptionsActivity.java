@@ -32,18 +32,16 @@ public class SharingOptionsActivity extends AppCompatActivity {
     private KalPref kalPref;
     private SharingOptionsAdapter adapter;
     Button goToChooseAccount;
-    KalMerged kalMerged;
-    RecyclerView recKal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("kalMerged");
+        KalMerged kalMerged = (KalMerged) getIntent().getSerializableExtra("kalMerged");
         setContentView(R.layout.activity_sharing_options);
 
         adapter = new SharingOptionsAdapter(this, kalMerged);
 
-        recKal = findViewById(R.id.sharingOptionsList);
+        RecyclerView recKal = findViewById(R.id.sharing_options_list);
         recKal.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         recKal.setLayoutManager(recyclerLayoutManager);

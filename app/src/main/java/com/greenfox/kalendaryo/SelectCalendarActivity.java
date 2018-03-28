@@ -38,6 +38,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String infoToPass = "kalMerged";
+
         setContentView(R.layout.activity_select_calendar);
 
         adapter = new KalendarAdapter(this);
@@ -58,7 +61,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
-                i.putExtra("kalMerged", kalMerged);
+                i.putExtra(infoToPass, kalMerged);
                 startActivity(i);
             }
         });

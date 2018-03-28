@@ -62,14 +62,13 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
         ArrayList<CheckBox> checkBoxes = new ArrayList(Arrays.asList(holder.check_title, holder.check_description, holder.check_attendants, holder.check_location, holder.check_organizer));
 
         for (int i = 0; i < checkBoxes.size(); i++) {
-            int index = i;
-            checkBoxes.get(index).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            checkBoxes.get(i).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b ) {
                     if (b) {
-                        sharingOptions.setOption(checkBoxes.get(index).getText().toString());
+                        sharingOptions.setOption(compoundButton.getText().toString());
                     } else {
-                        sharingOptions.removeOption(checkBoxes.get(index).getText().toString());
+                        sharingOptions.removeOption(compoundButton.getText().toString());
                     }
                 }
             });

@@ -34,7 +34,9 @@ public class ChooseAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        kalMerged = (KalMerged) getIntent().getSerializableExtra("kalMerged");
+        String infoToPass = "kalMerged";
+
+        kalMerged = (KalMerged) getIntent().getSerializableExtra(infoToPass);
 
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
