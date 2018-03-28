@@ -1,5 +1,6 @@
 package com.greenfox.kalendaryo.http;
 
+import com.greenfox.kalendaryo.BuildConfig;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 
@@ -17,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    static String BASE_URL_BACKEND = "http://10.27.6.91:8080";
+    static String BASE_URL_BACKEND = BuildConfig.LOCAL_IP_ADDRESS;
     static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
     static String BASE_URL_GOOGLE_EVENT = "https://www.googleapis.com/calendar/v3/calendars/";
 

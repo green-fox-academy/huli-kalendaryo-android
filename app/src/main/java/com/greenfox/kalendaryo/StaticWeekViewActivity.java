@@ -33,6 +33,7 @@ public class StaticWeekViewActivity extends AppCompatActivity implements WeekVie
             public void onClick(View v) {
                 Intent i = new Intent(StaticWeekViewActivity.this, MainActivity.class);
                 startActivity(i);
+                finish();
             }
         });
     }

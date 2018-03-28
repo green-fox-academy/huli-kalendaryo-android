@@ -71,6 +71,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 i.putExtra("list", kalendar);
                 i.putExtras(bundle);
                 startActivity(i);
+                finish();
             }
         });
     }

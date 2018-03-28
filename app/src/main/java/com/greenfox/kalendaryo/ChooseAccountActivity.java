@@ -75,16 +75,17 @@ public class ChooseAccountActivity extends AppCompatActivity {
                 });
                 Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("googeleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+                bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
                 i.putExtra("list", kalendar);
                 i.putExtras(bundle);
                 startActivity(i);
+                finish();
             }
         });
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
 
-        accountNamesView = findViewById(R.id.accountNames);
+        accountNamesView = findViewById(R.id.account_names);
         accountNamesView.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(accountNamesView.getContext(),
