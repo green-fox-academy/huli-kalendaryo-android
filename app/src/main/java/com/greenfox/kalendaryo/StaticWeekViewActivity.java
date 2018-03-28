@@ -18,18 +18,16 @@ public class StaticWeekViewActivity extends AppCompatActivity implements WeekVie
         MonthLoader.MonthChangeListener, WeekView.EventLongPressListener,
         WeekView.EmptyViewLongPressListener {
 
-    //From BaseActivity
     private WeekView mWeekView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.week_view_base);
-        mWeekView = findViewById(R.id.weekView);
+        setContentView(R.layout.week_view_static);
+        mWeekView = findViewById(R.id.week_view);
         mWeekView.setMonthChangeListener(this);
     }
-    //until here
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {

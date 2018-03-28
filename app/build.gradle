@@ -41,7 +41,6 @@ dependencies {
     compile('com.google.apis:google-api-services-calendar:v3-rev275-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compileOnly 'org.projectlombok:lombok:1.16.20'
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
