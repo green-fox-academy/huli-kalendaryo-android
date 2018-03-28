@@ -63,5 +63,10 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
             kalendarName = itemView.findViewById(R.id.mergedcalendarname);
             kalendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
         }
+
+    }
+    public interface ListChange {
+        void saveCalendar(String calendarTitle);
+        void removeCalendar(String calderTitle);
     }
 }

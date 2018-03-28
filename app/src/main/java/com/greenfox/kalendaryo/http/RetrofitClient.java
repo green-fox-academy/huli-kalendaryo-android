@@ -18,8 +18,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static OkHttpClient client;
-
     static String BASE_URL_BACKEND = BuildConfig.LOCAL_IP_ADDRESS;
     static String BASE_URL_GOOGLE = "https://www.googleapis.com/calendar/v3/users/me/";
     static String BASE_URL_GOOGLE_EVENT = "https://www.googleapis.com/calendar/v3/calendars/";

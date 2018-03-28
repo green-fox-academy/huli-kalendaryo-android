@@ -44,4 +44,6 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
     public void removeCalendar(String calendarTitle) {
         inputGoogleCalendars.remove(calendarTitle);
     }
+
+
 }
