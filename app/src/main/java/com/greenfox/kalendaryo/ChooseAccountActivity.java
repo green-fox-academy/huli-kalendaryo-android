@@ -49,7 +49,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         for (int j = 0; j < kalMerged.getInputCalendarIds().size(); j++) {
             array[j] = kalMerged.getInputCalendarIds().get(j).getId();
         }
-        
+
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

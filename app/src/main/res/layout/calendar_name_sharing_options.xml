@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/sharing_description"
-        android:layout_width="276dp"
-        android:layout_height="39dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/sharing_attendants"
         android:layout_alignStart="@+id/sharing_attendants"
         android:layout_below="@+id/sharing_attendants"
@@ -27,16 +27,14 @@
         android:layout_alignLeft="@+id/check_attendants"
         android:layout_alignStart="@+id/check_attendants"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="49dp"
         android:text="check_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharing_description"
         app:layout_constraintTop_toBottomOf="@+id/check_attendants" />
 
     <TextView
         android:id="@+id/sharing_attendants"
-        android:layout_width="276dp"
-        android:layout_height="39dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/sharing_location"
         android:layout_alignStart="@+id/sharing_location"
         android:layout_below="@+id/sharing_location"
@@ -54,16 +52,14 @@
         android:layout_alignLeft="@+id/check_location"
         android:layout_alignStart="@+id/check_location"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="49dp"
         android:text="check_attendants"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharing_attendants"
         app:layout_constraintTop_toBottomOf="@+id/check_location" />
 
     <TextView
         android:id="@+id/sharing_location"
-        android:layout_width="276dp"
-        android:layout_height="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/sharing_organizer"
         android:layout_alignStart="@+id/sharing_organizer"
         android:layout_below="@+id/sharing_organizer"
@@ -81,16 +77,14 @@
         android:layout_alignLeft="@+id/check_organizer"
         android:layout_alignStart="@+id/check_organizer"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="49dp"
         android:text="check_location"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharing_location"
         app:layout_constraintTop_toBottomOf="@+id/check_organizer" />
 
     <TextView
         android:id="@+id/sharing_organizer"
-        android:layout_width="281dp"
-        android:layout_height="28dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/sharing_title"
         android:layout_alignStart="@+id/sharing_title"
         android:layout_below="@+id/sharing_title"
@@ -107,23 +101,21 @@
         android:layout_alignStart="@+id/check_title"
         android:layout_below="@+id/check_title"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="43dp"
         android:text="check_organizer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharing_organizer"
         app:layout_constraintTop_toBottomOf="@+id/check_title" />
 
     <TextView
         android:id="@+id/sharing_title"
-        android:layout_width="282dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/calendarname"
         android:layout_alignStart="@+id/calendarname"
         android:layout_below="@+id/calendarname"
         android:layout_marginStart="16dp"
         android:text="title"
-        app:layout_constraintBaseline_toBaselineOf="@+id/check_title"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="60dp" />
 
     <CheckBox
         android:id="@+id/check_title"
@@ -133,11 +125,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="43dp"
         android:layout_marginTop="60dp"
         android:text="check_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sharing_title"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
