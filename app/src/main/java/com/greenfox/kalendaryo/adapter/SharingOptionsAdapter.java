@@ -54,7 +54,6 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
     @Override
     public void onBindViewHolder(SharingOptionsAdapter.ViewHolder holder, int position) {
-
         CalendarId kalendar = inputCalendarIds.get(position);
         SharingOptions sharingOptions = kalendar.getSharingOptions();
 
@@ -64,7 +63,7 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
         for (int i = 0; i < checkBoxes.size(); i++) {
             int index = i;
-            checkBoxes.get(i).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            checkBoxes.get(index).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b ) {
                     if (b) {
@@ -83,14 +82,12 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
             private TextView calendarName;
             private CheckBox check_title;
             private CheckBox check_organizer;
             private CheckBox check_location;
             private CheckBox check_attendants;
             private CheckBox check_description;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -104,5 +101,3 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
     }
 }
-
-

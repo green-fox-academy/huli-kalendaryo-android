@@ -55,4 +55,5 @@ public class CalendarId implements Serializable {
     public void setSharingOptions(SharingOptions sharingOptions) {
         this.sharingOptions = sharingOptions;
     }
+
 }
