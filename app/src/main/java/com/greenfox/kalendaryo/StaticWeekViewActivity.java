@@ -1,8 +1,11 @@
 package com.greenfox.kalendaryo;
 
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -12,14 +15,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-//public class StaticWeekViewActivity extends BaseActivity {
-
 public class StaticWeekViewActivity extends AppCompatActivity implements WeekView.EventClickListener,
         MonthLoader.MonthChangeListener, WeekView.EventLongPressListener,
         WeekView.EmptyViewLongPressListener {
 
-    private WeekView mWeekView;
-
+    WeekView mWeekView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,14 @@ public class StaticWeekViewActivity extends AppCompatActivity implements WeekVie
         setContentView(R.layout.week_view_static);
         mWeekView = findViewById(R.id.week_view);
         mWeekView.setMonthChangeListener(this);
+        Button next = findViewById(R.id.send_to_backend);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(StaticWeekViewActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -186,11 +194,9 @@ public class StaticWeekViewActivity extends AppCompatActivity implements WeekVie
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-
     }
 }
