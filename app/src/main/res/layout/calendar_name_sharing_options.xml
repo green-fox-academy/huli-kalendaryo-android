@@ -13,7 +13,7 @@
         android:layout_alignLeft="@+id/sharing_attendants"
         android:layout_alignStart="@+id/sharing_attendants"
         android:layout_below="@+id/sharing_attendants"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:text="description"
         app:layout_constraintBaseline_toBaselineOf="@+id/check_description"
         app:layout_constraintStart_toStartOf="parent" />
@@ -26,7 +26,7 @@
         android:layout_alignBottom="@+id/sharing_description"
         android:layout_alignLeft="@+id/check_attendants"
         android:layout_alignStart="@+id/check_attendants"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:text="check_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/check_attendants" />
@@ -38,7 +38,7 @@
         android:layout_alignLeft="@+id/sharing_location"
         android:layout_alignStart="@+id/sharing_location"
         android:layout_below="@+id/sharing_location"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:text="attendants"
         app:layout_constraintBaseline_toBaselineOf="@+id/check_attendants"
         app:layout_constraintStart_toStartOf="parent" />
@@ -51,7 +51,7 @@
         android:layout_alignBottom="@+id/sharing_attendants"
         android:layout_alignLeft="@+id/check_location"
         android:layout_alignStart="@+id/check_location"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:text="check_attendants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/check_location" />
@@ -63,7 +63,7 @@
         android:layout_alignLeft="@+id/sharing_organizer"
         android:layout_alignStart="@+id/sharing_organizer"
         android:layout_below="@+id/sharing_organizer"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:text="location"
         app:layout_constraintBaseline_toBaselineOf="@+id/check_location"
         app:layout_constraintStart_toStartOf="parent" />
@@ -76,7 +76,7 @@
         android:layout_alignBottom="@+id/sharing_location"
         android:layout_alignLeft="@+id/check_organizer"
         android:layout_alignStart="@+id/check_organizer"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:text="check_location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/check_organizer" />
@@ -88,7 +88,7 @@
         android:layout_alignLeft="@+id/sharing_title"
         android:layout_alignStart="@+id/sharing_title"
         android:layout_below="@+id/sharing_title"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:text="organizer"
         app:layout_constraintBaseline_toBaselineOf="@+id/check_organizer"
         app:layout_constraintStart_toStartOf="parent" />
@@ -100,7 +100,7 @@
         android:layout_alignLeft="@+id/check_title"
         android:layout_alignStart="@+id/check_title"
         android:layout_below="@+id/check_title"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:text="check_organizer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/check_title" />
@@ -112,10 +112,10 @@
         android:layout_alignLeft="@+id/calendarname"
         android:layout_alignStart="@+id/calendarname"
         android:layout_below="@+id/calendarname"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:text="title"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="60dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/check_title"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/check_title"
@@ -124,7 +124,7 @@
         android:layout_alignBottom="@+id/sharing_title"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="60dp"
         android:text="check_title"
         app:layout_constraintEnd_toEndOf="parent"
