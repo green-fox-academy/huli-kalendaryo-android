@@ -18,7 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "LOCAL_IP_ADDRESS", System.getenv("LOCAL_IP_ADDRESS")
+            buildConfigField "String", "LOCAL_IP_ADDRESS", "\"http://10.0.2.2:8080/\""
         }
     }
     compileOptions {
@@ -34,7 +34,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.google.android.gms:play-services-identity:15.0.1'
-    implementation('com.google.apis:google-api-services-calendar:v3-rev275-1.23.0')
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev275-1.23.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
