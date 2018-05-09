@@ -56,7 +56,6 @@ public class KalendarFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(getActivity(), SelectCalendarActivity.class);
                 Intent i = new Intent(getActivity() , CustomNameActivity.class);
                 startActivity(i);
             }
