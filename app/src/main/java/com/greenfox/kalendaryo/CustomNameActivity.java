@@ -10,6 +10,7 @@ import android.widget.EditText;
 public class CustomNameActivity extends AppCompatActivity {
 
     Button submitCustomName;
+    public static final String CUSTOM_NAME = "com.greenfox.kalendaryo.CUSTOM_NAME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +21,9 @@ public class CustomNameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CustomNameActivity.this, SelectCalendarActivity.class);
-                EditText enteredCustomName = (EditText) findViewById(R.id.enterCustomName);
+                EditText enteredCustomName = (EditText) findViewById(R.id.customName);
                 String customName = enteredCustomName.getText().toString();
-                i.putExtra("customName", customName);
+                i.putExtra(CUSTOM_NAME, customName);
                 startActivity(i);
             }
         });

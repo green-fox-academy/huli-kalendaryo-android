@@ -6,14 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".CustomNameActivity">
 
+    <TextView
+        android:id="@+id/customNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:text="@string/name_your_kalendar"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/optionalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/optional"
+        app:layout_constraintBottom_toTopOf="@+id/customName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customNameLabel"
+        app:layout_constraintVertical_bias="0.0" />
+
     <EditText
-        android:id="@+id/enterCustomName"
+        android:id="@+id/customName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="40dp"
         android:ems="10"
-        android:hint="Enter kalendar name"
+        android:hint="@string/enter_kalendar_name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,10 +51,10 @@
         android:id="@+id/submitCustomName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="236dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/holo_orange_light"
-        android:text="Submit"
+        android:text="@string/submit"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,14 +62,6 @@
         app:layout_constraintTop_toBottomOf="@+id/enterCustomName"
         app:layout_constraintVertical_bias="0.115" />
 
-    <TextView
-        android:id="@+id/customNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:text="Name your kalendar"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

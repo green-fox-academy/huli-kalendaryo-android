@@ -7,4 +7,8 @@
     <string name="title_activity_basic">Basic Example</string>
     <string name="title_activity_asynchronous">Asynchronous Events</string>
     <string name="async_error">Could not download events from the internet</string>
+    <string name="enter_kalendar_name">Enter kalendar name</string>
+    <string name="submit">Submit</string>
+    <string name="name_your_kalendar">Name your kalendar</string>
+    <string name="optional">(optional)</string>
 </resources>
