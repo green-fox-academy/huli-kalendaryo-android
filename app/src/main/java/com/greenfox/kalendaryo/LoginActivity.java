@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
     private GoogleAuth googleAuth;
+    private ProgressBar pgsBar;   //Zita
 
     @Inject
     BackendApi backendApi;
@@ -55,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pgsBar = (ProgressBar)findViewById(R.id.pBar);  //ZIta
+                pgsBar.setVisibility(view.VISIBLE);             //Zita
                 buildGoogleApiClient(false);
             }
         });
@@ -63,6 +67,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             buildGoogleApiClient(true);
         }
     }
+
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
