@@ -18,7 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "LOCAL_IP_ADDRESS", System.getenv("LOCAL_IP_ADDRESS")
+
         }
     }
     compileOptions {
