@@ -14,10 +14,6 @@ import com.greenfox.kalendaryo.models.GoogleAuth;
 
 import java.util.List;
 
-/**
- * Created by barba on 2018. 01. 08..
- */
-
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
     private List<GoogleAuth> auths;
@@ -72,7 +68,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 notifyDataSetChanged();
 
                 if (emailChange != null) {
-                   emailChange.emailChanged((String) accountName.getText());
+                    emailChange.emailChanged((String) accountName.getText());
                 }
 
                 Toast.makeText(AccountAdapter.this.context, accountName.getText(),
