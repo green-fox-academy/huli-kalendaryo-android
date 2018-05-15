@@ -53,17 +53,22 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         return getKalendarResponses.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView kalendarName;
         private TextView kalendarDescription;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             kalendarName = itemView.findViewById(R.id.mergedcalendarname);
             kalendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
         }
 
+        @Override
+        public void onClick(View view) {
+
+        }
     }
     public interface ListChange {
         void saveCalendar(String calendarTitle);
