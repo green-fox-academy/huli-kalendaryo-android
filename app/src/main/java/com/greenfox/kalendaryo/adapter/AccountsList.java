@@ -16,7 +16,7 @@ import com.greenfox.kalendaryo.models.GoogleAuth;
  * Created by barba on 2018. 01. 16..
  */
 
-public class AccountsList extends ArrayAdapter<GoogleAuth> {
+/*public class AccountsList extends ArrayAdapter<GoogleAuth> {
 
     public AccountsList(@NonNull Context context) {
         super(context, 0);
@@ -39,4 +39,4 @@ public class AccountsList extends ArrayAdapter<GoogleAuth> {
     }
 }
 
-
+*/

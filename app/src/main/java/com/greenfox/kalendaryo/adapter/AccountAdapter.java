@@ -12,11 +12,12 @@ import android.widget.Toast;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
-    private List<GoogleAuth> auths;
+    private List<GoogleAuth> auths = new ArrayList<>();
     private Context context;
     private int lastSelectedPosition = -1;
     private EmailChange emailChange;
@@ -27,6 +28,10 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         context = ctx;
     }
 
+    public AccountAdapter(Context context) {
+        this.context = context;
+    }
+
     public EmailChange getEmailChange() {
         return emailChange;
     }
@@ -35,19 +40,26 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.emailChange = emailChange;
     }
 
+    public void addAll(List<GoogleAuth> auth){
+        auths.addAll(auth);
+    }
+
     @Override
     public AccountAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
+
         AccountAdapter.ViewHolder viewHolder = new AccountAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
-        GoogleAuth auth = auths.get(position);
-        holder.accountName.setText(auth.getEmail());
-        holder.radioButton.setChecked(lastSelectedPosition == position);
+          GoogleAuth auth = auths.get(position);
+          holder.accountName.setText(auth.getEmail());
+          holder.radioButton.setChecked(lastSelectedPosition == position);
     }
+
+
 
     @Override
     public int getItemCount() {
