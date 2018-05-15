@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
     private GoogleAuth googleAuth;
-    private ProgressBar pgsBar;   //Zita
+    private ProgressBar pgsBar;
 
     @Inject
     BackendApi backendApi;
@@ -57,8 +57,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pgsBar = (ProgressBar)findViewById(R.id.pBar);  //ZIta
-                pgsBar.setVisibility(view.VISIBLE);             //Zita
+                pgsBar = (ProgressBar)findViewById(R.id.pBar);
+                pgsBar.setVisibility(view.VISIBLE);
                 buildGoogleApiClient(false);
             }
         });
@@ -67,8 +67,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             buildGoogleApiClient(true);
         }
     }
-
-
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -82,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         .requestIdToken(CLIENT_ID)
                         .requestServerAuthCode(CLIENT_ID)
                         .build();
-        if(!addAnother){
+        if(!addAnother) {
                     GoogleService.init(new GoogleApiClient
                             .Builder(this)
                             .enableAutoManage(this, this)
@@ -164,6 +162,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
                     signIn.putExtra("googleAccountName", userEmail);
                     startActivity(signIn);
+                    pgsBar = (ProgressBar)findViewById(R.id.pBar);
+                    pgsBar.setVisibility(View.GONE);
                 }
 
                 @Override
