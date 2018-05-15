@@ -60,10 +60,6 @@ public class KalendarFragment extends Fragment {
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
-            public void onClick(View view1, final int position) {
-                Toast.makeText(getContext(), "Single click on: " + position, Toast.LENGTH_LONG).show();
-            }
-            @Override
             public void onLongClick(View view, int position) {
                 Toast.makeText(getContext(), "Long press on pos: " +position,Toast.LENGTH_LONG).show();
             }
@@ -96,7 +92,6 @@ public class KalendarFragment extends Fragment {
     }
 
     public static interface ClickListener{
-        public void onClick(View view,int position);
         public void onLongClick(View view,int position);
     }
 
@@ -109,10 +104,6 @@ public class KalendarFragment extends Fragment {
                                      final ClickListener clickListener){
             this.clickListener = clickListener;
             gestureDetector = new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
                @Override
                public void onLongPress(MotionEvent event){
                    View child = recyclerView.findChildViewUnder(event.getX(),event.getY());
@@ -121,26 +112,23 @@ public class KalendarFragment extends Fragment {
                    }
                }
             });
-
         }
 
         @Override
         public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
             View child=rv.findChildViewUnder(e.getX(),e.getY());
             if(child!=null && clickListener!=null && gestureDetector.onTouchEvent(e)){
-                clickListener.onClick(child,rv.getChildAdapterPosition(child));
+                clickListener.onLongClick(child,rv.getChildAdapterPosition(child));
             }
             return false;
         }
 
         @Override
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
         }
 
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
         }
     }
 
