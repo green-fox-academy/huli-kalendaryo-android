@@ -1,8 +1,12 @@
 package com.greenfox.kalendaryo.fragments;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.DialogPreference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -24,6 +28,9 @@ import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
+import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -47,13 +54,18 @@ public class KalendarFragment extends Fragment {
         adapter = new KalendarAdapter(getActivity());
         DaggerApiComponent.builder().build().inject(this);
         floatingActionButton = view.findViewById(R.id.choosecalendar);
+
         recyclerView = view.findViewById(R.id.apilistcalendars);
         recyclerView.setAdapter(adapter);
+
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+
         recyclerView.setLayoutManager(recyclerLayoutManager);
+
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(recyclerView.getContext(),
                         recyclerLayoutManager.getOrientation());
+
         recyclerView.addItemDecoration(dividerItemDecoration);
         kalPref = new KalPref(this.getContext());
         getKalendarResponse(kalPref.clientToken());
@@ -61,10 +73,33 @@ public class KalendarFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(getContext(), "Long press on pos: " +position,Toast.LENGTH_LONG).show();
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                alert.setTitle("Hey mate!");
+                alert.setMessage("You sure wanna delete, yo?");
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String clientToken = kalPref.clientToken();
+
+                        List<GetKalendarResponse> kalendarList = adapter.getGetKalendarResponses();
+                        GetKalendarResponse kalendarToDelete = kalendarList.get(position);
+                        long deleteId = kalendarToDelete.getId();
+
+                        backendApi.deleteKalendar(clientToken, deleteId );
+
+                        adapter.removeAt(position);
+                        dialog.dismiss();
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
             }
         }));
-
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,5 +166,4 @@ public class KalendarFragment extends Fragment {
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
         }
     }
-
 }

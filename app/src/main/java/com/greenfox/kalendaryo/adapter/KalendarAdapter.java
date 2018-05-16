@@ -30,6 +30,11 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         this.getKalendarResponses = getKalendarResponses;
         notifyDataSetChanged();
     }
+
+    public List<GetKalendarResponse> getGetKalendarResponses() {
+        return getKalendarResponses;
+    }
+
     public void addKalendarResponse(List<GetKalendarResponse> newGetKalendarResponses) {
         this.getKalendarResponses.addAll(newGetKalendarResponses);
         notifyDataSetChanged();
@@ -67,11 +72,16 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-
         }
     }
     public interface ListChange {
         void saveCalendar(String calendarTitle);
         void removeCalendar(String calderTitle);
+    }
+
+    public void removeAt(int position) {
+        getKalendarResponses.remove(position);
+        notifyItemRemoved(position);
+        notifyItemChanged(0,getKalendarResponses.size());
     }
 }
