@@ -46,14 +46,19 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public AccountAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
-
+      View view;
+      // if () {
+           view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
+      /* } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listaccounts, parent, false);
+       }*/
         AccountAdapter.ViewHolder viewHolder = new AccountAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
+
           GoogleAuth auth = auths.get(position);
           holder.accountName.setText(auth.getEmail());
           holder.radioButton.setChecked(lastSelectedPosition == position);

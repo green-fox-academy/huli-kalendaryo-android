@@ -48,14 +48,11 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
                         recyclerLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         kalPref = new KalPref(this.getContext());
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                i.putExtra("ifNewAccChoosen", true);
-                startActivity(i);
-            }
+        floatingActionButton = view.findViewById(R.id.addNewAccount);
+        floatingActionButton.setOnClickListener(v -> {
+            Intent i = new Intent(getActivity(), LoginActivity.class);
+            i.putExtra("ifNewAccChoosen", true);
+            startActivity(i);
         });
         List<GoogleAuth> auths = kalPref.getGoogleAuths();
         accountAdapter.addAll(auths);
