@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+
 import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
@@ -39,6 +41,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     RecyclerView recKal;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
+    private ProgressBar progressBar;
 
     @Inject
     GoogleApi googleApi;
@@ -65,6 +68,8 @@ public class SelectCalendarActivity extends AppCompatActivity {
         goToChooseAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
