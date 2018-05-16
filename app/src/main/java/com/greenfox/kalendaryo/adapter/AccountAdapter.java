@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,4 +85,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public interface EmailChange {
         void emailChanged(String email);
     }
+
+    /*public void removeAccount(int position) {
+        auths.remove(position);
+        notifyItemRemoved(position);
+    }*/
 }
