@@ -1,6 +1,8 @@
 package com.greenfox.kalendaryo.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -61,14 +63,40 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
             @Override
             public void onClick(View view, final int position) {
                 //Values are passing to activity & to fragment as well
-                Toast.makeText(getActivity(), "Single Click on position        :"+position,
+                Toast.makeText(getActivity(), "Single Click on position :"+position,
                         Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                Toast.makeText(getActivity(), "Long press on position :"+position,
-                        Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getActivity(), "Long press on position :"+position,
+                        Toast.LENGTH_LONG).show();*/
+                //accountAdapter.removeAccount(position);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(
+                        getActivity());
+                alert.setTitle("Warning!");
+                alert.setMessage("Are you sure to delete account?");
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do your work here
+                        accountAdapter.removeAccount(position);
+                        dialog.dismiss();
+
+                    }
+                });
+                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
             }
         }));
 

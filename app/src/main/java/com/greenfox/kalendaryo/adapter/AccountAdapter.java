@@ -86,8 +86,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         void emailChanged(String email);
     }
 
-    /*public void removeAccount(int position) {
+    public void removeAccount(int position) {
         auths.remove(position);
         notifyItemRemoved(position);
-    }*/
+        notifyItemRangeChanged(0, auths.size());
+    }
 }
