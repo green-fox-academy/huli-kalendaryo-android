@@ -37,7 +37,7 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listaccounts, container, false);
-        accountAdapter = new AccountAdapter(getActivity());
+        accountAdapter = new AccountAdapter(getActivity(),false);
         floatingActionButton = view.findViewById(R.id.addNewAccount);
         recyclerView = view.findViewById(R.id.accountsRecycleView);
         recyclerView.setAdapter(accountAdapter);

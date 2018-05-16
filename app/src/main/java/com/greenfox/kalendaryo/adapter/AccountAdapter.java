@@ -21,15 +21,18 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     private Context context;
     private int lastSelectedPosition = -1;
     private EmailChange emailChange;
+    private boolean clickable;
 
 
-    public AccountAdapter(List<GoogleAuth> authsIn, Context ctx) {
+    public AccountAdapter(List<GoogleAuth> authsIn, Context ctx, boolean clickable) {
         auths = authsIn;
         context = ctx;
+        this.clickable = clickable;
     }
 
-    public AccountAdapter(Context context) {
+    public AccountAdapter(Context context, boolean clickable) {
         this.context = context;
+        this.clickable = clickable;
     }
 
     public EmailChange getEmailChange() {
@@ -40,30 +43,34 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.emailChange = emailChange;
     }
 
-    public void addAll(List<GoogleAuth> auth){
+    public void addAll(List<GoogleAuth> auth) {
         auths.addAll(auth);
     }
 
     @Override
     public AccountAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      View view;
-      // if () {
-           view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
-      /* } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listaccounts, parent, false);
-       }*/
+        View view;
+
+        if (clickable) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.oneaccount, parent, false);
+        }
         AccountAdapter.ViewHolder viewHolder = new AccountAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
-
-          GoogleAuth auth = auths.get(position);
-          holder.accountName.setText(auth.getEmail());
-          holder.radioButton.setChecked(lastSelectedPosition == position);
+        if (clickable) {
+            GoogleAuth auth = auths.get(position);
+            holder.accountName.setText(auth.getEmail());
+            holder.radioButton.setChecked(lastSelectedPosition == position);
+        } else {
+            GoogleAuth auth = auths.get(position);
+            holder.oneaccountname.setText(auth.getEmail());
+        }
     }
-
 
 
     @Override
@@ -74,23 +81,28 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView accountName;
+        public TextView oneaccountname;
         public RadioButton radioButton;
 
         public ViewHolder(View view) {
             super(view);
-            accountName = view.findViewById(R.id.accountname);
-            radioButton = view.findViewById(R.id.radioButton);
-            radioButton.setOnClickListener(v -> {
-                lastSelectedPosition = getAdapterPosition();
-                notifyDataSetChanged();
+            if (clickable) {
+                accountName = view.findViewById(R.id.accountname);
+                radioButton = (RadioButton) view.findViewById(R.id.radioButton);
+                radioButton.setOnClickListener(v -> {
+                    lastSelectedPosition = getAdapterPosition();
+                    notifyDataSetChanged();
 
-                if (emailChange != null) {
-                    emailChange.emailChanged((String) accountName.getText());
-                }
+                    if (emailChange != null) {
+                        emailChange.emailChanged((String) accountName.getText());
+                    }
 
-                Toast.makeText(AccountAdapter.this.context, accountName.getText(),
-                        Toast.LENGTH_LONG).show();
-            });
+                    Toast.makeText(AccountAdapter.this.context, accountName.getText(),
+                            Toast.LENGTH_LONG).show();
+                });
+            } else {
+                oneaccountname = view.findViewById(R.id.oneaccountname);
+            }
         }
     }
 
