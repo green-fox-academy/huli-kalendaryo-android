@@ -29,6 +29,7 @@ import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.List;
 
@@ -85,7 +86,17 @@ public class KalendarFragment extends Fragment {
                         GetKalendarResponse kalendarToDelete = kalendarList.get(position);
                         long deleteId = kalendarToDelete.getId();
 
-                        backendApi.deleteKalendar(clientToken, deleteId );
+                        backendApi.deleteKalendar(clientToken, deleteId).enqueue(new Callback<PostKalendarResponse>() {
+                            @Override
+                            public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+                                PostKalendarResponse postKalendarResponse = response.body();
+                            }
+
+                            @Override
+                            public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
 
                         adapter.removeAt(position);
                         dialog.dismiss();

@@ -28,8 +28,8 @@ public interface BackendApi {
     @GET("calendar")
     Call<GetKalendarListResponse> getCalendar(@Header("X-Client-Token") String clientToken);
 
-    @DELETE("/{id}/deletecalendar")
-    Call<String> deleteKalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
+    @DELETE("{id}/deletecalendar")
+    Call<PostKalendarResponse> deleteKalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 
 
 }
