@@ -1,12 +1,10 @@
 package com.greenfox.kalendaryo.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.DialogPreference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -17,10 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.greenfox.kalendaryo.MainActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
@@ -71,6 +66,25 @@ public class KalendarFragment extends Fragment {
         kalPref = new KalPref(this.getContext());
         getKalendarResponse(kalPref.clientToken());
 
+/*
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onLongClick(View view, int position) {
@@ -82,7 +96,7 @@ public class KalendarFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String clientToken = kalPref.clientToken();
 
-                        List<GetKalendarResponse> kalendarList = adapter.getGetKalendarResponses();
+                        List<GetKalendarResponse> kalendarList = adapter.getKalendarResponses();
                         GetKalendarResponse kalendarToDelete = kalendarList.get(position);
                         long deleteId = kalendarToDelete.getId();
 
@@ -110,7 +124,7 @@ public class KalendarFragment extends Fragment {
                 });
                 alert.show();
             }
-        }));
+        }));*/
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +151,7 @@ public class KalendarFragment extends Fragment {
         });
     }
 
-    public static interface ClickListener{
+/*    public static interface ClickListener{
         public void onLongClick(View view,int position);
     }
 
@@ -176,5 +190,5 @@ public class KalendarFragment extends Fragment {
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
         }
-    }
+    }*/
 }
