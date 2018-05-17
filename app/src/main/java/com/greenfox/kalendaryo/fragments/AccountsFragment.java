@@ -23,10 +23,19 @@ import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.adapter.AccountsList;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.models.responses.AuthResponse;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountsFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -36,6 +45,9 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     FloatingActionButton floatingActionButton;
     RecyclerView recyclerView;
 
+    @Inject
+    BackendApi backendApi;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -43,6 +55,7 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
         kalpref = new KalPref(getActivity());
         List<GoogleAuth> auths = kalpref.getGoogleAuths();
         adapter = new AccountsList(view.getContext());
+        DaggerApiComponent.builder().build().inject(this);
         accountAdapter = new AccountAdapter(auths, getActivity());
         recyclerView = view.findViewById(R.id.accountRecyclerView);
         recyclerView.setAdapter(accountAdapter);
@@ -156,5 +169,19 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
+    }
+
+    public void getAuthResponse(String clientToken) {
+        backendApi.getAuth(clientToken).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+
+            }
+        });
     }
 }
