@@ -85,17 +85,17 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
                         kalPref = new KalPref(view.getContext());
                         String clientToken = kalPref.clientToken();
 
-                        backendApi.deleteKalendar(clientToken, deleteId).enqueue(new Callback<PostKalendarResponse>() {
+                        backendApi.deleteKalendar(clientToken, deleteId).enqueue(new Callback<Void>() {
 
                             @Override
-                            public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+                            public void onResponse(Call<Void> call, Response<Void> response) {
                                 removeAt(position);
                                 Toast.makeText(view.getContext(), "Kalendar deleted successfully",
                                     Toast.LENGTH_LONG).show();
                             }
 
                             @Override
-                            public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
+                            public void onFailure(Call<Void> call, Throwable t) {
                                 t.printStackTrace();
                                 Toast.makeText(view.getContext(),"Ooops, couldn't delete the kalendar",
                                     Toast.LENGTH_LONG).show();
