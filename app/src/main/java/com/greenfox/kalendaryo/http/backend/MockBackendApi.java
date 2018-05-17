@@ -3,6 +3,7 @@ package com.greenfox.kalendaryo.http.backend;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
+import com.greenfox.kalendaryo.models.responses.AuthResponse;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
@@ -33,6 +34,11 @@ public class MockBackendApi implements BackendApi {
             }
         };
         return call;
+    }
+
+    @Override
+    public Call<AuthResponse> getAuth(String clientToken) {
+        return null;
     }
 
     @Override

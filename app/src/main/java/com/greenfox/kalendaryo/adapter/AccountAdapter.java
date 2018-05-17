@@ -1,6 +1,8 @@
 package com.greenfox.kalendaryo.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +51,34 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                alert.setTitle("Warning!");
+                alert.setMessage("Are you sure to delete account?");
+                alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do your work here
+                        removeAccount(position);
+                        dialog.dismiss();
+
+                    }
+                });
+                alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+            }
+        });
         GoogleAuth auth = auths.get(position);
         holder.accountName.setText(auth.getEmail());
         holder.radioButton.setChecked(lastSelectedPosition == position);
@@ -89,6 +119,5 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public void removeAccount(int position) {
         auths.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(0, auths.size());
     }
 }
