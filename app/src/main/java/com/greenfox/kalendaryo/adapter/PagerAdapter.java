@@ -24,11 +24,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                KalendarFragment tab1 = new KalendarFragment();
-                return tab1;
+                return new KalendarFragment();
             case 1:
-                AccountsFragment tab2 = new AccountsFragment();
-                return tab2;
+                return new AccountsFragment();
             default:
                 return null;
         }
