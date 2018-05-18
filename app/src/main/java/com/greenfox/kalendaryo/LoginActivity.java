@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
     private GoogleAuth googleAuth;
-    private ProgressBar pgsBar;
+    private ProgressBar progressBar;
 
     @Inject
     BackendApi backendApi;
@@ -57,8 +57,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pgsBar = (ProgressBar)findViewById(R.id.pBar);
-                pgsBar.setVisibility(view.VISIBLE);
+                progressBar = (ProgressBar)findViewById(R.id.progressBar);
+                progressBar.setVisibility(view.VISIBLE);
                 buildGoogleApiClient(false);
             }
         });
@@ -73,6 +73,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
     private void buildGoogleApiClient(boolean addAnother) {
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                         .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
@@ -162,8 +164,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     Intent signIn = new Intent(LoginActivity.this, MainActivity.class);
                     signIn.putExtra("googleAccountName", userEmail);
                     startActivity(signIn);
-                    pgsBar = (ProgressBar)findViewById(R.id.pBar);
-                    pgsBar.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -185,5 +185,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         googleAuth.setAccessToken(accessToken);
 
         kalPref.putAuth(googleAuth);
+    }
+
+    public void onStop() {
+        super.onStop();
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
     }
 }

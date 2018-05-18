@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
@@ -31,12 +32,14 @@ public class KalendarFragment extends Fragment {
     FloatingActionButton floatingActionButton;
     private KalendarAdapter adapter;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
     @Inject
     BackendApi backendApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.kalendarlist, container, false);
         adapter = new KalendarAdapter(getActivity());
         DaggerApiComponent.builder().build().inject(this);
@@ -55,6 +58,8 @@ public class KalendarFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 Intent i = new Intent(getActivity(), SelectCalendarActivity.class);
                 startActivity(i);
             }
@@ -75,5 +80,10 @@ public class KalendarFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+    }
+
+    public void onStop() {
+
+        super.onStop();
     }
 }
