@@ -72,14 +72,11 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deletePopUpWindow(view, position);
+                popUpWindow(view, position);
             }
         });
-
-        GetKalendarResponse getKalendarResponse = kalendarResponses.get(position);
-        holder.kalendarDescription.setText(getKalendarResponse.getOutputCalendarId());
-        holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
-    }
+        kalendarSetText(holder, position);
+        }
 
     @Override
     public int getItemCount() {
@@ -91,52 +88,63 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         notifyItemRemoved(position);
     }
 
-    public void deletePopUpWindow(View view, int position){
-      AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-                alert.setTitle("Delete Kalendar");
-                alert.setMessage("Are you sure to delete the kalendar?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    public void kalendarSetText(KalendarAdapter.ViewHolder holder, int position){
+        GetKalendarResponse getKalendarResponse = kalendarResponses.get(position);
+        holder.kalendarDescription.setText(getKalendarResponse.getOutputCalendarId());
+        holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
+    }
+
+    public void popUpWindow(View view, int position){
+        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+        alert.setTitle("Delete Kalendar");
+        alert.setMessage("Are you sure to delete the kalendar?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                kalPref = new KalPref(view.getContext());
+                String clientToken = kalPref.clientToken();
+
+                backendApi.deleteKalendar(clientToken, kalendarIdToDelete(position)).enqueue(new Callback<Void>() {
+
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        List<GetKalendarResponse> kalendarList = getKalendarResponses();
-                        GetKalendarResponse kalendarToDelete = kalendarList.get(position);
-                        long deleteId = kalendarToDelete.getId();
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        removeAt(position);
+                        toastMessage(view,"Kalendar deleted successfully");
+                    }
 
-                        kalPref = new KalPref(view.getContext());
-                        String clientToken = kalPref.clientToken();
-
-                        backendApi.deleteKalendar(clientToken, deleteId).enqueue(new Callback<Void>() {
-
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                removeAt(position);
-                                Toast.makeText(view.getContext(), "Kalendar deleted successfully",
-                                    Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                t.printStackTrace();
-                                Toast.makeText(view.getContext(),"Ooops, couldn't delete the kalendar",
-                                    Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        dialogInterface.dismiss();
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        t.printStackTrace();
+                        toastMessage(view, "Ooops, couldn't delete the kalendar");
                     }
                 });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                alert.show();
+                dialogInterface.dismiss();
             }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        alert.show();
+    }
+
+    public long kalendarIdToDelete (int position){
+        List<GetKalendarResponse> kalendarList = getKalendarResponses();
+        GetKalendarResponse kalendarToDelete = kalendarList.get(position);
+        long deleteId = kalendarToDelete.getId();
+        return deleteId;
+    }
+
+    public void toastMessage(View view, String input){
+        Toast.makeText(view.getContext(),input,
+        Toast.LENGTH_LONG).show();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView kalendarName;
-
         private TextView kalendarDescription;
 
         public ViewHolder(View itemView) {
