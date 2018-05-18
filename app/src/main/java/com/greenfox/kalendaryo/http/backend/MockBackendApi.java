@@ -37,7 +37,12 @@ public class MockBackendApi implements BackendApi {
     }
 
     @Override
-    public Call<AuthResponse> getAuth(String clientToken) {
+    public Call<AuthResponse> getAccount(String clientToken) {
+        return null;
+    }
+
+    @Override
+    public Call<Void> deleteAccount(String clientToken, String email) {
         return null;
     }
 

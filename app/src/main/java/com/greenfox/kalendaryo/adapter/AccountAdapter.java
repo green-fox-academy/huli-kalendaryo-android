@@ -11,11 +11,21 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.greenfox.kalendaryo.R;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
+import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.models.responses.AuthResponse;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by barba on 2018. 01. 08..
@@ -27,11 +37,16 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     private Context context;
     private int lastSelectedPosition = -1;
     private EmailChange emailChange;
+    private KalPref kalPref;
 
+    @Inject
+    BackendApi backendApi;
 
     public AccountAdapter(List<GoogleAuth> authsIn, Context ctx) {
         auths = authsIn;
         context = ctx;
+        kalPref = new KalPref(context);
+        DaggerApiComponent.builder().build().inject(this);
     }
 
     public EmailChange getEmailChange() {
@@ -61,10 +76,23 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //do your work here
-                        removeAccount(position);
-                        dialog.dismiss();
 
+                        String clientToken = kalPref.clientToken();
+                        String email = auths.get(position).getEmail();
+
+                        backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                removeAccount(position);
+                                Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(view.getContext(),"Couldn't delete kalendar, please try again", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        dialog.dismiss();
                     }
                 });
                 alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
