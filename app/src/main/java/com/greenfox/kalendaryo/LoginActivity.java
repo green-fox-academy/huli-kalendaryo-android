@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,6 +31,7 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import static android.accounts.AccountManager.newChooseAccountIntent;
 
 
@@ -59,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
         // By default it is false, because this is way
-        if(getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
+        if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
             buildGoogleApiClient(true);
         }
     }
@@ -68,40 +70,41 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
     private void buildGoogleApiClient(boolean addAnother) {
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
-                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
-                        .requestEmail()
-                        .requestIdToken(CLIENT_ID)
-                        .requestServerAuthCode(CLIENT_ID)
-                        .build();
-        if(!addAnother){
-                    GoogleService.init(new GoogleApiClient
-                            .Builder(this)
-                            .enableAutoManage(this, this)
-                            .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                            .build());
-                    signIn();
-                } else {
-                    GoogleService.getGoogleApiClient().connect();
-                    GoogleService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                        @Override
-                        public void onConnected(@Nullable Bundle bundle) {
-                            if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
-                                Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
-                                    if (status.isSuccess()) {
-                                        GoogleService.init(new GoogleApiClient
-                                                .Builder(LoginActivity.this)
-                                                .enableAutoManage(LoginActivity.this, LoginActivity.this)
-                                                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                                                .build());
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
+                .requestEmail()
+                .requestIdToken(CLIENT_ID)
+                .requestServerAuthCode(CLIENT_ID)
+                .build();
 
-                                        signIn();
-                                    }
-                                });
+        if (!addAnother) {
+            GoogleService.init(new GoogleApiClient
+                    .Builder(this)
+                    .enableAutoManage(this, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                    .build());
+            signIn();
+        } else {
+            GoogleService.getGoogleApiClient().connect();
+            GoogleService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(@Nullable Bundle bundle) {
+                    if (GoogleService.getInstance().getGoogleApiClient().isConnected()) {
+                        Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
+                            if (status.isSuccess()) {
+                                GoogleService.init(new GoogleApiClient
+                                        .Builder(LoginActivity.this)
+                                        .enableAutoManage(LoginActivity.this, LoginActivity.this)
+                                        .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                                        .build());
+                                signIn();
                             }
-                        }
+                        });
+                    }
+                }
 
                 @Override
                 public void onConnectionSuspended(int i) {
@@ -173,11 +176,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         kalPref.setClienttoken(clientToken);
 
         googleAuth = new GoogleAuth();
+        if (!kalPref.getAccounts().contains(email)) {
 
-        googleAuth.setEmail(email);
-        googleAuth.setDisplayName(userName);
-        googleAuth.setAccessToken(accessToken);
+            googleAuth.setEmail(email);
+            googleAuth.setDisplayName(userName);
+            googleAuth.setAccessToken(accessToken);
 
-        kalPref.putAuth(googleAuth);
+            kalPref.putAuth(googleAuth);
+        }
     }
 }
