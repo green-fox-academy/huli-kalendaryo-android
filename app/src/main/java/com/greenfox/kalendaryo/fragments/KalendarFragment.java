@@ -51,80 +51,10 @@ public class KalendarFragment extends Fragment {
         DaggerApiComponent.builder().build().inject(this);
         floatingActionButton = view.findViewById(R.id.choosecalendar);
 
-        recyclerView = view.findViewById(R.id.apilistcalendars);
-        recyclerView.setAdapter(adapter);
+        recyclerViewSetup(view);
 
-        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-
-        recyclerView.setLayoutManager(recyclerLayoutManager);
-
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(),
-                        recyclerLayoutManager.getOrientation());
-
-        recyclerView.addItemDecoration(dividerItemDecoration);
         kalPref = new KalPref(this.getContext());
         getKalendarResponse(kalPref.clientToken());
-
-/*
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
-
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
-            @Override
-            public void onLongClick(View view, int position) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle("Hey mate!");
-                alert.setMessage("You sure wanna delete, yo?");
-                alert.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String clientToken = kalPref.clientToken();
-
-                        List<GetKalendarResponse> kalendarList = adapter.getKalendarResponses();
-                        GetKalendarResponse kalendarToDelete = kalendarList.get(position);
-                        long deleteId = kalendarToDelete.getId();
-
-                        backendApi.deleteKalendar(clientToken, deleteId).enqueue(new Callback<PostKalendarResponse>() {
-                            @Override
-                            public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
-                                PostKalendarResponse postKalendarResponse = response.body();
-                            }
-
-                            @Override
-                            public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
-                                t.printStackTrace();
-                            }
-                        });
-
-                        adapter.removeAt(position);
-                        dialog.dismiss();
-                    }
-                });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                    }
-                });
-                alert.show();
-            }
-        }));*/
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,44 +81,14 @@ public class KalendarFragment extends Fragment {
         });
     }
 
-/*    public static interface ClickListener{
-        public void onLongClick(View view,int position);
+    public void recyclerViewSetup(View view){
+        recyclerView = view.findViewById(R.id.apilistcalendars);
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
+                        recyclerLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
-
-    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
-
-        private ClickListener clickListener;
-        private GestureDetector gestureDetector;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView,
-                                     final ClickListener clickListener){
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
-               @Override
-               public void onLongPress(MotionEvent event){
-                   View child = recyclerView.findChildViewUnder(event.getX(),event.getY());
-                   if(child != null && clickListener != null){
-                       clickListener.onLongClick(child,recyclerView.getChildAdapterPosition(child));
-                   }
-               }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            View child=rv.findChildViewUnder(e.getX(),e.getY());
-            if(child!=null && clickListener!=null && gestureDetector.onTouchEvent(e)){
-                clickListener.onLongClick(child,rv.getChildAdapterPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-        }
-    }*/
 }
