@@ -72,7 +72,27 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                deletePopUpWindow(view, position);
+            }
+        });
+
+        GetKalendarResponse getKalendarResponse = kalendarResponses.get(position);
+        holder.kalendarDescription.setText(getKalendarResponse.getOutputCalendarId());
+        holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
+    }
+
+    @Override
+    public int getItemCount() {
+        return kalendarResponses.size();
+    }
+
+    public void removeAt(int position) {
+        kalendarResponses.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void deletePopUpWindow(View view, int position){
+      AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
                 alert.setTitle("Delete Kalendar");
                 alert.setMessage("Are you sure to delete the kalendar?");
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -112,22 +132,6 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
                 });
                 alert.show();
             }
-        });
-
-        GetKalendarResponse getKalendarResponse = kalendarResponses.get(position);
-        holder.kalendarDescription.setText(getKalendarResponse.getOutputCalendarId());
-        holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
-    }
-
-    @Override
-    public int getItemCount() {
-        return kalendarResponses.size();
-    }
-
-    public void removeAt(int position) {
-        kalendarResponses.remove(position);
-        notifyItemRemoved(position);
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -140,6 +144,5 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
             kalendarName = itemView.findViewById(R.id.mergedcalendarname);
             kalendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
         }
-
     }
 }

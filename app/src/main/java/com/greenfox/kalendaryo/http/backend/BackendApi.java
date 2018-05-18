@@ -31,5 +31,4 @@ public interface BackendApi {
     @DELETE("calendar/{id}")
     Call<Void> deleteKalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 
-
 }
