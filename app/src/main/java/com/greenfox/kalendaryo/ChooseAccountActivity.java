@@ -16,6 +16,7 @@ import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.models.responses.AuthResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button next;
     Kalendar kalendar;
+    AccountAdapter adapter;
 
     @Inject
     BackendApi backendApi;
@@ -52,6 +54,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         kalendar = (Kalendar) getIntent().getSerializableExtra("list");
 
         String clientToken = kalpref.clientToken();
+        getAuthResponse(clientToken);
 
         String[] array = new String[kalendar.getInputGoogleCalendars().size()];
         for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {
@@ -84,24 +87,35 @@ public class ChooseAccountActivity extends AppCompatActivity {
         });
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-
         accountNamesView = findViewById(R.id.account_names);
         accountNamesView.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(accountNamesView.getContext(),
                         recyclerLayoutManager.getOrientation());
         accountNamesView.addItemDecoration(dividerItemDecoration);
+    }
 
-        AccountAdapter accountAdapter = new
-                AccountAdapter(kalpref.getGoogleAuths(),this);
-
-        accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
+    public void getAuthResponse(String clientToken) {
+        backendApi.getAccount(clientToken).enqueue(new Callback<AuthResponse>() {
             @Override
-            public void emailChanged(String email) {
-                kalendar.setOutputGoogleAuthId(email);
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                kalendar = (Kalendar) getIntent().getSerializableExtra("list");
+                AuthResponse authResponse = response.body();
+                adapter = new AccountAdapter(authResponse.getGoogleAuths(), accountNamesView.getContext());
+                adapter.setEmailChange(new AccountAdapter.EmailChange() {
+                    @Override
+                    public void emailChanged(String email) {
+                        kalendar.setOutputGoogleAuthId(email);
+                    }
+                });
+                accountNamesView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+
             }
         });
-        accountNamesView.setAdapter(accountAdapter);
     }
 
 

@@ -89,7 +89,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(view.getContext(),"Couldn't delete kalendar, please try again", Toast.LENGTH_LONG).show();
+                                Toast.makeText(view.getContext(),"Account can not be deleted", Toast.LENGTH_LONG).show();
                             }
                         });
                         dialog.dismiss();
