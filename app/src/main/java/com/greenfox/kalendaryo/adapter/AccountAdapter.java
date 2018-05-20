@@ -83,8 +83,12 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                         backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                removeAccount(position);
-                                Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
+                                if(response.code() == 200) {
+                                    removeAccount(position);
+                                    Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(view.getContext(), "Account can not be deleted", Toast.LENGTH_LONG).show();
+                                }
                             }
 
                             @Override
