@@ -104,7 +104,9 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
                 kalPref = new KalPref(view.getContext());
                 String clientToken = kalPref.clientToken();
 
-                backendApi.deleteKalendar(clientToken, kalendarIdToDelete(position)).enqueue(new Callback<Void>() {
+                long idToDelete = kalendarIdToDelete(position);
+
+                backendApi.deleteKalendar(clientToken, idToDelete).enqueue(new Callback<Void>() {
 
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
