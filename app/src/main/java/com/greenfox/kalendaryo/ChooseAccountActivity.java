@@ -106,10 +106,4 @@ public class ChooseAccountActivity extends AppCompatActivity {
         });
         accountNamesView.setAdapter(accountAdapter);
     }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 }
