@@ -61,6 +61,8 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 new DividerItemDecoration(recKal.getContext(),
                         recyclerLayoutManager.getOrientation());
         recKal.addItemDecoration(dividerItemDecoration);
+        String customName = getIntent().getStringExtra(CustomNameActivity.CUSTOM_NAME);
+        kalendar.setCustomName(customName);
         goToChooseAccount = findViewById(R.id.gotochooseaccount);
         goToChooseAccount.setOnClickListener(new View.OnClickListener() {
             @Override

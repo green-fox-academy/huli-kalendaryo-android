@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.greenfox.kalendaryo.CustomNameActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
@@ -55,7 +56,7 @@ public class KalendarFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), SelectCalendarActivity.class);
+                Intent i = new Intent(getActivity() , CustomNameActivity.class);
                 startActivity(i);
             }
         });
