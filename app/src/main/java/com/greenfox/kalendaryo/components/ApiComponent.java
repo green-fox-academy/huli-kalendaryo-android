@@ -8,6 +8,7 @@ import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.fragments.AccountsFragment;
 import com.greenfox.kalendaryo.fragments.KalendarFragment;
 import com.greenfox.kalendaryo.providers.ApiProvider;
+import com.greenfox.kalendaryo.services.AccountService;
 
 import javax.inject.Singleton;
 
@@ -26,4 +27,5 @@ public interface ApiComponent {
     void inject(KalendarFragment kalendarFragment);
     void inject(AccountsFragment accountsFragment);
     void inject(AccountAdapter accountAdapter);
+    void inject(AccountService accountService);
 }

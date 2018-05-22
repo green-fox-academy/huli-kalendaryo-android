@@ -16,8 +16,9 @@ import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.models.responses.AuthResponse;
+import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
+import com.greenfox.kalendaryo.services.AccountService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,9 @@ public class ChooseAccountActivity extends AppCompatActivity {
     @Inject
     BackendApi backendApi;
 
+    @Inject
+    AccountService accountService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +58,8 @@ public class ChooseAccountActivity extends AppCompatActivity {
         kalendar = (Kalendar) getIntent().getSerializableExtra("list");
 
         String clientToken = kalpref.clientToken();
-        getAuthResponse(clientToken);
+        getAccountResponse(clientToken);
+        //accountService.listAccountsFromBackend(clientToken, accountNamesView.getContext(), accountNamesView);
 
         String[] array = new String[kalendar.getInputGoogleCalendars().size()];
         for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {
@@ -95,13 +100,13 @@ public class ChooseAccountActivity extends AppCompatActivity {
         accountNamesView.addItemDecoration(dividerItemDecoration);
     }
 
-    public void getAuthResponse(String clientToken) {
-        backendApi.getAccount(clientToken).enqueue(new Callback<AuthResponse>() {
+    public void getAccountResponse(String clientToken) {
+        backendApi.getAccount(clientToken).enqueue(new Callback<GetAccountResponse>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+            public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> response) {
                 kalendar = (Kalendar) getIntent().getSerializableExtra("list");
-                AuthResponse authResponse = response.body();
-                adapter = new AccountAdapter(authResponse.getGoogleAuths(), accountNamesView.getContext());
+                GetAccountResponse getAccountResponse = response.body();
+                adapter = new AccountAdapter(getAccountResponse.getGoogleAuths(), accountNamesView.getContext());
                 adapter.setEmailChange(new AccountAdapter.EmailChange() {
                     @Override
                     public void emailChanged(String email) {
@@ -112,8 +117,8 @@ public class ChooseAccountActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
-
+            public void onFailure(Call<GetAccountResponse> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }

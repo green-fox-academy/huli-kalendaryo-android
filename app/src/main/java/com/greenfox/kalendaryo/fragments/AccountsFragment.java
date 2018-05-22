@@ -20,7 +20,8 @@ import com.greenfox.kalendaryo.adapter.AccountsList;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.models.responses.AuthResponse;
+import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
+import com.greenfox.kalendaryo.services.AccountService;
 
 import javax.inject.Inject;
 
@@ -37,6 +38,9 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     RecyclerView recyclerView;
 
     @Inject
+    AccountService accountService;
+
+    @Inject
     BackendApi backendApi;
 
     @Override
@@ -49,7 +53,8 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(recyclerLayoutManager);
         floatingActionButton = view.findViewById(R.id.addNewAccount);
-        getAuthResponse(kalpref.clientToken());
+        getAccountResponse(kalpref.clientToken());
+        //accountService.listAccountsFromBackend(kalpref.clientToken(), getActivity(), recyclerView);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,17 +71,18 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
-    public void getAuthResponse(String clientToken) {
-        backendApi.getAccount(clientToken).enqueue(new Callback<AuthResponse>() {
+
+    public void getAccountResponse(String clientToken) {
+        backendApi.getAccount(clientToken).enqueue(new Callback<GetAccountResponse>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                AuthResponse authResponse = response.body();
-                accountAdapter = new AccountAdapter(authResponse.getGoogleAuths(), getActivity());
+            public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> response) {
+                GetAccountResponse getAccountResponse = response.body();
+                accountAdapter = new AccountAdapter(getAccountResponse.getGoogleAuths(), getActivity());
                 recyclerView.setAdapter(accountAdapter);
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
+            public void onFailure(Call<GetAccountResponse> call, Throwable t) {
 
             }
         });

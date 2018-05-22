@@ -4,16 +4,16 @@ import com.greenfox.kalendaryo.models.GoogleAuth;
 
 import java.util.List;
 
-public class AuthResponse {
+public class GetAccountResponse {
 
     private long id;
     private String userEmail;
     List<GoogleAuth> googleAuths;
 
-    public AuthResponse() {
+    public GetAccountResponse() {
     }
 
-    public AuthResponse(long id, String userEmail, List<GoogleAuth> googleAuths) {
+    public GetAccountResponse(long id, String userEmail, List<GoogleAuth> googleAuths) {
         this.id = id;
         this.userEmail = userEmail;
         this.googleAuths = googleAuths;
