@@ -71,7 +71,7 @@ public class KalendarFragment extends Fragment {
 
             @Override
             public void onResponse(Call<GetKalendarListResponse> call, Response<GetKalendarListResponse> response) {
-                adapter.addKalendarResponse(response.body().getKalendars());
+                adapter.setKalendarResponses(response.body().getKalendars());
             }
 
             @Override

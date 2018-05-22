@@ -55,11 +55,6 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         return kalendarResponses;
     }
 
-    public void addKalendarResponse(List<GetKalendarResponse> kalendarResponses) {
-        this.kalendarResponses.addAll(kalendarResponses);
-        notifyDataSetChanged();
-    }
-
     @Override
     public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kalendar_item, parent, false);
