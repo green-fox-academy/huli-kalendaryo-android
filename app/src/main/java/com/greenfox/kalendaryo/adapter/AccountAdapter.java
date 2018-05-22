@@ -17,6 +17,7 @@ import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -81,11 +82,16 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                         backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
-                                if(response.code() == 200) {
-                                    removeAccount(position);
-                                    Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(view.getContext(), "Account can not be deleted", Toast.LENGTH_LONG).show();
+
+                                    if (response.errorBody() == null) {
+                                        removeAccount(position);
+                                        Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        try {
+                                            Toast.makeText(view.getContext(), response.errorBody().string() , Toast.LENGTH_LONG).show();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                 }
                             }
 
