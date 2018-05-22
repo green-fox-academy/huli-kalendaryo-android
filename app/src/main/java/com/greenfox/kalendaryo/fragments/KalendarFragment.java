@@ -81,9 +81,4 @@ public class KalendarFragment extends Fragment {
             }
         });
     }
-
-    public void onStop() {
-
-        super.onStop();
-    }
 }
