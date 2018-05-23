@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
 import com.greenfox.kalendaryo.models.KalPref;
@@ -63,5 +65,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.log_out) {
+            Toast.makeText(this, "You ckliked on log out", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return true;
+    }
 }
