@@ -174,7 +174,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void editKalPref(String email, String userName, String accessToken, String clientToken) {
         kalPref.setClienttoken(clientToken);
-
         googleAuth = new GoogleAuth();
         if (!kalPref.getAccounts().contains(email)) {
 
@@ -183,6 +182,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             googleAuth.setAccessToken(accessToken);
 
             kalPref.putAuth(googleAuth);
+
         }
+        Toast.makeText(this, "Sorry, you can't add the account you are already logged into!", Toast.LENGTH_LONG).show();
     }
 }
