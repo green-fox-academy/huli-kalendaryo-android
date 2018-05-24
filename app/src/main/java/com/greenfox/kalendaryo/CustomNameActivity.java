@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 public class CustomNameActivity extends AppCompatActivity {
 
     Button submitCustomName;
     public static final String CUSTOM_NAME = "com.greenfox.kalendaryo.CUSTOM_NAME";
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,8 @@ public class CustomNameActivity extends AppCompatActivity {
         submitCustomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar = (ProgressBar)findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 Intent i = new Intent(CustomNameActivity.this, SelectCalendarActivity.class);
                 EditText enteredCustomName = (EditText) findViewById(R.id.customName);
                 String customName = enteredCustomName.getText().toString();
@@ -27,5 +31,17 @@ public class CustomNameActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void onStop() {
+        super.onStop();
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
     }
 }
