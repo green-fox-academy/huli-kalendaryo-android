@@ -1,12 +1,10 @@
 package com.greenfox.kalendaryo.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,7 +15,6 @@ import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
-import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +64,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popUpWindow(view, position);
+                deleteKalendarPopUp(view, position);
             }
         });
         kalendarSetText(holder, position);
@@ -89,7 +86,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
     }
 
-    public void popUpWindow(View view, int position){
+    public void deleteKalendarPopUp(View view, int position){
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
         alert.setTitle("Delete Kalendar");
         alert.setMessage("Are you sure to delete the kalendar?");
