@@ -1,41 +1,72 @@
 package com.greenfox.kalendaryo.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by barba on 02/01/2018.
+ * Created by tung on 2/28/18.
  */
 
-public class KalendarAdapter extends ArrayAdapter<Kalendar> {
+public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHolder> {
+    private Context context;
+    private List<GetKalendarResponse> getKalendarResponses;
 
-        public KalendarAdapter(@NonNull Context context) {
-            super(context, 0);
-        }
+    public KalendarAdapter(Context context) {
+        this.context = context;
+        this.getKalendarResponses = new ArrayList<>();
+    }
 
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public void setGetKalendarResponses(List<GetKalendarResponse> getKalendarResponses) {
+        this.getKalendarResponses = getKalendarResponses;
+        notifyDataSetChanged();
+    }
+    public void addKalendarResponse(List<GetKalendarResponse> newGetKalendarResponses) {
+        this.getKalendarResponses.addAll(newGetKalendarResponses);
+        notifyDataSetChanged();
+    }
 
-         if (convertView == null) {
-             convertView = LayoutInflater.from(getContext()).inflate(R.layout.calendar_name, parent, false);
-         }
+    @Override
+    public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kalendar_item, parent, false);
+        return new KalendarAdapter.ViewHolder(view);
+    }
 
-            Kalendar kalendar = getItem(position);
+    @Override
+    public void onBindViewHolder(KalendarAdapter.ViewHolder holder, int position) {
+        GetKalendarResponse getKalendarResponse = getKalendarResponses.get(position);
+        holder.kalendarDescription.setText(getKalendarResponse.getOutputCalendarId());
+        holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
+    }
 
-            TextView calendarNameView = convertView.findViewById(R.id.calendarname);
-            calendarNameView.setText(kalendar.getSummary());
+    @Override
+    public int getItemCount() {
+        return getKalendarResponses.size();
+    }
 
-            return convertView;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView kalendarName;
+        private TextView kalendarDescription;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            kalendarName = itemView.findViewById(R.id.mergedcalendarname);
+            kalendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
         }
 
     }
+    public interface ListChange {
+        void saveCalendar(String calendarTitle);
+        void removeCalendar(String calderTitle);
+    }
+}

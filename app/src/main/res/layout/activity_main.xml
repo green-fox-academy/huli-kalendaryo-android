@@ -47,12 +47,6 @@
                 android:text="show calendars" />
 
             <Button
-                android:id="@+id/bn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Logout" />
-
-            <Button
                 android:id="@+id/choose_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,8 +88,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.982" />
 
-    <ListView
-        android:id="@+id/apilistcalendars"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/apilistcalendarsadsad"
         android:layout_width="match_parent"
         android:layout_height="173dp"
 
@@ -103,8 +97,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/tokenText"
         app:layout_constraintTop_toBottomOf="@+id/myText"
-        tools:layout_editor_absoluteX="2dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="2dp" />
 
     <Button
         android:id="@+id/button2"

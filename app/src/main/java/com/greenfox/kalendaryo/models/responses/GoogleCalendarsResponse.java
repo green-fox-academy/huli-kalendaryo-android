@@ -1,4 +1,6 @@
-package com.greenfox.kalendaryo.models;
+package com.greenfox.kalendaryo.models.responses;
+
+import com.greenfox.kalendaryo.models.GoogleCalendar;
 
 import java.util.List;
 
@@ -6,15 +8,15 @@ import java.util.List;
  * Created by barba on 04/01/2018.
  */
 
-public class KalendarsResponse {
+public class GoogleCalendarsResponse {
 
      String kind;
      String etag;
      String nextPageToken;
      String nextSyncToken;
-     List<Kalendar> items;
+     List<GoogleCalendar> items;
 
-    public KalendarsResponse(String etag, String nextPageToken, String nextSyncToken, List<Kalendar> items) {
+    public GoogleCalendarsResponse(String etag, String nextPageToken, String nextSyncToken, List<GoogleCalendar> items) {
         this.kind = "calendar#calendarList";
         this.etag = etag;
         this.nextPageToken = nextPageToken;
@@ -22,7 +24,7 @@ public class KalendarsResponse {
         this.items = items;
     }
 
-    public KalendarsResponse() {
+    public GoogleCalendarsResponse() {
     }
 
     public String getKind() {
@@ -57,11 +59,11 @@ public class KalendarsResponse {
         this.nextSyncToken = nextSyncToken;
     }
 
-    public List<Kalendar> getItems() {
+    public List<GoogleCalendar> getItems() {
         return items;
     }
 
-    public void setItems(List<Kalendar> items) {
+    public void setItems(List<GoogleCalendar> items) {
         this.items = items;
     }
 }
