@@ -58,8 +58,8 @@ public class ChooseAccountActivity extends AppCompatActivity {
         kalendar = (Kalendar) getIntent().getSerializableExtra("list");
 
         String clientToken = kalpref.clientToken();
-        getAccountResponse(clientToken);
-        //accountService.listAccountsFromBackend(clientToken, accountNamesView.getContext(), accountNamesView);
+        //getAccountResponse(clientToken);
+        accountService.listAccountsFromBackend(clientToken, accountNamesView.getContext(), accountNamesView);
 
         String[] array = new String[kalendar.getInputGoogleCalendars().size()];
         for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {

@@ -20,13 +20,13 @@ public class AccountService {
     @Inject
     BackendApi backendApi;
 
-    public void listAccountsFromBackend(String clientToken, Context ctx, RecyclerView recyclerView) {
+    public void listAccountsFromBackend(String clientToken, Context ctx, RecyclerView recycler) {
         backendApi.getAccount(clientToken).enqueue(new Callback<GetAccountResponse>() {
             @Override
             public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> response) {
                 GetAccountResponse getAccountResponse = response.body();
                 accountAdapter = new AccountAdapter(getAccountResponse.getGoogleAuths(), ctx);
-                recyclerView.setAdapter(accountAdapter);
+                recycler.setAdapter(accountAdapter);
             }
 
             @Override
