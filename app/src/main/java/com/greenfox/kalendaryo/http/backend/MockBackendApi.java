@@ -70,4 +70,9 @@ public class MockBackendApi implements BackendApi {
         };
         return call;
     }
+
+    @Override
+    public Call<Void> deleteKalendar(String clientToken, long id) {
+        return null;
+    }
 }

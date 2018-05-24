@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class GetKalendarResponse {
+    private long id;
     private String outputGoogleAuthId;
     private String outputCalendarId;
     private List<String> inputGoogleCalendars;
@@ -23,6 +24,14 @@ public class GetKalendarResponse {
         this.outputGoogleAuthId = outputGoogleAuthId;
         this.outputCalendarId = outputCalendarId;
         this.inputGoogleCalendars = inputGoogleCalendars;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getOutputGoogleAuthId() {
