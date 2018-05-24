@@ -10,13 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 import com.greenfox.kalendaryo.services.AccountService;
 
@@ -31,12 +29,11 @@ import retrofit2.Response;
 
 public class ChooseAccountActivity extends AppCompatActivity {
 
-    RecyclerView accountNamesView;
+    RecyclerView recyclerview;
     KalPref kalpref;
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button next;
     Kalendar kalendar;
-    AccountAdapter adapter;
 
     @Inject
     BackendApi backendApi;
@@ -58,8 +55,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
         kalendar = (Kalendar) getIntent().getSerializableExtra("list");
 
         String clientToken = kalpref.clientToken();
-        //getAccountResponse(clientToken);
-        accountService.listAccountsFromBackend(clientToken, accountNamesView.getContext(), accountNamesView);
 
         String[] array = new String[kalendar.getInputGoogleCalendars().size()];
         for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {
@@ -92,36 +87,14 @@ public class ChooseAccountActivity extends AppCompatActivity {
         });
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        accountNamesView = findViewById(R.id.account_names);
-        accountNamesView.setLayoutManager(recyclerLayoutManager);
+        recyclerview = findViewById(R.id.account_names);
+        recyclerview.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(accountNamesView.getContext(),
+                new DividerItemDecoration(recyclerview.getContext(),
+
                         recyclerLayoutManager.getOrientation());
-        accountNamesView.addItemDecoration(dividerItemDecoration);
+        recyclerview.addItemDecoration(dividerItemDecoration);
+
+        accountService.listAccountsFromBackend(clientToken, recyclerview, false, getIntent());
     }
-
-    public void getAccountResponse(String clientToken) {
-        backendApi.getAccount(clientToken).enqueue(new Callback<GetAccountResponse>() {
-            @Override
-            public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> response) {
-                kalendar = (Kalendar) getIntent().getSerializableExtra("list");
-                GetAccountResponse getAccountResponse = response.body();
-                adapter = new AccountAdapter(getAccountResponse.getGoogleAuths(), accountNamesView.getContext());
-                adapter.setEmailChange(new AccountAdapter.EmailChange() {
-                    @Override
-                    public void emailChanged(String email) {
-                        kalendar.setOutputGoogleAuthId(email);
-                    }
-                });
-                accountNamesView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<GetAccountResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
-
-
 }
