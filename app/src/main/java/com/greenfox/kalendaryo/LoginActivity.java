@@ -107,9 +107,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                     }
                                 });
                             }
-                        });
-                    }
-                }
+                        }
 
                 @Override
                 public void onConnectionSuspended(int i) {
