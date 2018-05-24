@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -29,11 +30,17 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
 
     @Inject
     AccountService accountService;
+  
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.listaccounts_recycler, container, false);
+    
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
         kalpref = new KalPref(getActivity());
         DaggerApiComponent.builder().build().inject(this);
         recyclerView = view.findViewById(R.id.accountRecyclerView);
@@ -44,6 +51,8 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 i.putExtra("ifNewAccChoosen", true);
                 startActivity(i);

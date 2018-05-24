@@ -28,4 +28,5 @@ public interface ApiComponent {
     void inject(AccountsFragment accountsFragment);
     void inject(AccountAdapter accountAdapter);
     void inject(AccountService accountService);
+    void inject(KalendarAdapter kalendarAdapter);
 }
