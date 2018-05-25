@@ -76,38 +76,38 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
-                        .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
-                        .requestEmail()
-                        .requestIdToken(CLIENT_ID)
-                        .requestServerAuthCode(CLIENT_ID)
-                        .build();
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
+                .requestEmail()
+                .requestIdToken(CLIENT_ID)
+                .requestServerAuthCode(CLIENT_ID)
+                .build();
         if(!addAnother) {
-                    GoogleService.init(new GoogleApiClient
-                            .Builder(this)
-                            .enableAutoManage(this, this)
-                            .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                            .build());
-                    signIn();
-                } else {
-                    GoogleService.getGoogleApiClient().connect();
-                    GoogleService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-                        @Override
-                        public void onConnected(@Nullable Bundle bundle) {
-                            if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
-                                Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
-                                    if (status.isSuccess()) {
-                                        GoogleService.init(new GoogleApiClient
-                                                .Builder(LoginActivity.this)
-                                                .enableAutoManage(LoginActivity.this, LoginActivity.this)
-                                                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                                                .build());
+            GoogleService.init(new GoogleApiClient
+                    .Builder(this)
+                    .enableAutoManage(this, this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                    .build());
+            signIn();
+        } else {
+            GoogleService.getGoogleApiClient().connect();
+            GoogleService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(@Nullable Bundle bundle) {
+                    if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
+                        Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
+                            if (status.isSuccess()) {
+                                GoogleService.init(new GoogleApiClient
+                                        .Builder(LoginActivity.this)
+                                        .enableAutoManage(LoginActivity.this, LoginActivity.this)
+                                        .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                                        .build());
 
-                                        signIn();
-                                    }
-                                });
+                                signIn();
                             }
-                        }
+                        });
+                    }
+                }
 
                 @Override
                 public void onConnectionSuspended(int i) {
