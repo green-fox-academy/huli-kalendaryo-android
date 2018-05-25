@@ -14,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface BackendApi {
 
@@ -33,5 +34,8 @@ public interface BackendApi {
     @Headers("Accept: application/json")
     @GET("calendar")
     Call<GetKalendarListResponse> getCalendar(@Header("X-Client-Token") String clientToken);
+
+    @DELETE("calendar/{id}")
+    Call<Void> deleteKalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 
 }

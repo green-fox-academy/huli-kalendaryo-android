@@ -6,8 +6,6 @@ import com.greenfox.kalendaryo.http.google.GoogleApi;
 
 import java.util.concurrent.TimeUnit;
 
-import dagger.Module;
-import dagger.Provides;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
