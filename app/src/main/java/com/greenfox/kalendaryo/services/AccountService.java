@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
 
@@ -23,9 +24,10 @@ public class AccountService {
     @Inject
     BackendApi backendApi;
 
-    public void listAccountsFromBackend(String clientToken, RecyclerView recycler, boolean onFragment, Intent intent) {
+    public void listAccountsFromBackend(RecyclerView recycler, boolean onFragment, Intent intent) {
         DaggerApiComponent.builder().build().inject(this);
-        backendApi.getAccount(clientToken).enqueue(new Callback<GetAccountResponse>() {
+        KalPref kalPref = new KalPref(recycler.getContext());
+        backendApi.getAccount(kalPref.clientToken()).enqueue(new Callback<GetAccountResponse>() {
             @Override
             public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> response) {
                 GetAccountResponse getAccountResponse = response.body();

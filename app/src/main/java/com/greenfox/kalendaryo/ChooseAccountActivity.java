@@ -95,6 +95,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
                         recyclerLayoutManager.getOrientation());
         recyclerview.addItemDecoration(dividerItemDecoration);
 
-        accountService.listAccountsFromBackend(clientToken, recyclerview, false, getIntent());
+        accountService.listAccountsFromBackend(recyclerview, false, getIntent());
     }
 }

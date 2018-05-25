@@ -40,7 +40,7 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(recyclerLayoutManager);
         floatingActionButton = view.findViewById(R.id.addNewAccount);
-        accountService.listAccountsFromBackend(kalpref.clientToken(), recyclerView, true, null);
+        accountService.listAccountsFromBackend(recyclerView, true, null);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
