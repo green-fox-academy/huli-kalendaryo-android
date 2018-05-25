@@ -3,14 +3,14 @@ package com.greenfox.kalendaryo;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -31,7 +31,6 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import static android.accounts.AccountManager.newChooseAccountIntent;
 
 
@@ -43,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
     private GoogleAuth googleAuth;
+    private ProgressBar progressBar;
 
     @Inject
     BackendApi backendApi;
@@ -57,11 +57,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar = (ProgressBar)findViewById(R.id.progressBar);
+                progressBar.setVisibility(view.VISIBLE);
                 buildGoogleApiClient(false);
             }
         });
         // By default it is false, because this is way
-        if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
+        if(getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
             buildGoogleApiClient(true);
         }
     }
@@ -70,8 +72,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
     private void buildGoogleApiClient(boolean addAnother) {
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
@@ -79,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .requestIdToken(CLIENT_ID)
                 .requestServerAuthCode(CLIENT_ID)
                 .build();
-        if (!addAnother) {
+        if(!addAnother) {
             GoogleService.init(new GoogleApiClient
                     .Builder(this)
                     .enableAutoManage(this, this)
@@ -87,12 +90,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     .build());
             signIn();
         } else {
-
             GoogleService.getGoogleApiClient().connect();
             GoogleService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                 @Override
                 public void onConnected(@Nullable Bundle bundle) {
-                    if (GoogleService.getInstance().getGoogleApiClient().isConnected()) {
+                    if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
                         Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
                             if (status.isSuccess()) {
                                 GoogleService.init(new GoogleApiClient
@@ -175,13 +177,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void editKalPref(String email, String userName, String accessToken, String clientToken) {
         kalPref.setClienttoken(clientToken);
-
         googleAuth = new GoogleAuth();
+        if (!kalPref.getAccounts().contains(email)) {
 
-        googleAuth.setEmail(email);
-        googleAuth.setDisplayName(userName);
-        googleAuth.setAccessToken(accessToken);
+            googleAuth.setEmail(email);
+            googleAuth.setDisplayName(userName);
+            googleAuth.setAccessToken(accessToken);
 
-        kalPref.putAuth(googleAuth);
+            kalPref.putAuth(googleAuth);
+
+        }
+        Toast.makeText(this, "Sorry, you can't add the account you are already logged into!", Toast.LENGTH_LONG).show();
+    }
+
+    public void onStop() {
+        super.onStop();
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
     }
 }

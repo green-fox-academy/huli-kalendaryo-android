@@ -11,14 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
-import com.greenfox.kalendaryo.components.DaggerApiComponent;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 
@@ -33,6 +32,8 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     FloatingActionButton floatingActionButton;
     AccountAdapter accountAdapter;
     RecyclerView recyclerView;
+    private ProgressBar progressBar;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,8 +60,8 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
         return view;
     }
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

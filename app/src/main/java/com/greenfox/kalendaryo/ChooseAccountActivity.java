@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
@@ -34,6 +35,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button next;
     Kalendar kalendar;
+    private ProgressBar progressBar;
 
     @Inject
     BackendApi backendApi;
@@ -61,11 +63,12 @@ public class ChooseAccountActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar = (ProgressBar)findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
                     public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
                         PostKalendarResponse postKalendarResponse = response.body();
-
                     }
 
                     @Override
@@ -103,6 +106,4 @@ public class ChooseAccountActivity extends AppCompatActivity {
         });
         accountNamesView.setAdapter(accountAdapter);
     }
-
-
 }
