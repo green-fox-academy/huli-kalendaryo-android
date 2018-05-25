@@ -43,8 +43,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.emailChange = emailChange;
     }
 
-    public void addAll(List<GoogleAuth> auth) {
-        auths.addAll(auth);
+    public void addAll(List<GoogleAuth> auths) {
+        this.auths = auths;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -68,7 +69,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             holder.radioButton.setChecked(lastSelectedPosition == position);
         } else {
             GoogleAuth auth = auths.get(position);
-            holder.oneaccountname.setText(auth.getEmail());
+            holder.oneAccountName.setText(auth.getEmail());
         }
     }
 
@@ -81,13 +82,13 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView accountName;
-        public TextView oneaccountname;
+        public TextView oneAccountName;
         public RadioButton radioButton;
 
         public ViewHolder(View view) {
             super(view);
             if (clickable) {
-                accountName = view.findViewById(R.id.accountname);
+                accountName = view.findViewById(R.id.accountName);
                 radioButton = (RadioButton) view.findViewById(R.id.radioButton);
                 radioButton.setOnClickListener(v -> {
                     lastSelectedPosition = getAdapterPosition();
@@ -101,7 +102,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                             Toast.LENGTH_LONG).show();
                 });
             } else {
-                oneaccountname = view.findViewById(R.id.oneaccountname);
+                oneAccountName = view.findViewById(R.id.oneAccountName);
             }
         }
     }

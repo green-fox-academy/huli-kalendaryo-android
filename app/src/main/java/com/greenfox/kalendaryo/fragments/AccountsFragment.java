@@ -34,20 +34,15 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     RecyclerView recyclerView;
     private ProgressBar progressBar;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.listaccounts, container, false);
-        accountAdapter = new AccountAdapter(getActivity(),false);
-        floatingActionButton = view.findViewById(R.id.addNewAccount);
-        recyclerView = view.findViewById(R.id.accountsRecycleView);
-        recyclerView.setAdapter(accountAdapter);
-        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(recyclerLayoutManager);
-        DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recyclerView.getContext(),
-                        recyclerLayoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+        accountAdapter = new AccountAdapter(getActivity(), false);
+
+        recyclerViewSetup(view);
+
         kalPref = new KalPref(this.getContext());
         floatingActionButton = view.findViewById(R.id.addNewAccount);
         floatingActionButton.setOnClickListener(v -> {
@@ -62,6 +57,16 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
 
+    public void recyclerViewSetup(View view) {
+        recyclerView = view.findViewById(R.id.accountsRecycleView);
+        recyclerView.setAdapter(accountAdapter);
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(recyclerView.getContext(),
+                        recyclerLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 }
