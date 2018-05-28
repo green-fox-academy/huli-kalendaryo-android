@@ -1,24 +1,22 @@
 package com.greenfox.kalendaryo;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
-import com.greenfox.kalendaryo.components.DaggerApiComponent;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 import com.greenfox.kalendaryo.services.AccountService;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,7 +64,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar = (ProgressBar)findViewById(R.id.progressBar);
+                progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
@@ -94,7 +92,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
         recyclerview.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(recyclerview.getContext(),
-
                         recyclerLayoutManager.getOrientation());
         recyclerview.addItemDecoration(dividerItemDecoration);
 

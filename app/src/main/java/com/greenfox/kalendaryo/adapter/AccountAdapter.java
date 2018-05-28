@@ -10,42 +10,42 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
-
 import java.io.IOException;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-/**
- * Created by barba on 2018. 01. 08..
- */
+import java.util.ArrayList;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
-    private List<GoogleAuth> auths;
+    private List<GoogleAuth> auths = new ArrayList<>();
     private Context context;
     private int lastSelectedPosition = -1;
     private EmailChange emailChange;
     private KalPref kalPref;
+    private boolean clickable;
 
     @Inject
     BackendApi backendApi;
 
-    public AccountAdapter(List<GoogleAuth> authsIn, Context ctx) {
+    public AccountAdapter(List<GoogleAuth> authsIn, Context ctx, boolean clickable) {
         auths = authsIn;
         context = ctx;
         kalPref = new KalPref(context);
         DaggerApiComponent.builder().build().inject(this);
+        this.clickable = clickable;
+    }
+
+    public AccountAdapter(Context context, boolean clickable) {
+        this.context = context;
+        this.clickable = clickable;
     }
 
     public EmailChange getEmailChange() {
@@ -56,9 +56,19 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.emailChange = emailChange;
     }
 
+    /*public void addAll(List<GoogleAuth> auth) {
+        auths.addAll(auth);
+    }*/
+
     @Override
     public AccountAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
+        View view;
+
+        if (clickable) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.oneaccount, parent, false);
+        }
         AccountAdapter.ViewHolder viewHolder = new AccountAdapter.ViewHolder(view);
         return viewHolder;
     }
@@ -115,10 +125,16 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 alert.show();
             }
         });
-        GoogleAuth auth = auths.get(position);
-        holder.accountName.setText(auth.getEmail());
-        holder.radioButton.setChecked(lastSelectedPosition == position);
+        if (clickable) {
+            GoogleAuth auth = auths.get(position);
+            holder.accountName.setText(auth.getEmail());
+            holder.radioButton.setChecked(lastSelectedPosition == position);
+        } else {
+            GoogleAuth auth = auths.get(position);
+            holder.oneAccountName.setText(auth.getEmail());
+        }
     }
+
 
     @Override
     public int getItemCount() {
@@ -128,23 +144,28 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView accountName;
+        public TextView oneAccountName;
         public RadioButton radioButton;
 
         public ViewHolder(View view) {
             super(view);
-            accountName = view.findViewById(R.id.accountname);
-            radioButton = view.findViewById(R.id.radioButton);
-            radioButton.setOnClickListener(v -> {
-                lastSelectedPosition = getAdapterPosition();
-                notifyDataSetChanged();
+            if (clickable) {
+                accountName = view.findViewById(R.id.accountname);
+                radioButton = (RadioButton) view.findViewById(R.id.radioButton);
+                radioButton.setOnClickListener(v -> {
+                    lastSelectedPosition = getAdapterPosition();
+                    notifyDataSetChanged();
 
-                if (emailChange != null) {
-                   emailChange.emailChanged((String) accountName.getText());
-                }
+                    if (emailChange != null) {
+                        emailChange.emailChanged((String) accountName.getText());
+                    }
 
-                Toast.makeText(AccountAdapter.this.context, accountName.getText(),
-                        Toast.LENGTH_LONG).show();
-            });
+                    Toast.makeText(AccountAdapter.this.context, accountName.getText(),
+                            Toast.LENGTH_LONG).show();
+                });
+            } else {
+                oneAccountName = view.findViewById(R.id.oneAccountName);
+            }
         }
     }
 
@@ -157,3 +178,4 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         notifyItemRemoved(position);
     }
 }
+
