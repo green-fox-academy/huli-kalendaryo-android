@@ -38,4 +38,6 @@ public interface BackendApi {
     @DELETE("calendar/{id}")
     Call<Void> deleteKalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 
+    @GET("auth")
+    Call<String> refreshAccessToken(@Header("X-Client-Token") String clientToken, @Header("email") String email);
 }
