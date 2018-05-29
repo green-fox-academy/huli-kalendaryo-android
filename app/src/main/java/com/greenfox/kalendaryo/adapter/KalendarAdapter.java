@@ -3,6 +3,7 @@ package com.greenfox.kalendaryo.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.kalendaryo.CustomNameActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
@@ -64,7 +66,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteKalendarPopUp(view, position);
+                informationAndDeletePopUp(view, position);
             }
         });
         kalendarSetText(holder, position);
@@ -84,6 +86,11 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
         GetKalendarResponse getKalendarResponse = kalendarResponses.get(position);
         holder.kalendarDescription.setText(getKalendarResponse.getOutputCalendarId());
         holder.kalendarName.setText(getKalendarResponse.getOutputGoogleAuthId());
+    }
+
+    private void informationAndDeletePopUp(View view, int position) {
+        Intent i = new Intent(context, InformationAndDeleteActivity.class);
+        context.startActivity(i);
     }
 
     public void deleteKalendarPopUp(View view, int position){

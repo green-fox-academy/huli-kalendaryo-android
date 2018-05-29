@@ -27,7 +27,8 @@
         <activity android:name=".SelectCalendarActivity" />
         <activity android:name=".ChooseAccountActivity" />
         <activity android:name=".StaticWeekViewActivity" />
-        <activity android:name=".CustomNameActivity"></activity>
+        <activity android:name=".CustomNameActivity" />
+        <activity android:name=".adapter.InformationAndDeleteActivity"></activity>
     </application>
 
 </manifest>
