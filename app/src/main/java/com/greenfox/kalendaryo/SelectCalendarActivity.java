@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
@@ -34,6 +35,7 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
+    private static int ATTEMPTS = 1;
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
     Button goToChooseAccount;
@@ -45,6 +47,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     @Inject
     GoogleApi googleApi;
+
+    @Inject
+    BackendApi backendApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,23 +92,46 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
+            ATTEMPTS = 0;
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
-
-            String accessToken = googleAuth.getAccessToken();
-            String authorization = "Bearer " + accessToken;
-
-            googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
-                @Override
-                public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
+            requestCalendars(googleAuth);
+        }
+    }
+    public void requestCalendars (GoogleAuth googleAuth) {
+        String accessToken = googleAuth.getAccessToken();
+        String authorization = "Bearer " + accessToken;
+        googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
+            @Override
+            public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
+                if (response.errorBody() == null) {
                     adapter.addGoogleCalendars(response.body().getItems());
                     googleCalendars.addAll(response.body().getItems());
+                } else if (ATTEMPTS == 0){
+                    ATTEMPTS += 1;
+                    requestAccessTokenRefresh(googleAuth);
                 }
+            }
 
-                @Override
-                public void onFailure(Call<GoogleCalendarsResponse> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<GoogleCalendarsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void requestAccessTokenRefresh (GoogleAuth googleAuth) {
+        backendApi.refreshAccessToken(googleAuth.getEmail(), kalPref.clientToken()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                googleAuth.setAccessToken(response.body());
+                kalPref.putAuth(googleAuth);
+                requestCalendars(googleAuth);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
