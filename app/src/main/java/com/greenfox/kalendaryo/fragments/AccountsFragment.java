@@ -5,54 +5,53 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
-import com.greenfox.kalendaryo.adapter.AccountsList;
-import com.greenfox.kalendaryo.models.GoogleAuth;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.services.AccountService;
+import javax.inject.Inject;
 
-import java.util.List;
 
 public class AccountsFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
-    ListView accountNamesView;
-    AccountsList adapter;
     KalPref kalpref;
     FloatingActionButton floatingActionButton;
+    RecyclerView recyclerView;
+
+    @Inject
+    AccountService accountService;
+
     private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.listaccounts, container, false);
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
-        kalpref = new KalPref(getActivity());
-        adapter = new AccountsList(view.getContext());
-        accountNamesView = view.findViewById(R.id.allaccounts);
-        accountNamesView.setAdapter(adapter);
-        floatingActionButton = view.findViewById(R.id.addNewAccount);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.VISIBLE);
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                i.putExtra("ifNewAccChoosen", true);
-                startActivity(i);
-            }
-        });
 
-        List<GoogleAuth> auths = kalpref.getGoogleAuths();
-        adapter.addAll(auths);
+        kalpref = new KalPref(getActivity());
+        DaggerApiComponent.builder().build().inject(this);
+        recyclerView = view.findViewById(R.id.accountsRecycleView);
+        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(recyclerLayoutManager);
+        floatingActionButton = view.findViewById(R.id.addNewAccount);
+        accountService.listAccountsFromBackend(recyclerView, true, null);
+        floatingActionButton.setOnClickListener(v -> {
+            Intent i = new Intent(getActivity(), LoginActivity.class);
+            i.putExtra("ifNewAccChoosen", true);
+            startActivity(i);
+        });
         return view;
     }
 

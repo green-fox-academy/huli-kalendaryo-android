@@ -5,6 +5,7 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
+import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,6 +20,12 @@ public interface BackendApi {
 
     @POST("auth")
     Call<KalUser> postAuth(@Header("X-Client-Token") String clientToken, @Body GoogleAuth auth);
+
+    @GET("account")
+    Call<GetAccountResponse> getAccount(@Header("X-Client-Token") String clientToken);
+
+    @DELETE("account")
+    Call<Void> deleteAccount(@Header("X-Client-Token") String clientToken, @Header("email") String email);
 
     @Headers("Accept: application/json")
     @POST("calendar")

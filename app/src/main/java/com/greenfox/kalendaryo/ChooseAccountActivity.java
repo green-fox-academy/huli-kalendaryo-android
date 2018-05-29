@@ -1,24 +1,22 @@
 package com.greenfox.kalendaryo;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-
-import com.greenfox.kalendaryo.adapter.AccountAdapter;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
-import com.greenfox.kalendaryo.components.DaggerApiComponent;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
-
+import com.greenfox.kalendaryo.services.AccountService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +28,7 @@ import retrofit2.Response;
 
 public class ChooseAccountActivity extends AppCompatActivity {
 
-    RecyclerView accountNamesView;
+    RecyclerView recyclerview;
     KalPref kalpref;
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button next;
@@ -39,6 +37,9 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    AccountService accountService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar = (ProgressBar)findViewById(R.id.progressBar);
+                progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
@@ -87,23 +88,13 @@ public class ChooseAccountActivity extends AppCompatActivity {
         });
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-
-        accountNamesView = findViewById(R.id.account_names);
-        accountNamesView.setLayoutManager(recyclerLayoutManager);
+        recyclerview = findViewById(R.id.account_names);
+        recyclerview.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(accountNamesView.getContext(),
+                new DividerItemDecoration(recyclerview.getContext(),
                         recyclerLayoutManager.getOrientation());
-        accountNamesView.addItemDecoration(dividerItemDecoration);
+        recyclerview.addItemDecoration(dividerItemDecoration);
 
-        AccountAdapter accountAdapter = new
-                AccountAdapter(kalpref.getGoogleAuths(),this);
-
-        accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
-            @Override
-            public void emailChanged(String email) {
-                kalendar.setOutputGoogleAuthId(email);
-            }
-        });
-        accountNamesView.setAdapter(accountAdapter);
+        accountService.listAccountsFromBackend(recyclerview, false, getIntent());
     }
 }

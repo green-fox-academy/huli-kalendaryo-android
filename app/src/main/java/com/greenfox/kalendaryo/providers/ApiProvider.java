@@ -1,13 +1,12 @@
 package com.greenfox.kalendaryo.providers;
 
-import com.greenfox.kalendaryo.BuildConfig;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
+import com.greenfox.kalendaryo.services.AccountService;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.Retrofit;
 
 /**
  * Created by a- on 20/03/2018.
@@ -30,4 +29,7 @@ public class ApiProvider {
     RetrofitClient provideRetrofitClient() {
         return new RetrofitClient();
     }
+
+    @Provides
+    AccountService provideAccountService() {return new AccountService(); }
 }
