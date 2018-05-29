@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                 .requestEmail()
                 .requestIdToken(CLIENT_ID)
-                .requestServerAuthCode(CLIENT_ID)
+                .requestServerAuthCode(CLIENT_ID, true)
                 .build();
         if (!addAnother) {
             GoogleService.init(new GoogleApiClient
