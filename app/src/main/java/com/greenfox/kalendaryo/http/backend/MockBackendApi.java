@@ -84,4 +84,9 @@ public class MockBackendApi implements BackendApi {
     public Call<Void> deleteKalendar(String clientToken, long id) {
         return null;
     }
+
+    @Override
+    public Call<String> refreshAccessToken(String clientToken, String email) {
+        return null;
+    }
 }
