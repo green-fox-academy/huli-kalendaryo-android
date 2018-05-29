@@ -33,6 +33,8 @@ import retrofit2.Response;
 
 public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHolder> {
 
+    public static final String POSITION = "com.greenfox.kalendaryo.adapter.POSITION";
+
     KalPref kalPref;
     private Context context;
     private List<GetKalendarResponse> kalendarResponses;
@@ -90,6 +92,7 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     private void informationAndDeletePopUp(View view, int position) {
         Intent i = new Intent(context, InformationAndDeleteActivity.class);
+        i.putExtra(POSITION, position);
         context.startActivity(i);
     }
 

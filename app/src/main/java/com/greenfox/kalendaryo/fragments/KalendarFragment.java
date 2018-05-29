@@ -66,7 +66,7 @@ public class KalendarFragment extends Fragment {
 
                 progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
-                Intent i = new Intent(getActivity() , CustomNameActivity.class);
+                Intent i = new Intent(getActivity(), CustomNameActivity.class);
                 startActivity(i);
             }
         });
