@@ -43,11 +43,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.clickable = clickable;
     }
 
-    public AccountAdapter(Context context, boolean clickable) {
-        this.context = context;
-        this.clickable = clickable;
-    }
-
     public EmailChange getEmailChange() {
         return emailChange;
     }
@@ -55,10 +50,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public void setEmailChange(EmailChange emailChange) {
         this.emailChange = emailChange;
     }
-
-    /*public void addAll(List<GoogleAuth> auth) {
-        auths.addAll(auth);
-    }*/
 
     @Override
     public AccountAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -117,14 +108,13 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         dialog.dismiss();
                     }
                 });
-
                 alert.show();
             }
         });
+
         if (clickable) {
             GoogleAuth auth = auths.get(position);
             holder.accountName.setText(auth.getEmail());
@@ -134,7 +124,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             holder.oneAccountName.setText(auth.getEmail());
         }
     }
-
 
     @Override
     public int getItemCount() {

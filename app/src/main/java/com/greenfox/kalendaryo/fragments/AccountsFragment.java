@@ -52,10 +52,8 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
             i.putExtra("ifNewAccChoosen", true);
             startActivity(i);
         });
-
         return view;
     }
-
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
