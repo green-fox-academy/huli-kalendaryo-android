@@ -11,4 +11,5 @@
     <string name="submit">Submit</string>
     <string name="name_your_kalendar">Name your kalendar</string>
     <string name="optional">(optional)</string>
+    <string name="log_out">Log out</string>
 </resources>
