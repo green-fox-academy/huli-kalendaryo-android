@@ -37,7 +37,9 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
-    private static int ATTEMPTS;
+    private static int CURRENT_ATTEMPT;
+    private static int FIRST_ATTEMPT = 1;
+    private static int FINAL_ATTEMPT = 2;
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
     Button goToChooseAccount;
@@ -94,7 +96,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
-            ATTEMPTS = 0;
+            CURRENT_ATTEMPT = FIRST_ATTEMPT;
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
             requestCalendars(googleAuth);
         }
@@ -108,8 +110,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 if (response.errorBody() == null) {
                     adapter.addGoogleCalendars(response.body().getItems());
                     googleCalendars.addAll(response.body().getItems());
-                } else if (ATTEMPTS == 0){
-                    ATTEMPTS += 1;
+                } else if (CURRENT_ATTEMPT != FINAL_ATTEMPT){
                     requestAccessTokenRefresh(googleAuth);
                 }
             }
@@ -128,6 +129,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 try {
                     googleAuth.setAccessToken(response.body().string());
                     kalPref.editAuth(googleAuth);
+                    CURRENT_ATTEMPT += 1;
                     requestCalendars(googleAuth);
                 } catch (IOException i) {
                     i.printStackTrace();
