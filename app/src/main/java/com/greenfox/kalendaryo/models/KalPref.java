@@ -49,6 +49,13 @@ public class KalPref {
         addAccount(googleAuth.getEmail());
     }
 
+    public void editAuth(GoogleAuth googleAuth) {
+        String value = gson.toJson(googleAuth);
+        this.putString(googleAuth.getEmail(), value);
+        removeAccount(googleAuth.getEmail());
+        addAccount(googleAuth.getEmail());
+    }
+
     public GoogleAuth getAuth(String key) {
         String value = this.getString(key);
         GoogleAuth googleAuth = gson.fromJson(value, GoogleAuth.class);
