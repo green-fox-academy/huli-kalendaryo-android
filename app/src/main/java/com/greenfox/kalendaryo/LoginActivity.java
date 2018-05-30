@@ -74,22 +74,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void buildGoogleApiClient(boolean addAnother) {
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        GoogleSignInOptions signInOptions = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
-                .requestEmail()
-                .requestIdToken(CLIENT_ID)
-                .requestServerAuthCode(CLIENT_ID)
-                .build();
+        GoogleSignInOptions signInOptions = buildSignInOptions();
         if (!addAnother) {
-            GoogleService.init(new GoogleApiClient
-                    .Builder(this)
-                    .enableAutoManage(this, this)
-                    .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                    .build());
+            initializeGoogleService(signInOptions);
             signIn();
         } else {
-
             GoogleService.getGoogleApiClient().connect();
             GoogleService.getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                 @Override
@@ -97,12 +86,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     if (GoogleService.getInstance().getGoogleApiClient().isConnected()) {
                         Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
                             if (status.isSuccess()) {
-                                GoogleService.init(new GoogleApiClient
-                                        .Builder(LoginActivity.this)
-                                        .enableAutoManage(LoginActivity.this, LoginActivity.this)
-                                        .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                                        .build());
-
+                                initializeGoogleService(signInOptions);
                                 signIn();
                             }
                         });
@@ -115,6 +99,24 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             });
         }
+    }
+
+    public GoogleSignInOptions buildSignInOptions() {
+        return new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
+                .requestEmail()
+                .requestIdToken(CLIENT_ID)
+                .requestServerAuthCode(CLIENT_ID)
+                .build();
+    }
+
+    public void initializeGoogleService(GoogleSignInOptions signInOptions) {
+        GoogleService.init(new GoogleApiClient
+                .Builder(LoginActivity.this)
+                .enableAutoManage(LoginActivity.this, LoginActivity.this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                .build());
     }
 
     public void signIn() {
@@ -161,12 +163,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     String clientToken = kalUser.getClientToken();
                     editKalPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", kalPref.getString(userEmail));
-                    Intent signIn;
-                    if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
-                        signIn = new Intent(LoginActivity.this, MainActivity.class);
-                    } else {
-                        signIn = new Intent(LoginActivity.this, SplashScreenActivity.class);
-                    }
+                    Intent signIn = displayNextActivity();
                     signIn.putExtra("googleAccountName", userEmail);
                     startActivity(signIn);
                 }
@@ -199,5 +196,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onStop();
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+    }
+
+    public Intent displayNextActivity() {
+        if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
+            return new Intent(LoginActivity.this, MainActivity.class);
+        } else {
+            return new Intent(LoginActivity.this, WelcomeScreenActivity.class);
+        }
     }
 }

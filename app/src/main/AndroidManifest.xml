@@ -28,7 +28,7 @@
         <activity android:name=".ChooseAccountActivity" />
         <activity android:name=".StaticWeekViewActivity" />
         <activity android:name=".CustomNameActivity" />
-        <activity android:name=".SplashScreenActivity"></activity>
+        <activity android:name=".WelcomeScreenActivity"></activity>
     </application>
 
 </manifest>
