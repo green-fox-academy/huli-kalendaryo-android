@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -86,7 +87,7 @@ public class MockBackendApi implements BackendApi {
     }
 
     @Override
-    public Call<String> refreshAccessToken(String clientToken, String email) {
+    public Call<ResponseBody> refreshAccessToken(String clientToken, String email) {
         return null;
     }
 }
