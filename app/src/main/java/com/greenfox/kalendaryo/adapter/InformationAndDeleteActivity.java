@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
+import com.greenfox.kalendaryo.services.LogoutService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,9 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
   @Inject
   BackendApi backendApi;
 
+  @Inject
+  LogoutService logoutService;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -53,6 +58,14 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_main, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.log_out) {
+      logoutService.logOut(this);
+    }
     return true;
   }
 
