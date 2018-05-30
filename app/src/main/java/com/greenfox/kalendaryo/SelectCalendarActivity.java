@@ -23,11 +23,13 @@ import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +37,7 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
-    private static int ATTEMPTS = 1;
+    private static int ATTEMPTS;
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
     Button goToChooseAccount;
@@ -120,16 +122,20 @@ public class SelectCalendarActivity extends AppCompatActivity {
     }
 
     public void requestAccessTokenRefresh (GoogleAuth googleAuth) {
-        backendApi.refreshAccessToken(googleAuth.getEmail(), kalPref.clientToken()).enqueue(new Callback<String>() {
+        backendApi.refreshAccessToken(kalPref.clientToken(), googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                googleAuth.setAccessToken(response.body());
-                kalPref.putAuth(googleAuth);
-                requestCalendars(googleAuth);
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    googleAuth.setAccessToken(response.body().string());
+                    kalPref.editAuth(googleAuth);
+                    requestCalendars(googleAuth);
+                } catch (IOException i) {
+                    i.printStackTrace();
+                }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 t.printStackTrace();
             }
         });
