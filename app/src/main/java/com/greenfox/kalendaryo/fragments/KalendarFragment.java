@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import com.greenfox.kalendaryo.CustomNameActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
+import com.greenfox.kalendaryo.adapter.InformationAndDeleteActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
@@ -71,6 +72,12 @@ public class KalendarFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getKalendarResponse(kalPref.clientToken());
     }
 
     private void getKalendarResponse(String clientToken) {

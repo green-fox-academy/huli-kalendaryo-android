@@ -8,11 +8,4 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:background">@drawable/dropdown_background</item>
     </style>
-
-    <style name="AppTheme.InfoAndDelete">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <item name="android:windowBackground">@color/InfoAndDelete</item>
-    </style>
-
 </resources>
