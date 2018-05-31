@@ -187,6 +187,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount account = result.getSignInAccount();
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
+            final String givenName = account.getGivenName();
             backendApi.postAuth(kalPref.clientToken(), new GoogleAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
 
                 @Override
@@ -197,6 +198,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     editKalPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", kalPref.getString(userEmail));
                     Intent signIn = displayNextActivity();
+                    signIn.putExtra("userGivenName", givenName);
                     signIn.putExtra("googleAccountName", userEmail);
                     startActivity(signIn);
                 }
