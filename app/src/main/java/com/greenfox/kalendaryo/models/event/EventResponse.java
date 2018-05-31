@@ -3,8 +3,10 @@ package com.greenfox.kalendaryo.models.event;
 import android.provider.CalendarContract;
 import android.util.EventLogTags;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.client.util.DateTime;
 
+import java.util.Collection;
 import java.util.List;
 
 public class EventResponse {
@@ -18,7 +20,7 @@ public class EventResponse {
     public String accessRole;
     public String nextPageToken;
     public String nextSyncToken;
-    public List<CalendarContract.Events> items;
+    public List<? extends WeekViewEvent> items;
 
     public EventResponse() {
     }
@@ -26,7 +28,7 @@ public class EventResponse {
     public EventResponse(String kind, EventLogTags etag, String summary, String description,
                          DateTime updated, String timeZone, String accessRole,
                           String nextPageToken,
-                         String nextSyncToken, List<CalendarContract.Events> items) {
+                         String nextSyncToken, List<? extends WeekViewEvent> items) {
         this.kind = kind;
         this.etag = etag;
         this.summary = summary;
@@ -37,5 +39,9 @@ public class EventResponse {
         this.nextPageToken = nextPageToken;
         this.nextSyncToken = nextSyncToken;
         this.items = items;
+    }
+
+    public Collection<? extends WeekViewEvent> getItems() {
+        return items;
     }
 }
