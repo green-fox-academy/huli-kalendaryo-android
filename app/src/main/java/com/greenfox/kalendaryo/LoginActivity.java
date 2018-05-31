@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signIn = findViewById(R.id.bn_login);
         fromRight = AnimationUtils.loadAnimation(this, R.anim.from_right);
         signIn.setAnimation(fromRight);
-        setMottoAnimation();
+        setBrandNameAnimation();
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,14 +83,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void setMottoAnimation() {
-        ObjectAnimator scaleXAnimation = ObjectAnimator.ofFloat(findViewById(R.id.motto), "scaleX", 5.0F, 1.0F);
+    private void setBrandNameAnimation() {
+        ObjectAnimator scaleXAnimation = ObjectAnimator.ofFloat(findViewById(R.id.brandName), "scaleX", 5.0F, 1.0F);
         scaleXAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         scaleXAnimation.setDuration(1200);
-        ObjectAnimator scaleYAnimation = ObjectAnimator.ofFloat(findViewById(R.id.motto), "scaleY", 5.0F, 1.0F);
+        ObjectAnimator scaleYAnimation = ObjectAnimator.ofFloat(findViewById(R.id.brandName), "scaleY", 5.0F, 1.0F);
         scaleYAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         scaleYAnimation.setDuration(1200);
-        ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(findViewById(R.id.motto), "alpha", 0.0F, 1.0F);
+        ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(findViewById(R.id.brandName), "alpha", 0.0F, 1.0F);
         alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         alphaAnimation.setDuration(1200);
         AnimatorSet animatorSet = new AnimatorSet();
