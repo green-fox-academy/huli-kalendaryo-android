@@ -52,7 +52,7 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
         kalendar = (Kalendar) getIntent().getSerializableExtra("list");
 
         Bundle bundle = getIntent().getExtras();
-        googleCalendars = bundle.getParcelableArrayList("googeleCalendars");
+        googleCalendars = bundle.getParcelableArrayList("googleCalendars");
 
         getEventList();
 
