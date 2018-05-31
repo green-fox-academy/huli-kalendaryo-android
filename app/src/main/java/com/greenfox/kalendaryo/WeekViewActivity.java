@@ -3,8 +3,10 @@ package com.greenfox.kalendaryo;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -67,11 +69,10 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backendApi = RetrofitClient.getBackendApi();
-                backendApi.postCalendar(getClientToken(), kalendar).enqueue(new Callback<PostKalendarResponse>() {
+                backendApi.postCalendar(kalPref.clientToken(), kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
                     public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
-                        response.body();
+                        PostKalendarResponse postKalendarResponse = response.body();
                     }
 
                     @Override
@@ -79,12 +80,36 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
                         t.printStackTrace();
                     }
                 });
-
                 Intent i = new Intent(WeekViewActivity.this, MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
                 i.putExtra("list", kalendar);
+                i.putExtras(bundle);
                 startActivity(i);
+                finish();
             }
         });
+//        sendToBackend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                backendApi = RetrofitClient.getBackendApi();
+//                backendApi.postCalendar(getClientToken(), kalendar).enqueue(new Callback<PostKalendarResponse>() {
+//                    @Override
+//                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+//                        response.body();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
+//                        t.printStackTrace();
+//                    }
+//                });
+//
+//                Intent i = new Intent(WeekViewActivity.this, MainActivity.class);
+//                i.putExtra("list", kalendar);
+//                startActivity(i);
+//            }
+//        });
     }
 
     public void getEventList() {

@@ -66,17 +66,17 @@ public class ChooseAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
-                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
-                    @Override
-                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
-                        PostKalendarResponse postKalendarResponse = response.body();
-                    }
-
-                    @Override
-                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+//                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
+//                    @Override
+//                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+//                        PostKalendarResponse postKalendarResponse = response.body();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
+//                        t.printStackTrace();
+//                    }
+//                });
                 Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
