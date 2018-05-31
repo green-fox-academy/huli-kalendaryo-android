@@ -1,6 +1,8 @@
 package com.greenfox.kalendaryo;
 
 import android.accounts.AccountManager;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
@@ -35,12 +42,16 @@ import static android.accounts.AccountManager.newChooseAccountIntent;
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private SignInButton signIn;
+    private ImageView logo;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
     private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
     private GoogleAuth googleAuth;
     private ProgressBar progressBar;
+    private Animation fromLeft;
+    private Animation fromRight;
+
 
     @Inject
     BackendApi backendApi;
@@ -51,7 +62,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
         DaggerApiComponent.builder().build().inject(this);
         kalPref = new KalPref(this.getApplicationContext());
+        logo = (ImageView) findViewById(R.id.logo);
+        Animation fromLeft = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.from_left);
+        logo.setAnimation(fromLeft);
         signIn = findViewById(R.id.bn_login);
+        fromRight = AnimationUtils.loadAnimation(this, R.anim.from_right);
+        signIn.setAnimation(fromRight);
+        setMottoAnimation();
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +81,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
             buildGoogleApiClient(true);
         }
+    }
+
+    private void setMottoAnimation() {
+        ObjectAnimator scaleXAnimation = ObjectAnimator.ofFloat(findViewById(R.id.motto), "scaleX", 5.0F, 1.0F);
+        scaleXAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        scaleXAnimation.setDuration(1200);
+        ObjectAnimator scaleYAnimation = ObjectAnimator.ofFloat(findViewById(R.id.motto), "scaleY", 5.0F, 1.0F);
+        scaleYAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        scaleYAnimation.setDuration(1200);
+        ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(findViewById(R.id.motto), "alpha", 0.0F, 1.0F);
+        alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        alphaAnimation.setDuration(1200);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(scaleXAnimation).with(scaleYAnimation).with(alphaAnimation);
+        animatorSet.setStartDelay(500);
+        animatorSet.start();
     }
 
     @Override
