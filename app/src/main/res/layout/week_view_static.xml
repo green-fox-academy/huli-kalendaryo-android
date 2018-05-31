@@ -39,7 +39,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:background="@android:color/holo_orange_light"
-            android:text="Next"
+            android:text="@string/create"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/listView"
             app:layout_constraintHorizontal_bias="0.971"

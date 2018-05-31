@@ -181,4 +181,10 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     public void onFailure(Call<List<Event>> call, Throwable t) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, SelectCalendarActivity.class);
+        startActivity(intent);
+    }
 }

@@ -106,4 +106,10 @@ public class SelectCalendarActivity extends AppCompatActivity {
             });
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, CustomNameActivity.class);
+        startActivity(intent);
+    }
 }
