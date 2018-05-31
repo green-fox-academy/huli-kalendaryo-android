@@ -77,7 +77,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
                         t.printStackTrace();
                     }
                 });
-                Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
+                Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
                 i.putExtra("list", kalendar);

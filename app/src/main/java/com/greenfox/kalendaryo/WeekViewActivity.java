@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.api.services.calendar.model.Event;
 import com.greenfox.kalendaryo.http.RetrofitClient;
@@ -26,7 +28,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WeekViewActivity extends BaseActivity implements Callback<List<Event>>  {
+public class WeekViewActivity extends BaseActivity implements Callback<List<Event>>,WeekView.EventClickListener,
+        MonthLoader.MonthChangeListener, WeekView.EventLongPressListener,
+        WeekView.EmptyViewLongPressListener  {
 
     private KalPref kalPref;
     private Kalendar kalendar;
@@ -37,6 +41,8 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
 
+    WeekView mWeekView;
+
     public WeekViewActivity() {
     }
 
@@ -44,6 +50,8 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.week_view_static);
+        mWeekView = findViewById(R.id.weekview);
+        mWeekView.setMonthChangeListener(this);
 
         sendToBackend = findViewById(R.id.send_to_backend);
 
