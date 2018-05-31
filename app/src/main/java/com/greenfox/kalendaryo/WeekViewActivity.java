@@ -37,7 +37,7 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     private KalPref kalPref;
     private Kalendar kalendar;
     private GoogleApi googleApi;
-    private BackendApi backendApi;
+    BackendApi backendApi;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
     List<WeekViewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
@@ -69,6 +69,7 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
         sendToBackend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                backendApi = RetrofitClient.getBackendApi();
                 backendApi.postCalendar(kalPref.clientToken(), kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
                     public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
