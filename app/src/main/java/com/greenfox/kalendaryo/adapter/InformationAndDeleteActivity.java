@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -53,6 +55,18 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
     getKalendarResponse = (GetKalendarResponse) i.getSerializableExtra(KalendarAdapter.GETKALENDARRESPONSE);
 
     DaggerApiComponent.builder().build().inject(this);
+
+    TextView kalendarName = findViewById(R.id.kalendarName);
+    kalendarName.setText(getKalendarResponse.getOutputCalendarId());
+    TextView kalendarUser = findViewById(R.id.kalendarUser);
+    kalendarUser.setText(getKalendarResponse.getOutputGoogleAuthId());
+
+    RecyclerView recyclerView = findViewById(R.id.mergedCalendars);
+    List<String> inputGoogleCalendars = getKalendarResponse.getInputGoogleCalendars();
+    KalendarSettingsAdapter kalendarSettingsAdapter = new KalendarSettingsAdapter(this);
+    kalendarSettingsAdapter.setCalendarNames(inputGoogleCalendars);
+    recyclerView.setAdapter(kalendarSettingsAdapter);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
   }
 
   @Override
