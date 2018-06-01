@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -61,12 +62,7 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
     TextView kalendarUser = findViewById(R.id.kalendarUser);
     kalendarUser.setText(getKalendarResponse.getOutputGoogleAuthId());
 
-    RecyclerView recyclerView = findViewById(R.id.mergedCalendars);
-    List<String> inputGoogleCalendars = getKalendarResponse.getInputGoogleCalendars();
-    KalendarSettingsAdapter kalendarSettingsAdapter = new KalendarSettingsAdapter(this);
-    kalendarSettingsAdapter.setCalendarNames(inputGoogleCalendars);
-    recyclerView.setAdapter(kalendarSettingsAdapter);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerViewSetup();
   }
 
   @Override
@@ -128,5 +124,19 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
   public void toastMessage(View view, String input){
     Toast.makeText(view.getContext(),input,
         Toast.LENGTH_LONG).show();
+  }
+
+  public void recyclerViewSetup() {
+    RecyclerView recyclerView = findViewById(R.id.mergedCalendars);
+    List<String> inputGoogleCalendars = getKalendarResponse.getInputGoogleCalendars();
+    KalendarSettingsAdapter kalendarSettingsAdapter = new KalendarSettingsAdapter(this);
+    kalendarSettingsAdapter.setCalendarNames(inputGoogleCalendars);
+    recyclerView.setAdapter(kalendarSettingsAdapter);
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(linearLayoutManager);
+    DividerItemDecoration dividerItemDecoration =
+        new DividerItemDecoration(recyclerView.getContext(),
+            linearLayoutManager.getOrientation());
+    recyclerView.addItemDecoration(dividerItemDecoration);
   }
 }
