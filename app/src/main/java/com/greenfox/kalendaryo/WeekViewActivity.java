@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -22,6 +21,7 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.event.EventResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -52,6 +52,7 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.week_view_static);
+
         mWeekView = findViewById(R.id.weekview);
         mWeekView.setMonthChangeListener(this);
 
@@ -90,27 +91,6 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
                 finish();
             }
         });
-//        sendToBackend.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                backendApi = RetrofitClient.getBackendApi();
-//                backendApi.postCalendar(getClientToken(), kalendar).enqueue(new Callback<PostKalendarResponse>() {
-//                    @Override
-//                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
-//                        response.body();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
-//                        t.printStackTrace();
-//                    }
-//                });
-//
-//                Intent i = new Intent(WeekViewActivity.this, MainActivity.class);
-//                i.putExtra("list", kalendar);
-//                startActivity(i);
-//            }
-//        });
     }
 
     public void getEventList() {
@@ -124,15 +104,17 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
             String authorization = "Bearer " + accessToken;
             for (GoogleCalendar googleCalendar : googleCalendars) {
 
-                googleApi.getEventList(authorization,googleCalendar.getId()).enqueue(new Callback<EventResponse>() {
+                googleApi.getEventList(authorization, googleCalendar.getId()).enqueue(new Callback<EventResponse>() {
                     @Override
                     public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
                         eventsFromGoogle.addAll(response.body().getItems());
+                        System.out.println("RESPONSE: " + response.body());
                     }
 
                     @Override
                     public void onFailure(Call<EventResponse> call, Throwable t) {
                         t.printStackTrace();
+                        System.out.println("FAILURE");
                     }
                 });
             }
