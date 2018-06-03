@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SelectCalendarActivity" />
+        <activity android:name=".SharingOptionsActivity" />
         <activity android:name=".ChooseAccountActivity" />
         <activity android:name=".StaticWeekViewActivity" />
         <activity android:name=".CustomNameActivity"></activity>
