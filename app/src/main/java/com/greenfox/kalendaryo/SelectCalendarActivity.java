@@ -36,7 +36,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
-    Button goToChooseAccount;
+    Button gotosharingoptions;
     Kalendar kalendar;
     RecyclerView recKal;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
@@ -66,17 +66,14 @@ public class SelectCalendarActivity extends AppCompatActivity {
         recKal.addItemDecoration(dividerItemDecoration);
         String customName = getIntent().getStringExtra(CustomNameActivity.CUSTOM_NAME);
         kalendar.setCustomName(customName);
-        goToChooseAccount = findViewById(R.id.gotochooseaccount);
-        goToChooseAccount.setOnClickListener(new View.OnClickListener() {
+        gotosharingoptions = findViewById(R.id.gotosharingoptions);
+        gotosharingoptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
-                Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+                Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
                 i.putExtra("list", kalendar);
-                i.putExtras(bundle);
                 startActivity(i);
                 finish();
             }
