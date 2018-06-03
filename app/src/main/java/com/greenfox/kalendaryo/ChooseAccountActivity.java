@@ -48,15 +48,13 @@ public class ChooseAccountActivity extends AppCompatActivity {
         kalpref = new KalPref(this.getApplicationContext());
         next = findViewById(R.id.go_to_weekview);
 
-        Bundle bundle = getIntent().getExtras();
-        googleCalendars = bundle.getParcelableArrayList("googleCalendars");
 
         DaggerApiComponent.builder().build().inject(this);
         kalendar = (Kalendar) getIntent().getSerializableExtra("list");
-
+        googleCalendars = kalendar.getInputGoogleCalendars();
         String clientToken = kalpref.clientToken();
 
-        String[] array = new String[kalendar.getInputGoogleCalendars().size()];
+        GoogleCalendar[] array = new GoogleCalendar[kalendar.getInputGoogleCalendars().size()];
         for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {
             array[j] = kalendar.getInputGoogleCalendars().get(j);
         }
