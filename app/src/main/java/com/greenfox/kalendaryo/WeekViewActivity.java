@@ -21,7 +21,6 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.event.EventResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,9 +29,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WeekViewActivity extends BaseActivity implements Callback<List<Event>>,WeekView.EventClickListener,
+public class WeekViewActivity extends BaseActivity implements Callback<List<Event>>, WeekView.EventClickListener,
         MonthLoader.MonthChangeListener, WeekView.EventLongPressListener,
-        WeekView.EmptyViewLongPressListener  {
+        WeekView.EmptyViewLongPressListener {
 
     private KalPref kalPref;
     private Kalendar kalendar;
@@ -127,6 +126,7 @@ public class WeekViewActivity extends BaseActivity implements Callback<List<Even
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+        getEventList();
         for (WeekViewEvent event : eventsFromGoogle) {
             if (eventMatches(event, newYear, newMonth)) {
                 weekViewEvents.add(event);
