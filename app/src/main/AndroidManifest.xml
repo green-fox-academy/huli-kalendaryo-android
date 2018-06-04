@@ -11,9 +11,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity" />
@@ -28,7 +28,8 @@
         <activity android:name=".SharingOptionsActivity" />
         <activity android:name=".ChooseAccountActivity" />
         <activity android:name=".StaticWeekViewActivity" />
-        <activity android:name=".CustomNameActivity"></activity>
+        <activity android:name=".CustomNameActivity" />
+        <activity android:name=".WelcomeScreenActivity"></activity>
     </application>
 
 </manifest>
