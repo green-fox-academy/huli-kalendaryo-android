@@ -55,23 +55,4 @@ public class AccountService {
             }
         });
     }
-
-    public void requestAccessTokenRefresh (GoogleAuth googleAuth, KalPref kalPref) {
-        backendApi.refreshAccessToken(kalPref.clientToken(), googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    googleAuth.setAccessToken(response.body().string());
-                    kalPref.putAuth(googleAuth);
-                } catch (IOException i) {
-                    i.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
 }

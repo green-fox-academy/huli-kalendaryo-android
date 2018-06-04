@@ -38,7 +38,6 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
-    private static int CURRENT_ATTEMPT;
     private static int FIRST_ATTEMPT = 1;
     private static int FINAL_ATTEMPT = 2;
     private KalPref kalPref;
@@ -52,6 +51,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     @Inject
     GoogleApi googleApi;
+
+    @Inject
+    BackendApi backendApi;
 
     @Inject
     AccountService accountService;
@@ -97,24 +99,22 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
-            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
-            requestCalendars(googleAuth);
+            String account = accounts.get(i);
+            requestCalendars(account, FIRST_ATTEMPT);
         }
     }
-    public void requestCalendars (GoogleAuth googleAuth) {
-        CURRENT_ATTEMPT = FIRST_ATTEMPT;
-        String accessToken = googleAuth.getAccessToken();
-        String authorization = "Bearer " + accessToken;
+    public void requestCalendars (String account, Integer attempt) {
+        GoogleAuth googleAuth = kalPref.getAuth(account);
+        String authorization = "Bearer " + googleAuth.getAccessToken();
         googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
             @Override
             public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
                 if (response.errorBody() == null) {
                     adapter.addGoogleCalendars(response.body().getItems());
                     googleCalendars.addAll(response.body().getItems());
-                } else if (CURRENT_ATTEMPT != FINAL_ATTEMPT){
-                    accountService.requestAccessTokenRefresh(googleAuth, kalPref);
-                    CURRENT_ATTEMPT ++;
-                    requestCalendars(googleAuth);
+                } else if (attempt != FINAL_ATTEMPT){
+                    requestAccessTokenRefresh(googleAuth, kalPref.clientToken());
+                    requestCalendars(account, FINAL_ATTEMPT);
                 }
             }
 
@@ -124,6 +124,22 @@ public class SelectCalendarActivity extends AppCompatActivity {
             }
         });
     }
+    public void requestAccessTokenRefresh (GoogleAuth googleAuth, String clientToken) {
+        backendApi.refreshAccessToken(clientToken, googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    googleAuth.setAccessToken(response.body().string());
+                    kalPref.putAuth(googleAuth);
+                } catch (IOException i) {
+                    i.printStackTrace();
+                }
+            }
 
-
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
 }
