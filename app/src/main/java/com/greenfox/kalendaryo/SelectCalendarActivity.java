@@ -22,6 +22,7 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
+import com.greenfox.kalendaryo.services.AccountService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     GoogleApi googleApi;
 
     @Inject
-    BackendApi backendApi;
+    AccountService accountService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +97,12 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
-            CURRENT_ATTEMPT = FIRST_ATTEMPT;
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
             requestCalendars(googleAuth);
         }
     }
     public void requestCalendars (GoogleAuth googleAuth) {
+        CURRENT_ATTEMPT = FIRST_ATTEMPT;
         String accessToken = googleAuth.getAccessToken();
         String authorization = "Bearer " + accessToken;
         googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
@@ -111,7 +112,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
                     adapter.addGoogleCalendars(response.body().getItems());
                     googleCalendars.addAll(response.body().getItems());
                 } else if (CURRENT_ATTEMPT != FINAL_ATTEMPT){
-                    requestAccessTokenRefresh(googleAuth);
+                    accountService.requestAccessTokenRefresh(googleAuth, kalPref);
+                    CURRENT_ATTEMPT ++;
+                    requestCalendars(googleAuth);
                 }
             }
 
@@ -122,24 +125,5 @@ public class SelectCalendarActivity extends AppCompatActivity {
         });
     }
 
-    public void requestAccessTokenRefresh (GoogleAuth googleAuth) {
-        backendApi.refreshAccessToken(kalPref.clientToken(), googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    googleAuth.setAccessToken(response.body().string());
-                    kalPref.editAuth(googleAuth);
-                    CURRENT_ATTEMPT += 1;
-                    requestCalendars(googleAuth);
-                } catch (IOException i) {
-                    i.printStackTrace();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
 }
