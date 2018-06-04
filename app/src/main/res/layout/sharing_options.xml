@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/sharing_title"
+        android:id="@+id/textView_sharing_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/calendarname"
@@ -15,15 +15,15 @@
         android:layout_below="@+id/calendarname"
         android:layout_marginStart="24dp"
         android:text="Visibility"
-        app:layout_constraintBaseline_toBaselineOf="@+id/set_visibility"
+        app:layout_constraintBaseline_toBaselineOf="@+id/spinner_setVisibility"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:spinnerMode="dropdown"
-        android:id="@+id/set_visibility"
+        android:id="@+id/spinner_setVisibility"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/sharing_title"
+        android:layout_alignBottom="@+id/textView_calendarname"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="72dp"
@@ -35,7 +35,7 @@
         tools:background="@android:color/background_light" />
 
     <TextView
-        android:id="@+id/calendarname"
+        android:id="@+id/textView_calendarname"
         android:layout_width="276dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"

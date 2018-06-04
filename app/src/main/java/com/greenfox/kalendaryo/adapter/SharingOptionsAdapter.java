@@ -19,18 +19,29 @@ import java.util.List;
 
 public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAdapter.ViewHolder> {
 
-    private List<GoogleCalendar> inputCalendarIds;
+    private List<GoogleCalendar> googleCalendars;
     private Context context;
-    Kalendar kalMerged;
+    Kalendar kalendar;
+    public enum VisibilityOptions{
+        DEFAULT("Default visibility"),
+        PUBLIC("Public"),
+        PRIVATE("Private");
 
-    public SharingOptionsAdapter(Context context, Kalendar kalMerged) {
-        this.context = context;
-        this.kalMerged = kalMerged;
-        this.inputCalendarIds = kalMerged.getInputGoogleCalendars();
+        private String visibilities;
+
+        private VisibilityOptions(String visibilities){
+            this.visibilities = visibilities;
+        }
+
+        @Override public String toString(){
+            return visibilities;
+        }
     }
 
-    public void removeInputCalendarIds() {
-        inputCalendarIds.clear();
+    public SharingOptionsAdapter(Context context, Kalendar kalendar) {
+        this.context = context;
+        this.kalendar = kalendar;
+        this.googleCalendars = kalendar.getInputGoogleCalendars();
     }
 
     @Override
@@ -42,27 +53,24 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
     @Override
     public void onBindViewHolder(SharingOptionsAdapter.ViewHolder holder, int position) {
-        GoogleCalendar calendar = inputCalendarIds.get(position);
-
+        GoogleCalendar calendar = googleCalendars.get(position);
         holder.calendarName.setText(calendar.getSummary());
+        calendar.setSharingOptions(VisibilityOptions.valueOf("DEFAULT").toString());
 
         Spinner spinner = holder.dropdown;
-
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 calendar.setSharingOptions(spinner.getSelectedItem().toString());
             }
             public void onNothingSelected(AdapterView<?> adapterView) {
-                calendar.setSharingOptions("Default visibility");
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return inputCalendarIds.size();
+        return googleCalendars.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,10 +80,10 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
         public ViewHolder(View itemView) {
             super(itemView);
-            calendarName = itemView.findViewById(R.id.calendarname);
-            dropdown = (Spinner)itemView.findViewById(R.id.set_visibility);
+            calendarName = itemView.findViewById(R.id.textView_calendarname);
+            dropdown = (Spinner)itemView.findViewById(R.id.spinner_setVisibility);
             String[] items = new String[]{"Default visibility", "Public", "Private"};
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, items);
+            ArrayAdapter<VisibilityOptions> adapter = new ArrayAdapter<VisibilityOptions>(context, android.R.layout.simple_spinner_dropdown_item, VisibilityOptions.values());
             dropdown.setAdapter(adapter);
         }
     }

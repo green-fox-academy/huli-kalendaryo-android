@@ -50,7 +50,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
 
         DaggerApiComponent.builder().build().inject(this);
-        kalendar = (Kalendar) getIntent().getSerializableExtra("list");
+        kalendar = (Kalendar) getIntent().getSerializableExtra(SelectCalendarActivity.KALENDAR);
         googleCalendars = kalendar.getInputGoogleCalendars();
         String clientToken = kalpref.clientToken();
 
@@ -78,7 +78,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
                 Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-                i.putExtra("list", kalendar);
+                i.putExtra(SelectCalendarActivity.KALENDAR, kalendar);
                 i.putExtras(bundle);
                 startActivity(i);
                 finish();

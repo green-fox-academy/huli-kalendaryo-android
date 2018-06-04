@@ -38,10 +38,11 @@ public class SelectCalendarActivity extends AppCompatActivity {
     private GoogleCalendarAdapter adapter;
     Button gotosharingoptions;
     Kalendar kalendar;
-    RecyclerView recKal;
+    RecyclerView recyclerView;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     private ProgressBar progressBar;
+    public static final String KALENDAR = "com.greenfox.kalendaryo.KALENDAR";
 
     @Inject
     GoogleApi googleApi;
@@ -56,24 +57,24 @@ public class SelectCalendarActivity extends AppCompatActivity {
         kalendar = new Kalendar();
         getCalendarList();
         adapter.setListChange(kalendar);
-        recKal = findViewById(R.id.listView);
-        recKal.setAdapter(adapter);
+        recyclerView = findViewById(R.id.listView);
+        recyclerView.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        recKal.setLayoutManager(recyclerLayoutManager);
+        recyclerView.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recKal.getContext(),
+                new DividerItemDecoration(recyclerView.getContext(),
                         recyclerLayoutManager.getOrientation());
-        recKal.addItemDecoration(dividerItemDecoration);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         String customName = getIntent().getStringExtra(CustomNameActivity.CUSTOM_NAME);
         kalendar.setCustomName(customName);
-        gotosharingoptions = findViewById(R.id.gotosharingoptions);
+        gotosharingoptions = findViewById(R.id.button_gotosharingoptions);
         gotosharingoptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
-                i.putExtra("list", kalendar);
+                i.putExtra(KALENDAR, kalendar);
                 startActivity(i);
                 finish();
             }

@@ -5,10 +5,6 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
-/**
- * Created by barba on 04/01/2018.
- */
-
 public class GoogleCalendar implements Parcelable, Serializable {
 
     String id;

@@ -10,11 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.kalendaryo.adapter.SharingOptionsAdapter;
-import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.Kalendar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SharingOptionsActivity extends AppCompatActivity {
 
@@ -24,27 +20,26 @@ public class SharingOptionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Kalendar kalMerged = (Kalendar) getIntent().getSerializableExtra("list");
+        Kalendar kalendar = (Kalendar) getIntent().getSerializableExtra(SelectCalendarActivity.KALENDAR);
         setContentView(R.layout.activity_sharing_options);
 
-        adapter = new SharingOptionsAdapter(this, kalMerged);
+        adapter = new SharingOptionsAdapter(this, kalendar);
 
-        RecyclerView recKal = findViewById(R.id.sharing_options_list);
-        recKal.setAdapter(adapter);
+        RecyclerView recyclerView = findViewById(R.id.sharing_options_list);
+        recyclerView.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        recKal.setLayoutManager(recyclerLayoutManager);
+        recyclerView.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recKal.getContext(),
+                new DividerItemDecoration(recyclerView.getContext(),
                         recyclerLayoutManager.getOrientation());
-        recKal.addItemDecoration(dividerItemDecoration);
-        goToChooseAccount = findViewById(R.id.gotochooseaccount);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        goToChooseAccount = findViewById(R.id.button_gotochooseaccount);
         goToChooseAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SharingOptionsActivity.this, ChooseAccountActivity.class);
-                i.putExtra("list", kalMerged);
+                i.putExtra(SelectCalendarActivity.KALENDAR, kalendar);
                 startActivity(i);
-                adapter.removeInputCalendarIds();
             }
         });
     }
