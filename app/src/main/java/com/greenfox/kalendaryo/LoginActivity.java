@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -62,24 +61,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
         DaggerApiComponent.builder().build().inject(this);
         kalPref = new KalPref(this.getApplicationContext());
-        logo = (ImageView) findViewById(R.id.logo);
-        Animation fromLeft = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.from_left);
-        logo.setAnimation(fromLeft);
         signIn = findViewById(R.id.bn_login);
-        fromRight = AnimationUtils.loadAnimation(this, R.anim.from_right);
-        signIn.setAnimation(fromRight);
-        setBrandNameAnimation();
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar = (ProgressBar)findViewById(R.id.progressBar);
+                progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 progressBar.setVisibility(view.VISIBLE);
                 buildGoogleApiClient(false);
             }
         });
+
         // By default it is false, because this is way
         if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
             buildGoogleApiClient(true);
+            signIn.setVisibility(View.GONE);
+        } else if (getIntent().getBooleanExtra("isLoggedOut", false) == false) {
+            logo = (ImageView) findViewById(R.id.logo);
+            Animation fromLeft = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.from_left);
+            logo.setAnimation(fromLeft);
+            fromRight = AnimationUtils.loadAnimation(this, R.anim.from_right);
+            signIn.setAnimation(fromRight);
+            setBrandNameAnimation();
         }
     }
 
