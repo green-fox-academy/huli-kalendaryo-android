@@ -5,7 +5,7 @@ import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.MainActivity;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
-import com.greenfox.kalendaryo.adapter.InformationAndDeleteActivity;
+import com.greenfox.kalendaryo.InformationAndDeleteActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.fragments.AccountsFragment;
 import com.greenfox.kalendaryo.fragments.KalendarFragment;

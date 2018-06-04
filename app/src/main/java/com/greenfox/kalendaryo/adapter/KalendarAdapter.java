@@ -1,31 +1,23 @@
 package com.greenfox.kalendaryo.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.greenfox.kalendaryo.CustomNameActivity;
+import com.greenfox.kalendaryo.InformationAndDeleteActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by tung on 2/28/18.
