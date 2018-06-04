@@ -36,7 +36,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
-    Button gotosharingoptions;
+    Button goToSharingOptions;
     Kalendar kalendar;
     RecyclerView recyclerView;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
@@ -67,8 +67,8 @@ public class SelectCalendarActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
         String customName = getIntent().getStringExtra(CustomNameActivity.CUSTOM_NAME);
         kalendar.setCustomName(customName);
-        gotosharingoptions = findViewById(R.id.button_gotosharingoptions);
-        gotosharingoptions.setOnClickListener(new View.OnClickListener() {
+        goToSharingOptions = findViewById(R.id.button_gotosharingoptions);
+        goToSharingOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBar = (ProgressBar) findViewById(R.id.progressBar);
