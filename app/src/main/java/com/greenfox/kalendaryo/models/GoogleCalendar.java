@@ -3,13 +3,15 @@ package com.greenfox.kalendaryo.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.greenfox.kalendaryo.adapter.SharingOptionsAdapter;
+
 import java.io.Serializable;
 
 public class GoogleCalendar implements Parcelable, Serializable {
 
     String id;
     String summary;
-    String sharingOptions;
+    SharingOptionsAdapter.VisibilityOption sharingOption;
 
     public GoogleCalendar() {
     }
@@ -35,12 +37,12 @@ public class GoogleCalendar implements Parcelable, Serializable {
         this.summary = summary;
     }
 
-    public String getSharingOptions() {
-        return sharingOptions;
+    public SharingOptionsAdapter.VisibilityOption getSharingOption() {
+        return sharingOption;
     }
 
-    public void setSharingOptions(String sharingOptions) {
-        this.sharingOptions = sharingOptions;
+    public void setSharingOption(SharingOptionsAdapter.VisibilityOption sharingOption) {
+        this.sharingOption = sharingOption;
     }
 
     public static final Creator<GoogleCalendar> CREATOR = new Creator<GoogleCalendar>() {

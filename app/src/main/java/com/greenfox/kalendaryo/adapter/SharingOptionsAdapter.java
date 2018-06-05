@@ -22,14 +22,14 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
     private List<GoogleCalendar> googleCalendars;
     private Context context;
     Kalendar kalendar;
-    public enum VisibilityOptions{
+    public enum VisibilityOption{
         DEFAULT("Default visibility"),
         PUBLIC("Public"),
         PRIVATE("Private");
 
         private String visibilities;
 
-        private VisibilityOptions(String visibilities){
+        private VisibilityOption(String visibilities){
             this.visibilities = visibilities;
         }
 
@@ -55,13 +55,13 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
     public void onBindViewHolder(SharingOptionsAdapter.ViewHolder holder, int position) {
         GoogleCalendar calendar = googleCalendars.get(position);
         holder.calendarName.setText(calendar.getSummary());
-        calendar.setSharingOptions(VisibilityOptions.valueOf("DEFAULT").toString());
+        calendar.setSharingOption(VisibilityOption.valueOf("DEFAULT"));
 
         Spinner spinner = holder.dropdown;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                calendar.setSharingOptions(spinner.getSelectedItem().toString());
+                calendar.setSharingOption((VisibilityOption)spinner.getSelectedItem());
             }
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
@@ -82,9 +82,9 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
             super(itemView);
             calendarName = itemView.findViewById(R.id.textView_calendarname);
             dropdown = (Spinner)itemView.findViewById(R.id.spinner_setVisibility);
-            String[] items = new String[]{"Default visibility", "Public", "Private"};
-            ArrayAdapter<VisibilityOptions> adapter = new ArrayAdapter<VisibilityOptions>(context, android.R.layout.simple_spinner_dropdown_item, VisibilityOptions.values());
+            ArrayAdapter<VisibilityOption> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, VisibilityOption.values());
             dropdown.setAdapter(adapter);
         }
     }
+
 }
