@@ -95,7 +95,7 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
 
     }
     public interface ListChange {
-        void saveCalendar(GoogleCalendar calendarTitle);
-        void removeCalendar(GoogleCalendar calderTitle);
+        void saveCalendar(GoogleCalendar googleCalendar);
+        void removeCalendar(GoogleCalendar googleCalendar);
     }
 }

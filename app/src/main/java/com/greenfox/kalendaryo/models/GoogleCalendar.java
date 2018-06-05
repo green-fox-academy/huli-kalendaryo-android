@@ -11,7 +11,7 @@ public class GoogleCalendar implements Parcelable, Serializable {
 
     String id;
     String summary;
-    SharingOptionsAdapter.VisibilityOption sharingOption;
+    VisibilityOption sharingOption;
 
     public GoogleCalendar() {
     }
@@ -37,11 +37,11 @@ public class GoogleCalendar implements Parcelable, Serializable {
         this.summary = summary;
     }
 
-    public SharingOptionsAdapter.VisibilityOption getSharingOption() {
+    public VisibilityOption getSharingOption() {
         return sharingOption;
     }
 
-    public void setSharingOption(SharingOptionsAdapter.VisibilityOption sharingOption) {
+    public void setSharingOption(VisibilityOption sharingOption) {
         this.sharingOption = sharingOption;
     }
 

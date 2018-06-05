@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.VisibilityOption;
 
 import java.util.List;
 
@@ -22,21 +23,7 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
     private List<GoogleCalendar> googleCalendars;
     private Context context;
     Kalendar kalendar;
-    public enum VisibilityOption{
-        DEFAULT("Default visibility"),
-        PUBLIC("Public"),
-        PRIVATE("Private");
-
-        private String visibilities;
-
-        private VisibilityOption(String visibilities){
-            this.visibilities = visibilities;
-        }
-
-        @Override public String toString(){
-            return visibilities;
-        }
-    }
+    VisibilityOption visibilityOption;
 
     public SharingOptionsAdapter(Context context, Kalendar kalendar) {
         this.context = context;
@@ -55,7 +42,7 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
     public void onBindViewHolder(SharingOptionsAdapter.ViewHolder holder, int position) {
         GoogleCalendar calendar = googleCalendars.get(position);
         holder.calendarName.setText(calendar.getSummary());
-        calendar.setSharingOption(VisibilityOption.valueOf("DEFAULT"));
+        calendar.setSharingOption(visibilityOption.DEFAULT);
 
         Spinner spinner = holder.dropdown;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
