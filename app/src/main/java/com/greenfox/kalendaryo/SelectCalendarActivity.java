@@ -57,7 +57,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         kalendar = new Kalendar();
         getCalendarList();
         adapter.setListChange(kalendar);
-        recyclerView = findViewById(R.id.listView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerLayoutManager);
