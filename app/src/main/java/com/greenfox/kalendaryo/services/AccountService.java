@@ -3,6 +3,7 @@ package com.greenfox.kalendaryo.services;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 
+import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
@@ -41,9 +42,8 @@ public class AccountService {
                 accountAdapter = new AccountAdapter(googleAuths, recycler.getContext(), false);
                 if (!onFragment) {
                     accountAdapter = new AccountAdapter(googleAuths, recycler.getContext(), true);
-                    kalendar = (Kalendar) intent.getSerializableExtra("list");
+                    kalendar = (Kalendar) intent.getSerializableExtra(SelectCalendarActivity.KALENDAR);
                     kalendar.setOutputGoogleAuthId(googleAuths.get(0).getEmail());
-
                     accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
                         @Override
                         public void emailChanged(String email) {

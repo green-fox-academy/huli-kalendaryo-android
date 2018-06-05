@@ -43,12 +43,13 @@ public class SelectCalendarActivity extends AppCompatActivity {
     private static int FINAL_ATTEMPT = 2;
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
-    Button goToChooseAccount;
+    Button goToSharingOptions;
     Kalendar kalendar;
-    RecyclerView recKal;
+    RecyclerView recyclerView;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     private ProgressBar progressBar;
+    public static final String KALENDAR = "com.greenfox.kalendaryo.KALENDAR";
 
     @Inject
     GoogleApi googleApi;
@@ -69,33 +70,30 @@ public class SelectCalendarActivity extends AppCompatActivity {
         kalendar = new Kalendar();
         getCalendarList();
         adapter.setListChange(kalendar);
-        recKal = findViewById(R.id.listView);
-        recKal.setAdapter(adapter);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        recKal.setLayoutManager(recyclerLayoutManager);
+        recyclerView.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
-                new DividerItemDecoration(recKal.getContext(),
+                new DividerItemDecoration(recyclerView.getContext(),
                         recyclerLayoutManager.getOrientation());
-        recKal.addItemDecoration(dividerItemDecoration);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         String customName = getIntent().getStringExtra(CustomNameActivity.CUSTOM_NAME);
         kalendar.setCustomName(customName);
-        goToChooseAccount = findViewById(R.id.gotochooseaccount);
-        goToChooseAccount.setOnClickListener(new View.OnClickListener() {
+        goToSharingOptions = findViewById(R.id.button_gotosharingoptions);
+        goToSharingOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!kalendar.getInputGoogleCalendars().isEmpty()) {
                     progressBar = (ProgressBar) findViewById(R.id.progressBar);
                     progressBar.setVisibility(View.VISIBLE);
-                    Intent i = new Intent(SelectCalendarActivity.this, ChooseAccountActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-                    i.putExtra("list", kalendar);
-                    i.putExtras(bundle);
+                    Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
+                    i.putExtra(KALENDAR, kalendar);
                     startActivity(i);
                     finish();
                 } else {
                     Toast.makeText(SelectCalendarActivity.this, "Please select at least one calendar to merge",
-                            Toast.LENGTH_LONG).show();;
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
