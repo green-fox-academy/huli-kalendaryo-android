@@ -1,12 +1,13 @@
 package com.greenfox.kalendaryo.models.responses;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by tung on 2/28/18.
  */
 
-public class GetKalendarResponse {
+public class GetKalendarResponse implements Serializable{
     private long id;
     private String outputGoogleAuthId;
     private String outputCalendarId;

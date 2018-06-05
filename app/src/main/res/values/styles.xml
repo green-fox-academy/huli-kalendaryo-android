@@ -5,5 +5,4 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:itemBackground">@drawable/dropdown_background</item>
     </style>
-
 </resources>
