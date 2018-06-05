@@ -67,9 +67,9 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b)
-                    listChange.saveCalendar((String)holder.calendarName.getText());
+                    listChange.saveCalendar(googleCalendar.getId());
                 else {
-                    listChange.removeCalendar((String)holder.calendarName.getText());
+                    listChange.removeCalendar(googleCalendar.getId());
                 }
             }
         });

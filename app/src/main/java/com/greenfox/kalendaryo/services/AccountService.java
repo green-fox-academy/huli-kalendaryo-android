@@ -11,7 +11,8 @@ import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
 
-import java.io.IOException;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,10 +36,14 @@ public class AccountService {
             @Override
             public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> response) {
                 GetAccountResponse getAccountResponse = response.body();
-                accountAdapter = new AccountAdapter(getAccountResponse.getGoogleAuths(), recycler.getContext(), false);
+                List<GoogleAuth> googleAuths = getAccountResponse.getGoogleAuths();
+
+                accountAdapter = new AccountAdapter(googleAuths, recycler.getContext(), false);
                 if (!onFragment) {
-                    accountAdapter = new AccountAdapter(getAccountResponse.getGoogleAuths(), recycler.getContext(), true);
+                    accountAdapter = new AccountAdapter(googleAuths, recycler.getContext(), true);
                     kalendar = (Kalendar) intent.getSerializableExtra("list");
+                    kalendar.setOutputGoogleAuthId(googleAuths.get(0).getEmail());
+
                     accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
                         @Override
                         public void emailChanged(String email) {
