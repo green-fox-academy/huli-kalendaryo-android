@@ -23,7 +23,6 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
     private List<GoogleCalendar> googleCalendars;
     private Context context;
     Kalendar kalendar;
-    VisibilityOption visibilityOption;
 
     public SharingOptionsAdapter(Context context, Kalendar kalendar) {
         this.context = context;
@@ -42,7 +41,7 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
     public void onBindViewHolder(SharingOptionsAdapter.ViewHolder holder, int position) {
         GoogleCalendar calendar = googleCalendars.get(position);
         holder.calendarName.setText(calendar.getSummary());
-        calendar.setSharingOption(visibilityOption.DEFAULT);
+        calendar.setSharingOption(VisibilityOption.DEFAULT);
 
         Spinner spinner = holder.dropdown;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
