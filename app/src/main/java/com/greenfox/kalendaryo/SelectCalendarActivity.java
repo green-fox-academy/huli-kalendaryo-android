@@ -81,7 +81,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                     finish();
                 } else {
                     Toast.makeText(SelectCalendarActivity.this, "Please select at least one calendar to merge",
-                            Toast.LENGTH_LONG).show();;
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });

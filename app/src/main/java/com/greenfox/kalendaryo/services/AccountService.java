@@ -41,7 +41,6 @@ public class AccountService {
                     accountAdapter = new AccountAdapter(getAccountResponse.getGoogleAuths(), recycler.getContext(), true);
                     kalendar = (Kalendar) intent.getSerializableExtra(SelectCalendarActivity.KALENDAR);
                     kalendar.setOutputGoogleAuthId(googleAuths.get(0).getEmail());
-
                     accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
                         @Override
                         public void emailChanged(String email) {
