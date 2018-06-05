@@ -12,6 +12,7 @@
     <string name="name_your_kalendar">Name your kalendar</string>
     <string name="optional">(optional)</string>
     <string name="log_out">Log out</string>
+    <string name="which_options">Which parameters do you want to share?</string>
     <string name="deleteKalendar">Delete</string>
     <string name="kalendarName">Kalendar Name</string>
     <string name="kalendarUser">Kalendar User</string>
