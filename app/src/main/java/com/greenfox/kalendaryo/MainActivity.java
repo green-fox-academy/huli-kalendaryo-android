@@ -14,23 +14,28 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
+import com.greenfox.kalendaryo.services.GoogleApiService;
 import com.greenfox.kalendaryo.services.GoogleService;
 import com.greenfox.kalendaryo.services.LogoutService;
 
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     KalPref kalPref;
 
     @Inject
     LogoutService logoutService;
+
+    @Inject
+    GoogleApiService googleApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
         DaggerApiComponent.builder().build().inject(this);
+        googleApiService.initializeGoogleService(this);
+
         setContentView(R.layout.activity_tab_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,5 +96,10 @@ public class MainActivity extends AppCompatActivity {
             logoutService.logOut(this);
         }
         return true;
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

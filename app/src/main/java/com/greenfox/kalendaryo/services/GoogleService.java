@@ -24,7 +24,9 @@ public class GoogleService {
     }
 
     public synchronized static GoogleService init(GoogleApiClient googleApiClient) {
-        singleton = new GoogleService(googleApiClient);
+        if(singleton == null) {
+            singleton = new GoogleService(googleApiClient);
+        }
         return singleton;
     }
 

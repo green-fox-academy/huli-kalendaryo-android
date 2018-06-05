@@ -30,6 +30,7 @@ import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
+import com.greenfox.kalendaryo.services.GoogleApiService;
 import com.greenfox.kalendaryo.services.GoogleService;
 import javax.inject.Inject;
 import retrofit2.Call;
@@ -54,6 +55,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    GoogleApiService googleApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressBar.setVisibility(View.VISIBLE);
         GoogleSignInOptions signInOptions = buildSignInOptions();
         if (!addAnother) {
-            initializeGoogleService(signInOptions);
+            googleApiService.initializeGoogleService(LoginActivity.this);
             signIn();
         } else {
             GoogleService.getGoogleApiClient().connect();
@@ -121,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     if (GoogleService.getInstance().getGoogleApiClient().isConnected()) {
                         Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
                             if (status.isSuccess()) {
-                                initializeGoogleService(signInOptions);
+                                googleApiService.initializeGoogleService(LoginActivity.this);
                                 signIn();
                             }
                         });
