@@ -41,6 +41,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     private static int FIRST_ATTEMPT = 1;
     private static int FINAL_ATTEMPT = 2;
+    private static int ATTEMPT_STEP = 1;
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
     Button goToSharingOptions;
@@ -118,7 +119,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                     googleCalendars.addAll(response.body().getItems());
                 } else if (attempt != FINAL_ATTEMPT){
                     requestAccessTokenRefresh(googleAuth, kalPref.clientToken());
-                    requestCalendars(account, FINAL_ATTEMPT);
+                    requestCalendars(account, attempt + ATTEMPT_STEP);
                 }
             }
 
