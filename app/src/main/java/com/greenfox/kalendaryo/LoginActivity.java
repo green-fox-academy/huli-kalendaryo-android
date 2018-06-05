@@ -113,7 +113,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void buildGoogleApiClient(boolean addAnother) {
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-        GoogleSignInOptions signInOptions = buildSignInOptions();
         if (!addAnother) {
             googleApiService.initializeGoogleService(LoginActivity.this);
             signIn();
@@ -138,24 +137,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 }
             });
         }
-    }
-
-    public GoogleSignInOptions buildSignInOptions() {
-        return new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
-                .requestEmail()
-                .requestIdToken(CLIENT_ID)
-                .requestServerAuthCode(CLIENT_ID)
-                .build();
-    }
-
-    public void initializeGoogleService(GoogleSignInOptions signInOptions) {
-        GoogleService.init(new GoogleApiClient
-                .Builder(LoginActivity.this)
-                .enableAutoManage(LoginActivity.this, LoginActivity.this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
-                .build());
     }
 
     public void signIn() {
