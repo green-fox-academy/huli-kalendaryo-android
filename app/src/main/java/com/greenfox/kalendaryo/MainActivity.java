@@ -18,12 +18,19 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.services.GoogleService;
+import com.greenfox.kalendaryo.services.LogoutService;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
     KalPref kalPref;
+
+    @Inject
+    LogoutService logoutService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        DaggerApiComponent.builder().build().inject(this);
         setContentView(R.layout.activity_tab_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,41 +85,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.log_out) {
-            logOut();
+            logoutService.logOut(this);
         }
         return true;
-    }
-
-    public void logOut() {
-
-        GoogleService.getInstance().getGoogleApiClient().connect();
-        GoogleService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-            @Override
-            public void onConnected(@Nullable Bundle bundle) {
-                if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
-                    Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback(new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(@NonNull Status status) {
-                            if (status.isSuccess()) {
-                                Log.d("Log out", "User Logged out");
-                                Toast.makeText(getApplicationContext(), "You successfully logged out", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                intent.putExtra("isLoggedOut", true);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
-                                }
-                            }
-                    });
-                    }
-                }
-            @Override
-            public void onConnectionSuspended(int i) {
-                Log.d("Connection suspended", "Google API Client Connection Suspended");
-                }
-        });
-        kalPref.clearAccountsAndAll();
     }
 }

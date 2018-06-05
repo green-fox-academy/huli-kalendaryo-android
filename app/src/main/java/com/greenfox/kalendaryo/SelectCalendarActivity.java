@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
@@ -71,12 +72,17 @@ public class SelectCalendarActivity extends AppCompatActivity {
         goToSharingOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                if (!kalendar.getInputGoogleCalendars().isEmpty()) {
+                  progressBar = (ProgressBar) findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.VISIBLE);
                 Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
                 i.putExtra(KALENDAR, kalendar);
                 startActivity(i);
                 finish();
+                } else {
+                    Toast.makeText(SelectCalendarActivity.this, "Please select at least one calendar to merge",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
