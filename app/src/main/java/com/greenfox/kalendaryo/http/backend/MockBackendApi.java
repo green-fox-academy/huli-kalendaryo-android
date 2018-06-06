@@ -11,6 +11,7 @@ import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,11 +34,14 @@ public class MockBackendApi implements BackendApi {
 
     @Override
     public Call<GetAccountResponse> getAccount(String clientToken) {
-        KalUser user = new KalUser(1, "sdsdfkj34231", "jimbo@jimbo.com", "56365ghgsg1223");
+        List<GoogleAuth> GoogleAuthList = new ArrayList<>();
+        GoogleAuthList.add(new GoogleAuth("", "test@elek.com", "TestElek"));
+        GoogleAuthList.add(new GoogleAuth("", "jimbo@jimbo.com", "Jimbo"));
+        GetAccountResponse getAccountResponse = new GetAccountResponse(1, "test@elek.com", GoogleAuthList);
         ImplCall call = new ImplCall() {
             @Override
             public void enqueue(Callback callback) {
-                callback.onResponse(this, Response.success(user));
+                callback.onResponse(this, Response.success(getAccountResponse));
             }
         };
         return call;
