@@ -7,6 +7,7 @@ import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -38,4 +39,7 @@ public interface BackendApi {
     @DELETE("calendar/{id}")
     Call<Void> deleteKalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 
+    @Headers("Accept: application/json")
+    @GET("auth")
+    Call<ResponseBody> refreshAccessToken(@Header("X-Client-Token") String clientToken, @Header("email") String email);
 }

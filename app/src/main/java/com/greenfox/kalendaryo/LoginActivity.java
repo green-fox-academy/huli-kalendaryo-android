@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void buildGoogleApiClient(boolean addAnother) {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
+
         if (!addAnother) {
             googleApiService.initializeGoogleService(LoginActivity.this);
             signIn();
