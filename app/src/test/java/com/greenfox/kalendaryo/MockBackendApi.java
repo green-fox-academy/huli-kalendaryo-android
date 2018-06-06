@@ -1,5 +1,7 @@
-package com.greenfox.kalendaryo.http.backend;
+package com.greenfox.kalendaryo;
 
+import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.ImplCall;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
@@ -12,10 +14,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Created by BalazsSalfay on 2018. 02. 28..
+ */
 
 public class MockBackendApi implements BackendApi {
 
@@ -33,15 +40,8 @@ public class MockBackendApi implements BackendApi {
 
     @Override
     public Call<GetAccountResponse> getAccount(String clientToken) {
-        KalUser user = new KalUser(1, "sdsdfkj34231", "jimbo@jimbo.com", "56365ghgsg1223");
-        ImplCall call = new ImplCall() {
-            @Override
-            public void enqueue(Callback callback) {
-                callback.onResponse(this, Response.success(user));
-            }
-        };
-        return call;
-        }
+        return null;
+    }
 
     @Override
     public Call<Void> deleteAccount(String clientToken, String email) {

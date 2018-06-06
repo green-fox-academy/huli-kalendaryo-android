@@ -10,18 +10,22 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.ArrayList;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
