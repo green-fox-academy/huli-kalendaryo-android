@@ -15,7 +15,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
         String userGivenName = getIntent().getStringExtra("userGivenName");
-        user = findViewById(R.id.user);
+        user = findViewById(R.id.text_userName);
         user.setText(userGivenName + "!");
 
         new Handler().postDelayed(new Runnable() {
