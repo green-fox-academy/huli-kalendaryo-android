@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
@@ -41,6 +42,9 @@ public class ChooseAccountActivity extends AppCompatActivity {
     @Inject
     AccountService accountService;
 
+    @Inject
+    MockBackendApi mockBackendApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(v -> {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
+            mockBackendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
                 @Override
                 public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
                     PostKalendarResponse postKalendarResponse = response.body();

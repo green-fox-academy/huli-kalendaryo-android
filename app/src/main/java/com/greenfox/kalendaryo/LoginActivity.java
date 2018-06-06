@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             final String givenName = account.getGivenName();
-            backendApi.postAuth(kalPref.clientToken(), new GoogleAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            mockBackendApi.postAuth(kalPref.clientToken(), new GoogleAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
 
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {

@@ -10,6 +10,8 @@ import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -74,7 +76,7 @@ public class MockBackendApi implements BackendApi {
     public Call<GetKalendarListResponse> getCalendar(String clientToken) {
         GetKalendarListResponse listResponse = new GetKalendarListResponse();
 
-        GetKalendarResponse kalendarResponse1 = new GetKalendarResponse("elon@musk.com", "Spurs-Opal");
+        GetKalendarResponse kalendarResponse1 = new GetKalendarResponse( "elon@musk.com", "Spurs-Opal");
         List<String> inputGoogleCalendars1 = new ArrayList<>(Arrays.asList("Spurs", "Opal"));
         kalendarResponse1.setInputGoogleCalendars(inputGoogleCalendars1);
 
@@ -82,8 +84,14 @@ public class MockBackendApi implements BackendApi {
         List<String> inputGoogleCalendars2 = new ArrayList<>(Arrays.asList("Lazio", "Apple"));
         kalendarResponse2.setInputGoogleCalendars(inputGoogleCalendars2);
 
-        listResponse.getKalendars().add(kalendarResponse1);
-        listResponse.getKalendars().add(kalendarResponse2);
+        List<GetKalendarResponse> getKalendarResponseList = new ArrayList<>();
+        getKalendarResponseList.add(kalendarResponse1);
+        getKalendarResponseList.add(kalendarResponse2);
+
+        listResponse.setKalendars(getKalendarResponseList);
+
+        /*listResponse.getKalendars().add(kalendarResponse1);
+        listResponse.getKalendars().add(kalendarResponse2);*/
 
         ImplCall call = new ImplCall() {
             @Override

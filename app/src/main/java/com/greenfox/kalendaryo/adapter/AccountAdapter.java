@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 
@@ -39,7 +40,10 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     @Inject
     BackendApi backendApi;
 
-    public AccountAdapter(List<GoogleAuth> authsIn, Context ctx, boolean clickable) {
+    @Inject
+    MockBackendApi mockBackendApi;
+
+public AccountAdapter(List<GoogleAuth> authsIn, Context ctx, boolean clickable) {
         auths = authsIn;
         context = ctx;
         kalPref = new KalPref(context);
@@ -81,7 +85,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                     String clientToken = kalPref.clientToken();
                     String email = auths.get(position).getEmail();
 
-                    backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
+                    mockBackendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
 
