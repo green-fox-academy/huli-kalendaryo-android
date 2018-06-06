@@ -25,7 +25,7 @@ import javax.inject.Inject;
 
 public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHolder> {
 
-    public static final String GETKALENDARRESPONSE = "com.greenfox.kalendaryo.adapter.GETKALENDARRESPONSE";
+    public static final String GET_KALENDAR_RESPONSE = "com.greenfox.kalendaryo.adapter.GET_KALENDAR_RESPONSE";
 
     private Context context;
     private List<GetKalendarResponse> kalendarResponses;
@@ -49,26 +49,22 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
     @Override
     public KalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.kalendar_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kalendar, parent, false);
         return new KalendarAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(KalendarAdapter.ViewHolder holder, int position) {
         DaggerApiComponent.builder().build().inject(this);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                informationAndDeleteActivity(view, position);
-            }
-        });
+        holder.itemView.setOnClickListener(view -> informationAndDeleteActivity(view, position));
         kalendarSetText(holder, position);
+
         }
 
     private void informationAndDeleteActivity(View view, int position) {
         Intent i = new Intent(context, InformationAndDeleteActivity.class);
         GetKalendarResponse getKalendarResponse = kalendarResponses.get(position);
-        i.putExtra(GETKALENDARRESPONSE, getKalendarResponse);
+        i.putExtra(GET_KALENDAR_RESPONSE, getKalendarResponse);
         context.startActivity(i);
     }
 
@@ -91,8 +87,8 @@ public class KalendarAdapter extends RecyclerView.Adapter<KalendarAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            kalendarName = itemView.findViewById(R.id.mergedcalendarname);
-            kalendarDescription = itemView.findViewById(R.id.mergedcalendardescription);
+            kalendarName = itemView.findViewById(R.id.text_kalendar_name);
+            kalendarDescription = itemView.findViewById(R.id.text_kalendar_account);
         }
     }
 }
