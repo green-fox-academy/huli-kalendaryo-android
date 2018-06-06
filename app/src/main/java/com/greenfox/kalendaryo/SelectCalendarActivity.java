@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
@@ -21,12 +22,15 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
+import com.greenfox.kalendaryo.services.AccountService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +38,9 @@ import retrofit2.Response;
 
 public class SelectCalendarActivity extends AppCompatActivity {
 
+    private static int FIRST_ATTEMPT = 1;
+    private static int FINAL_ATTEMPT = 2;
+    private static int ATTEMPT_STEP = 1;
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
     Button buttonNext;
@@ -46,6 +53,12 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     @Inject
     GoogleApi googleApi;
+
+    @Inject
+    BackendApi backendApi;
+
+    @Inject
+    AccountService accountService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,23 +100,47 @@ public class SelectCalendarActivity extends AppCompatActivity {
         ArrayList<String> accounts = kalPref.getAccounts();
 
         for (int i = 0; i < accounts.size(); i++) {
-            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
-
-            String accessToken = googleAuth.getAccessToken();
-            String authorization = "Bearer " + accessToken;
-
-            googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
-                @Override
-                public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
+            String account = accounts.get(i);
+            requestCalendars(account, FIRST_ATTEMPT);
+        }
+    }
+    public void requestCalendars (String account, Integer attempt) {
+        GoogleAuth googleAuth = kalPref.getAuth(account);
+        String authorization = "Bearer " + googleAuth.getAccessToken();
+        googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
+            @Override
+            public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
+                if (response.errorBody() == null) {
                     adapter.addGoogleCalendars(response.body().getItems());
                     googleCalendars.addAll(response.body().getItems());
+                } else if (attempt != FINAL_ATTEMPT){
+                    requestAccessTokenRefresh(googleAuth, kalPref.clientToken());
+                    requestCalendars(account, attempt + ATTEMPT_STEP);
                 }
+            }
 
-                @Override
-                public void onFailure(Call<GoogleCalendarsResponse> call, Throwable t) {
-                    t.printStackTrace();
+            @Override
+            public void onFailure(Call<GoogleCalendarsResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+    public void requestAccessTokenRefresh (GoogleAuth googleAuth, String clientToken) {
+        backendApi.refreshAccessToken(clientToken, googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    googleAuth.setAccessToken(response.body().string());
+                    kalPref.putAuth(googleAuth);
+                } catch (IOException i) {
+                    i.printStackTrace();
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }

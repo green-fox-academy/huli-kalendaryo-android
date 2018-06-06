@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,6 +106,11 @@ public class MockBackendApi implements BackendApi {
     //
     @Override
     public Call<Void> deleteKalendar(String clientToken, long id) {
+        return null;
+    }
+
+    @Override
+    public Call<ResponseBody> refreshAccessToken(String clientToken, String email) {
         return null;
     }
 }
