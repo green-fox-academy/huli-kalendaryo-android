@@ -10,10 +10,7 @@ import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -91,9 +88,6 @@ public class MockBackendApi implements BackendApi {
 
         listResponse.setKalendars(getKalendarResponseList);
 
-        /*listResponse.getKalendars().add(kalendarResponse1);
-        listResponse.getKalendars().add(kalendarResponse2);*/
-
         ImplCall call = new ImplCall() {
             @Override
             public void enqueue(Callback callback) {
@@ -103,14 +97,25 @@ public class MockBackendApi implements BackendApi {
         return call;
     }
 
-    //
     @Override
     public Call<Void> deleteKalendar(String clientToken, long id) {
-        return null;
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this, Response.success(null));
+            }
+        };
+        return call;
     }
 
     @Override
     public Call<ResponseBody> refreshAccessToken(String clientToken, String email) {
-        return null;
-    }
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this, Response.success(ResponseBody.class));
+            }
+        };
+        return call;
+        }
 }
