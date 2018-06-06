@@ -28,7 +28,7 @@ public class KalendarSettingsAdapter extends RecyclerView.Adapter<KalendarSettin
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_list_item, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_calendar, parent, false);
     ViewHolder viewHolder = new ViewHolder(view);
     return viewHolder;
   }
@@ -49,7 +49,7 @@ public class KalendarSettingsAdapter extends RecyclerView.Adapter<KalendarSettin
 
     public ViewHolder(View itemView) {
       super(itemView);
-      mergedCalendarName = itemView.findViewById(R.id.oneCalendar);
+      mergedCalendarName = itemView.findViewById(R.id.text_calendar_name);
     }
   }
 }
