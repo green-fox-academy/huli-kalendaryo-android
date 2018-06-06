@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 
 public class CustomNameActivity extends AppCompatActivity {
 
-    Button submitCustomName;
+    Button buttonNext;
     public static final String CUSTOM_NAME = "com.greenfox.kalendaryo.CUSTOM_NAME";
     private ProgressBar progressBar;
 
@@ -18,18 +18,15 @@ public class CustomNameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_name);
-        submitCustomName = findViewById(R.id.submitCustomName);
-        submitCustomName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar = (ProgressBar)findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.VISIBLE);
-                Intent i = new Intent(CustomNameActivity.this, SelectCalendarActivity.class);
-                EditText enteredCustomName = (EditText) findViewById(R.id.customName);
-                String customName = enteredCustomName.getText().toString();
-                i.putExtra(CUSTOM_NAME, customName);
-                startActivity(i);
-            }
+        buttonNext = findViewById(R.id.button_next);
+        buttonNext.setOnClickListener(view -> {
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            Intent i = new Intent(CustomNameActivity.this, SelectCalendarActivity.class);
+            EditText enteredCustomName = findViewById(R.id.edit_kalendar_name);
+            String customName = enteredCustomName.getText().toString();
+            i.putExtra(CUSTOM_NAME, customName);
+            startActivity(i);
         });
     }
 
@@ -41,7 +38,7 @@ public class CustomNameActivity extends AppCompatActivity {
 
     public void onStop() {
         super.onStop();
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
     }
 }

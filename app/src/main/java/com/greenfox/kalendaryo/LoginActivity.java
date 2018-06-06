@@ -61,12 +61,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
         DaggerApiComponent.builder().build().inject(this);
         kalPref = new KalPref(this.getApplicationContext());
-        signIn = findViewById(R.id.bn_login);
+        signIn = findViewById(R.id.button_login);
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                progressBar.setVisibility(view.VISIBLE);
+                progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
                 buildGoogleApiClient(false);
             }
         });
@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             buildGoogleApiClient(true);
             signIn.setVisibility(View.GONE);
         } else if (getIntent().getBooleanExtra("isLoggedOut", false) == false) {
-            logo = (ImageView) findViewById(R.id.logo);
+            logo = findViewById(R.id.icon_logo);
             Animation fromLeft = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.from_left);
             logo.setAnimation(fromLeft);
             fromRight = AnimationUtils.loadAnimation(this, R.anim.from_right);
@@ -86,13 +86,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void setBrandNameAnimation() {
-        ObjectAnimator scaleXAnimation = ObjectAnimator.ofFloat(findViewById(R.id.brandName), "scaleX", 5.0F, 1.0F);
+        ObjectAnimator scaleXAnimation = ObjectAnimator.ofFloat(findViewById(R.id.text_brand), "scaleX", 5.0F, 1.0F);
         scaleXAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         scaleXAnimation.setDuration(1200);
-        ObjectAnimator scaleYAnimation = ObjectAnimator.ofFloat(findViewById(R.id.brandName), "scaleY", 5.0F, 1.0F);
+        ObjectAnimator scaleYAnimation = ObjectAnimator.ofFloat(findViewById(R.id.text_brand), "scaleY", 5.0F, 1.0F);
         scaleYAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         scaleYAnimation.setDuration(1200);
-        ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(findViewById(R.id.brandName), "alpha", 0.0F, 1.0F);
+        ObjectAnimator alphaAnimation = ObjectAnimator.ofFloat(findViewById(R.id.text_brand), "alpha", 0.0F, 1.0F);
         alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         alphaAnimation.setDuration(1200);
         AnimatorSet animatorSet = new AnimatorSet();
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void buildGoogleApiClient(boolean addAnother) {
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         GoogleSignInOptions signInOptions = buildSignInOptions();
 
@@ -232,7 +232,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void onStop() {
         super.onStop();
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
     }
 
