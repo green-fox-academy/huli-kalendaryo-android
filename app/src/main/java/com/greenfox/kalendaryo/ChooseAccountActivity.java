@@ -31,7 +31,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     RecyclerView recyclerview;
     KalPref kalpref;
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
-    Button next;
+    Button buttonNext;
     Kalendar kalendar;
     private ProgressBar progressBar;
 
@@ -46,7 +46,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_account);
         kalpref = new KalPref(this.getApplicationContext());
-        next = findViewById(R.id.go_to_weekview);
+        buttonNext = findViewById(R.id.button_next);
 
 
         DaggerApiComponent.builder().build().inject(this);
@@ -59,34 +59,31 @@ public class ChooseAccountActivity extends AppCompatActivity {
             array[j] = kalendar.getInputGoogleCalendars().get(j);
         }
         kalendar.setInputGoogleCalendars(Arrays.asList(array));
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.VISIBLE);
-                backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
-                    @Override
-                    public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
-                        PostKalendarResponse postKalendarResponse = response.body();
-                    }
+        buttonNext.setOnClickListener(v -> {
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
+                @Override
+                public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
+                    PostKalendarResponse postKalendarResponse = response.body();
+                }
 
-                    @Override
-                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-                Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-                i.putExtra(SelectCalendarActivity.KALENDAR, kalendar);
-                i.putExtras(bundle);
-                startActivity(i);
-                finish();
-            }
+                @Override
+                public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+            Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+            i.putExtra(SelectCalendarActivity.KALENDAR, kalendar);
+            i.putExtras(bundle);
+            startActivity(i);
+            finish();
         });
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        recyclerview = findViewById(R.id.account_names);
+        recyclerview = findViewById(R.id.view_accounts);
         recyclerview.setLayoutManager(recyclerLayoutManager);
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(recyclerview.getContext(),

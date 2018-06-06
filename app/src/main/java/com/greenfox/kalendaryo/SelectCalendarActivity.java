@@ -1,7 +1,6 @@
 package com.greenfox.kalendaryo;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -37,7 +36,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     private KalPref kalPref;
     private GoogleCalendarAdapter adapter;
-    Button goToSharingOptions;
+    Button buttonNext;
     Kalendar kalendar;
     RecyclerView recyclerView;
     List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
@@ -58,7 +57,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         kalendar = new Kalendar();
         getCalendarList();
         adapter.setListChange(kalendar);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.view_calendars);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(recyclerLayoutManager);
@@ -68,21 +67,18 @@ public class SelectCalendarActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
         String customName = getIntent().getStringExtra(CustomNameActivity.CUSTOM_NAME);
         kalendar.setCustomName(customName);
-        goToSharingOptions = findViewById(R.id.button_gotosharingoptions);
-        goToSharingOptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!kalendar.getInputGoogleCalendars().isEmpty()) {
-                    progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                    progressBar.setVisibility(View.VISIBLE);
-                    Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
-                    i.putExtra(KALENDAR, kalendar);
-                    startActivity(i);
-                    finish();
-                } else {
-                    Toast.makeText(SelectCalendarActivity.this, "Please select at least one calendar to merge",
-                            Toast.LENGTH_LONG).show();
-                }
+        buttonNext = findViewById(R.id.button_next);
+        buttonNext.setOnClickListener(v -> {
+            if (!kalendar.getInputGoogleCalendars().isEmpty()) {
+                progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+                Intent i = new Intent(SelectCalendarActivity.this, SharingOptionsActivity.class);
+                i.putExtra(KALENDAR, kalendar);
+                startActivity(i);
+                finish();
+            } else {
+                Toast.makeText(SelectCalendarActivity.this, "Please select at least one calendar to merge",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -7,7 +7,7 @@
     tools:context=".CustomNameActivity">
 
     <TextView
-        android:id="@+id/customNameLabel"
+        android:id="@+id/text_kalendar_name_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
@@ -18,21 +18,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/optionalLabel"
+        android:id="@+id/text_optional"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/optional"
-        app:layout_constraintBottom_toTopOf="@+id/customName"
+        app:layout_constraintBottom_toTopOf="@+id/edit_kalendar_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customNameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/text_kalendar_name_label"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/customName"
+        android:id="@+id/edit_kalendar_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -40,15 +40,15 @@
         android:ems="10"
         android:hint="@string/enter_kalendar_name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/submitCustomName"
+        app:layout_constraintBottom_toTopOf="@+id/button_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customNameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/text_kalendar_name_label"
         app:layout_constraintVertical_bias="0.82" />
 
     <Button
-        android:id="@+id/submitCustomName"
+        android:id="@+id/button_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="236dp"
@@ -59,7 +59,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customName"
+        app:layout_constraintTop_toBottomOf="@+id/edit_kalendar_name"
         app:layout_constraintVertical_bias="0.115" />
 
     <ProgressBar
@@ -71,7 +71,7 @@
         android:layout_centerVertical="true"
         android:layout_marginBottom="8dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/submitCustomName"
+        app:layout_constraintBottom_toTopOf="@+id/button_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -46,17 +46,17 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_information_and_delete);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
     Intent i = getIntent();
-    getKalendarResponse = (GetKalendarResponse) i.getSerializableExtra(KalendarAdapter.GETKALENDARRESPONSE);
+    getKalendarResponse = (GetKalendarResponse) i.getSerializableExtra(KalendarAdapter.GET_KALENDAR_RESPONSE);
 
     DaggerApiComponent.builder().build().inject(this);
 
-    TextView kalendarName = findViewById(R.id.kalendarName);
+    TextView kalendarName = findViewById(R.id.text_kalendar_name);
     kalendarName.setText(getKalendarResponse.getOutputCalendarId());
-    TextView kalendarUser = findViewById(R.id.kalendarUser);
+    TextView kalendarUser = findViewById(R.id.text_kalendar_account);
     kalendarUser.setText(getKalendarResponse.getOutputGoogleAuthId());
 
     recyclerViewSetup();
@@ -85,36 +85,30 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
     AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
     alert.setTitle("Delete Kalendar");
     alert.setMessage("Are you sure to delete the kalendar?");
-    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialogInterface, int i) {
-        kalPref = new KalPref(view.getContext());
-        String clientToken = kalPref.clientToken();
+    alert.setPositiveButton("Yes", (dialogInterface, i) -> {
+      kalPref = new KalPref(view.getContext());
+      String clientToken = kalPref.clientToken();
 
-        backendApi.deleteKalendar(clientToken, idToDelete).enqueue(new Callback<Void>() {
+      backendApi.deleteKalendar(clientToken, idToDelete).enqueue(new Callback<Void>() {
 
-          @Override
-          public void onResponse(Call<Void> call, Response<Void> response) {
-            Intent i = new Intent(InformationAndDeleteActivity.this, MainActivity.class);
-            startActivity(i);
-            toastMessage(view,"Kalendar deleted successfully");
-          }
+        @Override
+        public void onResponse(Call<Void> call, Response<Void> response) {
+          Intent i = new Intent(InformationAndDeleteActivity.this, MainActivity.class);
+          startActivity(i);
+          toastMessage(view,"Kalendar deleted successfully");
+        }
 
-          @Override
-          public void onFailure(Call<Void> call, Throwable t) {
-            t.printStackTrace();
-            toastMessage(view, "Ooops, couldn't delete the kalendar");
-          }
-        });
-        dialogInterface.dismiss();
-      }
+        @Override
+        public void onFailure(Call<Void> call, Throwable t) {
+          t.printStackTrace();
+          toastMessage(view, "Ooops, couldn't delete the kalendar");
+        }
+      });
+      dialogInterface.dismiss();
     });
-    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialogInterface, int i) {
-        dialogInterface.dismiss();
-      }
-    });
+
+    alert.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+
     alert.show();
   }
 
@@ -124,7 +118,7 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
   }
 
   public void recyclerViewSetup() {
-    RecyclerView recyclerView = findViewById(R.id.mergedCalendars);
+    RecyclerView recyclerView = findViewById(R.id.view_source_calendars);
     List<String> inputGoogleCalendars = getKalendarResponse.getInputGoogleCalendars();
     KalendarSettingsAdapter kalendarSettingsAdapter = new KalendarSettingsAdapter(this);
     kalendarSettingsAdapter.setCalendarNames(inputGoogleCalendars);
