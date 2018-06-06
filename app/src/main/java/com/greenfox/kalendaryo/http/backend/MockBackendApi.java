@@ -49,7 +49,13 @@ public class MockBackendApi implements BackendApi {
 
     @Override
     public Call<Void> deleteAccount(String clientToken, String email) {
-        return null;
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this, Response.success(null));
+            }
+        };
+        return call;
     }
 
     @Override
@@ -88,6 +94,7 @@ public class MockBackendApi implements BackendApi {
         return call;
     }
 
+    //
     @Override
     public Call<Void> deleteKalendar(String clientToken, long id) {
         return null;
