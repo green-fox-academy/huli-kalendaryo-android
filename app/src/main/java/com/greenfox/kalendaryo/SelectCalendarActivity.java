@@ -99,7 +99,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
                 @Override
                 public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
-                    adapter.addGoogleCalendars(response.body().getItems());
+                    adapter.addGoogleCalendars(response.body().getItems(), googleAuth.getEmail());
                     googleCalendars.addAll(response.body().getItems());
                 }
 
