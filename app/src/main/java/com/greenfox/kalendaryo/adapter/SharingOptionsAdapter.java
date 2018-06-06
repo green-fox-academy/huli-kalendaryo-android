@@ -32,7 +32,7 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
     @Override
     public SharingOptionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sharing_options, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sharing_options, parent, false);
         SharingOptionsAdapter.ViewHolder viewHolder = new SharingOptionsAdapter.ViewHolder(view);
         return viewHolder;
     }
@@ -66,8 +66,8 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
 
         public ViewHolder(View itemView) {
             super(itemView);
-            calendarName = itemView.findViewById(R.id.textView_calendarname);
-            dropdown = (Spinner)itemView.findViewById(R.id.spinner_setVisibility);
+            calendarName = itemView.findViewById(R.id.text_calendar_name);
+            dropdown = (Spinner)itemView.findViewById(R.id.spinner_visibilities);
             ArrayAdapter<VisibilityOption> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, VisibilityOption.values());
             dropdown.setAdapter(adapter);
         }

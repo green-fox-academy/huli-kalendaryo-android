@@ -22,7 +22,7 @@
         tools:layout_editor_absoluteY="0dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/kalendarName"
+        android:id="@+id/text_kalendar_name"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginEnd="16dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
-        android:id="@+id/kalendarUser"
+        android:id="@+id/text_kalendar_account"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginEnd="16dp"
@@ -63,14 +63,14 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kalendarName" />
+        app:layout_constraintTop_toBottomOf="@+id/text_kalendar_name" />
 
     <View
         android:id="@+id/view1"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/kalendarUser"
+        android:layout_below="@+id/text_kalendar_account"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -80,10 +80,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kalendarUser" />
+        app:layout_constraintTop_toBottomOf="@+id/text_kalendar_account" />
 
     <TextView
-        android:id="@+id/mergedCalendarsTitle"
+        android:id="@+id/text_source_calendars_title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
@@ -96,10 +96,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kalendarUser" />
+        app:layout_constraintTop_toBottomOf="@+id/text_kalendar_account" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mergedCalendars"
+        android:id="@+id/view_source_calendars"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
@@ -110,10 +110,10 @@
         android:layout_marginTop="16dp"
         android:scrollbars="vertical"
         android:background="@drawable/border"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/button_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mergedCalendarsTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/text_source_calendars_title" />
 
 </android.support.constraint.ConstraintLayout>

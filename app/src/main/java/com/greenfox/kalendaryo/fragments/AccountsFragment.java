@@ -24,7 +24,7 @@ import javax.inject.Inject;
 public class AccountsFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     KalPref kalpref;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton buttonNext;
     RecyclerView recyclerView;
 
     @Inject
@@ -35,19 +35,19 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.listaccounts, container, false);
+        View view = inflater.inflate(R.layout.fragment_accounts, container, false);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressBar = view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
         kalpref = new KalPref(getActivity());
         DaggerApiComponent.builder().build().inject(this);
-        recyclerView = view.findViewById(R.id.accountsRecycleView);
+        recyclerView = view.findViewById(R.id.view_accounts);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(recyclerLayoutManager);
-        floatingActionButton = view.findViewById(R.id.addNewAccount);
+        buttonNext = view.findViewById(R.id.button_next);
         accountService.listAccountsFromBackend(recyclerView, true, null);
-        floatingActionButton.setOnClickListener(v -> {
+        buttonNext.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), LoginActivity.class);
             i.putExtra("ifNewAccChoosen", true);
             startActivity(i);
