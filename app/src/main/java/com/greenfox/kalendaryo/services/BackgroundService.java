@@ -15,6 +15,7 @@ import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.event.EventResponse;
+import com.greenfox.kalendaryo.models.event.PreviewEvent;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,8 +28,8 @@ import retrofit2.Response;
 public class BackgroundService extends IntentService {
 
     private GoogleApi googleApi;
-    private List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
-    private List<WeekViewEvent> weekViewEvents = new ArrayList<>();
+    private List<PreviewEvent> eventsFromGoogle = new ArrayList<>();
+    private List<PreviewEvent> weekViewEvents = new ArrayList<>();
     private List<GoogleCalendar> googleCalendars = new ArrayList<>();
     private KalPref kalPref;
 
@@ -67,20 +68,20 @@ public class BackgroundService extends IntentService {
             }
         }
 
-        WeekViewEvent myWeek = new WeekViewEvent().setStartTime(Calendar.YEAR);
-
         System.out.println("EVENTFROMGOOGLE!!!!!!!" + eventsFromGoogle.size());
-        for (WeekViewEvent event : eventsFromGoogle) {
-            System.out.println(event.getName());
-            //if(event.getName().equals("Hello")) {
-              //  weekViewEvents.add(event);
+        for (PreviewEvent event : eventsFromGoogle) {
+            System.out.println(event.getSummary());
+            if (event.getSummary().equals("Teszt4")) {
+                weekViewEvents.add(event);
+
+            }
+
+            Intent intent1 = new Intent("weekViewEvents");
+            intent1.putExtra("weekViewEvents", (Serializable) weekViewEvents);
+            LocalBroadcastManager.getInstance(BackgroundService.this).sendBroadcast(intent1);
+
+            System.out.println("WEEKVIEWEVENTS: " + weekViewEvents.size());
 
         }
-
-        Intent intent1 = new Intent("weekViewEvents");
-        intent1.putExtra("weekViewEvents", (Serializable) weekViewEvents);
-        LocalBroadcastManager.getInstance(BackgroundService.this).sendBroadcast(intent1);
-
-        System.out.println("WEEKVIEWEVENTS: " + weekViewEvents.size());
-
-    }}
+    }
+}

@@ -22,6 +22,7 @@ import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.event.PreviewEvent;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 import com.greenfox.kalendaryo.services.BackgroundService;
 
@@ -41,8 +42,8 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     private Kalendar kalendar;
     private GoogleApi googleApi;
     BackendApi backendApi;
-    List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
-    List<WeekViewEvent> weekViewEvents = new ArrayList<>();
+    List<PreviewEvent> eventsFromGoogle = new ArrayList<>();
+    List<PreviewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
 
@@ -103,7 +104,7 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
             BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    weekViewEvents = (List<WeekViewEvent>) intent.getSerializableExtra("weekViewEvents");
+                    weekViewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
                 }
             };
             LocalBroadcastManager.getInstance(WeekViewActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
@@ -124,10 +125,13 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
             @Override
             public void run() {
                 System.out.println("WVE: " + weekViewEvents.size());
+                for(PreviewEvent event: weekViewEvents) {
+                    System.out.println(event.toString());
+                }
             }
         }, 10000);
 
-        return weekViewEvents;
+        return null;
     }
 
     public void callApi(String authorization, String calendarId) {

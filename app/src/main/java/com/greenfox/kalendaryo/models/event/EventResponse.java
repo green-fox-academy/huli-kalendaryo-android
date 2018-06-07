@@ -17,7 +17,7 @@ public class EventResponse {
     public String accessRole;
     public String nextPageToken;
     public String nextSyncToken;
-    public List<WeekViewEvent> items;
+    public List<PreviewEvent> items;
 
     public EventResponse() {
     }
@@ -25,7 +25,7 @@ public class EventResponse {
     public EventResponse(String kind, String etag, String summary, String description,
                          String updated, String timeZone, String accessRole,
                           String nextPageToken,
-                         String nextSyncToken, List<WeekViewEvent> items) {
+                         String nextSyncToken, List<PreviewEvent> items) {
         this.kind = kind;
         this.etag = etag;
         this.summary = summary;
@@ -110,11 +110,11 @@ public class EventResponse {
         this.nextSyncToken = nextSyncToken;
     }
 
-    public List<WeekViewEvent> getItems() {
+    public List<PreviewEvent> getItems() {
         return items;
     }
 
-    public void setItems(List<WeekViewEvent> items) {
+    public void setItems(List<PreviewEvent> items) {
         this.items = items;
     }
 }
