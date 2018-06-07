@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 public class WeekViewActivity extends AppCompatActivity implements WeekView.EventClickListener,
         MonthLoader.MonthChangeListener, WeekView.EventLongPressListener,
-        WeekView.EmptyViewLongPressListener  {
+        WeekView.EmptyViewLongPressListener {
 
     private KalPref kalPref;
     private Kalendar kalendar;
