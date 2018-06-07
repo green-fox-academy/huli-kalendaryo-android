@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         GoogleSignInOptions signInOptions = buildSignInOptions();
+
         if (!addAnother) {
             initializeGoogleService(signInOptions);
             signIn();
@@ -142,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
                 .requestEmail()
                 .requestIdToken(CLIENT_ID)
-                .requestServerAuthCode(CLIENT_ID)
+                .requestServerAuthCode(CLIENT_ID, true)
                 .build();
     }
 
