@@ -16,6 +16,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.greenfox.kalendaryo.LoginActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.services.AccountService;
 import javax.inject.Inject;
@@ -29,6 +30,9 @@ public class AccountsFragment extends Fragment implements GoogleApiClient.OnConn
 
     @Inject
     AccountService accountService;
+
+    @Inject
+    MockBackendApi mockBackendApi;
 
     private ProgressBar progressBar;
 

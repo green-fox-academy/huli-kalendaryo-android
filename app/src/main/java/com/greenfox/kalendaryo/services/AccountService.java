@@ -7,6 +7,7 @@ import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
@@ -29,6 +30,9 @@ public class AccountService {
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    MockBackendApi mockBackendApi;
 
     public void listAccountsFromBackend(RecyclerView recycler, boolean onFragment, Intent intent) {
         DaggerApiComponent.builder().build().inject(this);

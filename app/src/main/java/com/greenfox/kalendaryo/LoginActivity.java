@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
@@ -54,6 +55,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    MockBackendApi mockBackendApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

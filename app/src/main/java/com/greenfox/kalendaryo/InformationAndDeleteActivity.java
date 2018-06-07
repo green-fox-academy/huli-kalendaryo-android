@@ -19,6 +19,7 @@ import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.adapter.KalendarSettingsAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
 import com.greenfox.kalendaryo.services.LogoutService;
@@ -38,6 +39,9 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
 
   @Inject
   BackendApi backendApi;
+
+  @Inject
+  MockBackendApi mockBackendApi;
 
   @Inject
   LogoutService logoutService;

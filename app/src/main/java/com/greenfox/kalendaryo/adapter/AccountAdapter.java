@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import java.io.IOException;
@@ -34,6 +35,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    MockBackendApi mockBackendApi;
 
     public AccountAdapter(List<GoogleAuth> authsIn, Context ctx, boolean clickable) {
         auths = authsIn;

@@ -17,6 +17,7 @@ import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 
@@ -36,6 +37,9 @@ public class KalendarFragment extends Fragment {
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    MockBackendApi mockBackendApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

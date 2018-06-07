@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.adapter.GoogleCalendarAdapter;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
@@ -56,6 +57,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    MockBackendApi mockBackendApi;
 
     @Inject
     AccountService accountService;

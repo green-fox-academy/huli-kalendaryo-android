@@ -17,9 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by BalazsSalfay on 2018. 02. 28..
- */
 
 public class MockBackendApi implements BackendApi {
 
@@ -37,12 +34,28 @@ public class MockBackendApi implements BackendApi {
 
     @Override
     public Call<GetAccountResponse> getAccount(String clientToken) {
-        return null;
+        List<GoogleAuth> GoogleAuthList = new ArrayList<>();
+        GoogleAuthList.add(new GoogleAuth("", "test@elek.com", "TestElek"));
+        GoogleAuthList.add(new GoogleAuth("", "jimbo@jimbo.com", "Jimbo"));
+        GetAccountResponse getAccountResponse = new GetAccountResponse(1, "test@elek.com", GoogleAuthList);
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this, Response.success(getAccountResponse));
+            }
+        };
+        return call;
     }
 
     @Override
     public Call<Void> deleteAccount(String clientToken, String email) {
-        return null;
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this, Response.success(null));
+            }
+        };
+        return call;
     }
 
     @Override
@@ -61,7 +74,7 @@ public class MockBackendApi implements BackendApi {
     public Call<GetKalendarListResponse> getCalendar(String clientToken) {
         GetKalendarListResponse listResponse = new GetKalendarListResponse();
 
-        GetKalendarResponse kalendarResponse1 = new GetKalendarResponse("elon@musk.com", "Spurs-Opal");
+        GetKalendarResponse kalendarResponse1 = new GetKalendarResponse( "elon@musk.com", "Spurs-Opal");
         List<String> inputGoogleCalendars1 = new ArrayList<>(Arrays.asList("Spurs", "Opal"));
         kalendarResponse1.setInputGoogleCalendars(inputGoogleCalendars1);
 
@@ -69,8 +82,11 @@ public class MockBackendApi implements BackendApi {
         List<String> inputGoogleCalendars2 = new ArrayList<>(Arrays.asList("Lazio", "Apple"));
         kalendarResponse2.setInputGoogleCalendars(inputGoogleCalendars2);
 
-        listResponse.getKalendars().add(kalendarResponse1);
-        listResponse.getKalendars().add(kalendarResponse2);
+        List<GetKalendarResponse> getKalendarResponseList = new ArrayList<>();
+        getKalendarResponseList.add(kalendarResponse1);
+        getKalendarResponseList.add(kalendarResponse2);
+
+        listResponse.setKalendars(getKalendarResponseList);
 
         ImplCall call = new ImplCall() {
             @Override
@@ -83,11 +99,23 @@ public class MockBackendApi implements BackendApi {
 
     @Override
     public Call<Void> deleteKalendar(String clientToken, long id) {
-        return null;
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this, Response.success(null));
+            }
+        };
+        return call;
     }
 
     @Override
     public Call<ResponseBody> refreshAccessToken(String clientToken, String email) {
-        return null;
+        ImplCall call = new ImplCall() {
+            @Override
+            public void enqueue(Callback callback) {
+                callback.onResponse(this, Response.success(ResponseBody.class));
+            }
+        };
+        return call;
     }
 }

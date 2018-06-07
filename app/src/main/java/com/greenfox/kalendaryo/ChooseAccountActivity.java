@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.backend.MockBackendApi;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
@@ -37,6 +38,9 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
     @Inject
     BackendApi backendApi;
+
+    @Inject
+    MockBackendApi mockBackendApi;
 
     @Inject
     AccountService accountService;
