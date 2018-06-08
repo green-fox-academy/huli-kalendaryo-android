@@ -1,15 +1,19 @@
 package com.greenfox.kalendaryo.models.event;
 
+import java.sql.Time;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class EndTime {
 
     private String date;
-    private String dateTime;
-    private String timeZone;
+    private Date dateTime;
+    private TimeZone timeZone;
 
     public EndTime() {
     }
 
-    public EndTime(String date, String dateTime, String timeZone) {
+    public EndTime(String date, Date dateTime, TimeZone timeZone) {
         this.date = date;
         this.dateTime = dateTime;
         this.timeZone = timeZone;
@@ -23,19 +27,19 @@ public class EndTime {
         this.date = date;
     }
 
-    public String getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 
-    public String getTimeZone() {
+    public TimeZone getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(String timeZone) {
+    public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
     }
 }

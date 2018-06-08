@@ -42,10 +42,12 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     private Kalendar kalendar;
     private GoogleApi googleApi;
     BackendApi backendApi;
-    List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
+    List<PreviewEvent> previewEvents = new ArrayList<>();
     List<WeekViewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
+    boolean busy = false;
+    final Object lock = new Object();
 
     WeekView mWeekView;
 
@@ -95,65 +97,71 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
-        Intent intent = new Intent(WeekViewActivity.this, BackgroundService.class);
-        Bundle bundle2 = new Bundle();
-        bundle2.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-        intent.putExtras(bundle2);
-        startService(intent);
+        getEventsFromBackgroundService();
 
-            BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    weekViewEvents = (List<WeekViewEvent>) intent.getSerializableExtra("weekViewEvents");
-                }
-            };
-            LocalBroadcastManager.getInstance(WeekViewActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
-
-        /*googleApi = RetrofitClient.getGoogleEvents();
-                ArrayList<String> accounts = kalPref.getAccounts();
-
-                for (int i = 0; i < accounts.size(); i++) {
-                    GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
-
-                    String accessToken = googleAuth.getAccessToken();
-                    String authorization = "Bearer " + accessToken;
-                    for (GoogleCalendar googleCalendar : googleCalendars) {
-                System.out.println("GOOGLECALENDARSIZE: " + googleCalendars.size());
-                callApi(authorization, googleCalendar.getId());
-            }*/
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("WVE: " + weekViewEvents.size());
-                for(WeekViewEvent event: weekViewEvents) {
-                    System.out.println(event.toString());
+        /*synchronized (lock) {
+            while (busy == true) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-        }, 10000);
+        }*/
 
         return weekViewEvents;
-    }
-
-    public void callApi(String authorization, String calendarId) {
-        /*googleApi.getEventList(authorization, calendarId).enqueue(new Callback<EventResponse>() {
-            @Override
-            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
-                eventsFromGoogle.addAll(response.body().getItems());
-                System.out.println("RESPONSE: " + response.body());
-            }
-
-            @Override
-            public void onFailure(Call<EventResponse> call, Throwable t) {
-                t.printStackTrace();
-                System.out.println("FAILURE");
-            }
-        });*/
-
     }
 
     /*private boolean eventMatches(WeekViewEvent event, int year, int month) {
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }*/
+
+    public void getEventsFromBackgroundService() {
+
+        /*Intent intent = new Intent(WeekViewActivity.this, BackgroundService.class);
+        Bundle bundle2 = new Bundle();
+        bundle2.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+        intent.putExtras(bundle2);
+        startService(intent);
+
+        BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
+            }
+        };
+        LocalBroadcastManager.getInstance(WeekViewActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("PVE: " + previewEvents.size());
+                for(PreviewEvent event: previewEvents) {
+                    Calendar startTime = Calendar.getInstance();
+                    startTime.setTime(event.getStart().getDateTime());
+                    Calendar endTime = (Calendar) startTime.clone();
+                    endTime.setTime(event.getEnd().getDateTime());
+                    WeekViewEvent weekViewEvent = new WeekViewEvent(1, event.getSummary(), startTime, endTime);
+                    weekViewEvents.add(weekViewEvent);
+                    System.out.println("START:" + event.getStart().getDateTime());
+                    System.out.println("SUMMARY: " + event.getSummary());
+                }
+            }
+        }, 10000);
+
+        System.out.println("WVE: " + weekViewEvents.size());
+
+        while(true) {
+            if(weekViewEvents == null) {
+                busy = true;
+            } else {
+                busy = false;
+                synchronized (lock) {
+                    lock.notifyAll();
+                }
+            }
+        }*/
+    }
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {

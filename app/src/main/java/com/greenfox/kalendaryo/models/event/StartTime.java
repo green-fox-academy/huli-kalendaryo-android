@@ -1,15 +1,20 @@
 package com.greenfox.kalendaryo.models.event;
 
+import com.google.api.client.util.DateTime;
+
+import java.util.Date;
+import java.util.TimeZone;
+
 public class StartTime {
 
     private String date;
-    private String dateTime;
-    private String timeZone;
+    private Date dateTime;
+    private TimeZone timeZone;
 
     public StartTime() {
     }
 
-    public StartTime(String date, String dateTime, String timeZone) {
+    public StartTime(String date, Date dateTime, TimeZone timeZone) {
         this.date = date;
         this.dateTime = dateTime;
         this.timeZone = timeZone;
@@ -23,19 +28,19 @@ public class StartTime {
         this.date = date;
     }
 
-    public String getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 
-    public String getTimeZone() {
+    public TimeZone getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(String timeZone) {
+    public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
     }
 }
