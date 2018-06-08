@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class KalendarFragment extends Fragment {
 
     KalPref kalPref;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton buttonNext;
     private KalendarAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -41,27 +41,30 @@ public class KalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.kalendarlist, container, false);
+        View view = inflater.inflate(R.layout.fragment_kalendar, container, false);
         adapter = new KalendarAdapter(getActivity());
         DaggerApiComponent.builder().build().inject(this);
-        floatingActionButton = view.findViewById(R.id.choosecalendar);
+        buttonNext = view.findViewById(R.id.button_next);
 
         recyclerViewSetup(view);
 
         kalPref = new KalPref(this.getContext());
         getKalendarResponse(kalPref.clientToken());
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        buttonNext.setOnClickListener(v -> {
 
-                progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.VISIBLE);
-                Intent i = new Intent(getActivity() , CustomNameActivity.class);
-                startActivity(i);
-            }
+            progressBar = view.findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            Intent i = new Intent(getActivity(), CustomNameActivity.class);
+            startActivity(i);
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getKalendarResponse(kalPref.clientToken());
     }
 
     private void getKalendarResponse(String clientToken) {
@@ -80,7 +83,7 @@ public class KalendarFragment extends Fragment {
     }
 
     public void recyclerViewSetup(View view){
-        recyclerView = view.findViewById(R.id.apilistcalendars);
+        recyclerView = view.findViewById(R.id.view_kalendars);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(recyclerLayoutManager);

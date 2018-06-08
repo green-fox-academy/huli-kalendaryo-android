@@ -27,7 +27,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     private List<GoogleAuth> auths = new ArrayList<>();
     private Context context;
-    private int lastSelectedPosition = -1;
+    private int lastSelectedPosition = 0;
     private EmailChange emailChange;
     private KalPref kalPref;
     private boolean clickable;
@@ -56,9 +56,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         View view;
 
         if (clickable) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account_name_with_button, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_account_selectable, parent, false);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.oneaccount, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_account, parent, false);
         }
         AccountAdapter.ViewHolder viewHolder = new AccountAdapter.ViewHolder(view);
         return viewHolder;
@@ -72,45 +72,36 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
                 alert.setTitle("Warning!");
                 alert.setMessage("Are you sure to delete account?");
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton("Yes", (dialog, which) -> {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    String clientToken = kalPref.clientToken();
+                    String email = auths.get(position).getEmail();
 
-                        String clientToken = kalPref.clientToken();
-                        String email = auths.get(position).getEmail();
+                    backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
 
-                        backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-
-                                    if (response.errorBody() == null) {
-                                        removeAccount(position);
-                                        Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        try {
-                                            Toast.makeText(view.getContext(), response.errorBody().string() , Toast.LENGTH_LONG).show();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                            if (response.errorBody() == null) {
+                                removeAccount(position);
+                                Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
+                            } else {
+                                try {
+                                    Toast.makeText(view.getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
+                        }
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(view.getContext(),"Account can not be deleted", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        dialog.dismiss();
-                    }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(view.getContext(), "Account can not be deleted", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    dialog.dismiss();
                 });
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
                 alert.show();
             }
         });
@@ -139,21 +130,20 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         public ViewHolder(View view) {
             super(view);
             if (clickable) {
-                accountName = view.findViewById(R.id.accountname);
-                radioButton = (RadioButton) view.findViewById(R.id.radioButton);
+                accountName = view.findViewById(R.id.text_account_name);
+                radioButton = (RadioButton) view.findViewById(R.id.button_account_select);
+
                 radioButton.setOnClickListener(v -> {
                     lastSelectedPosition = getAdapterPosition();
                     notifyDataSetChanged();
-
                     if (emailChange != null) {
                         emailChange.emailChanged((String) accountName.getText());
                     }
-
                     Toast.makeText(AccountAdapter.this.context, accountName.getText(),
                             Toast.LENGTH_LONG).show();
                 });
             } else {
-                oneAccountName = view.findViewById(R.id.oneAccountName);
+                oneAccountName = view.findViewById(R.id.text_account_name);
             }
         }
     }

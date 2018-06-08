@@ -2,28 +2,26 @@ package com.greenfox.kalendaryo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.services.GoogleService;
+import com.greenfox.kalendaryo.services.LogoutService;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
     KalPref kalPref;
+
+    @Inject
+    LogoutService logoutService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +33,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        setContentView(R.layout.activity_tab_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        DaggerApiComponent.builder().build().inject(this);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Kalendars"));
         tabLayout.addTab(tabLayout.newTab().setText("Accounts"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager viewPager = findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
@@ -77,40 +76,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.log_out) {
-            logOut();
+            logoutService.logOut(this);
         }
         return true;
-    }
-
-    public void logOut() {
-
-        GoogleService.getInstance().getGoogleApiClient().connect();
-        GoogleService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-            @Override
-            public void onConnected(@Nullable Bundle bundle) {
-                if(GoogleService.getInstance().getGoogleApiClient().isConnected()) {
-                    Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback(new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(@NonNull Status status) {
-                            if (status.isSuccess()) {
-                                Log.d("Log out", "User Logged out");
-                                Toast.makeText(getApplicationContext(), "You successfully logged out", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
-                                }
-                            }
-                    });
-                    }
-                }
-            @Override
-            public void onConnectionSuspended(int i) {
-                Log.d("Connection suspended", "Google API Client Connection Suspended");
-                }
-        });
-        kalPref.clearAccountsAndAll();
     }
 }

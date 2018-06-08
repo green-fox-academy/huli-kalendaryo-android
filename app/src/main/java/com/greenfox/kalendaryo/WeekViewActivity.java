@@ -52,7 +52,7 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.week_view_static);
+        setContentView(R.layout.activity_static_week_view);
 
         Bundle bundle = getIntent().getExtras();
         googleCalendars = bundle.getParcelableArrayList("googleCalendars");

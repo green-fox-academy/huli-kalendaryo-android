@@ -6,14 +6,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by bekob on 2018-01-17.
- */
-
 public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
 
     String outputGoogleAuthId;
-    List<String> inputGoogleCalendars;
+    List<GoogleCalendar> inputGoogleCalendars;
     String customName;
     private String id;
 
@@ -29,11 +25,11 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
         this.outputGoogleAuthId = outputGoogleAuthId;
     }
 
-    public List<String> getInputGoogleCalendars() {
+    public List<GoogleCalendar> getInputGoogleCalendars() {
         return inputGoogleCalendars;
     }
 
-    public void setInputGoogleCalendars(List<String> inputGoogleCalendars) {
+    public void setInputGoogleCalendars(List<GoogleCalendar> inputGoogleCalendars) {
         this.inputGoogleCalendars = inputGoogleCalendars;
     }
 
@@ -46,12 +42,12 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
     }
 
     @Override
-    public void saveCalendar(String calendarTitle) {
+    public void saveCalendar(GoogleCalendar calendarTitle) {
         inputGoogleCalendars.add(calendarTitle);
     }
 
     @Override
-    public void removeCalendar(String calendarTitle) {
+    public void removeCalendar(GoogleCalendar calendarTitle) {
         inputGoogleCalendars.remove(calendarTitle);
     }
 

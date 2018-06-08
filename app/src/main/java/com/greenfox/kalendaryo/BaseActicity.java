@@ -26,7 +26,7 @@ abstract class BaseActivity extends AppCompatActivity implements WeekView.EventC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.week_view_static);
+        setContentView(R.layout.activity_static_week_view);
         mWeekView = findViewById(R.id.weekview);
         mWeekView.setMonthChangeListener(this);
     }

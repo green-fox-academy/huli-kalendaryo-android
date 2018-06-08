@@ -52,7 +52,7 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
 
     @Override
     public GoogleCalendarAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_name, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_calendar_selectable, parent, false);
         GoogleCalendarAdapter.ViewHolder viewHolder = new GoogleCalendarAdapter.ViewHolder(view);
         return viewHolder;
     }
@@ -67,9 +67,9 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b)
-                    listChange.saveCalendar((String)holder.calendarName.getText());
+                    listChange.saveCalendar(googleCalendar);
                 else {
-                    listChange.removeCalendar((String)holder.calendarName.getText());
+                    listChange.removeCalendar(googleCalendar);
                 }
             }
         });
@@ -89,13 +89,13 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
 
         public ViewHolder(View itemView) {
             super(itemView);
-            calendarName = itemView.findViewById(R.id.calendarname);
-            checkBox = itemView.findViewById(R.id.checkBox1);
+            calendarName = itemView.findViewById(R.id.text_calendar_name);
+            checkBox = itemView.findViewById(R.id.check_box_account);
         }
 
     }
     public interface ListChange {
-        void saveCalendar(String calendarTitle);
-        void removeCalendar(String calderTitle);
+        void saveCalendar(GoogleCalendar googleCalendar);
+        void removeCalendar(GoogleCalendar googleCalendar);
     }
 }

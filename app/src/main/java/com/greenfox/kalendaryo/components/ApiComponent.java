@@ -2,8 +2,10 @@ package com.greenfox.kalendaryo.components;
 
 import com.greenfox.kalendaryo.ChooseAccountActivity;
 import com.greenfox.kalendaryo.LoginActivity;
+import com.greenfox.kalendaryo.MainActivity;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
+import com.greenfox.kalendaryo.InformationAndDeleteActivity;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.fragments.AccountsFragment;
 import com.greenfox.kalendaryo.fragments.KalendarFragment;
@@ -29,4 +31,6 @@ public interface ApiComponent {
     void inject(AccountAdapter accountAdapter);
     void inject(AccountService accountService);
     void inject(KalendarAdapter kalendarAdapter);
+    void inject(InformationAndDeleteActivity informationAndDeleteActivity);
+    void inject(MainActivity mainActivity);
 }
