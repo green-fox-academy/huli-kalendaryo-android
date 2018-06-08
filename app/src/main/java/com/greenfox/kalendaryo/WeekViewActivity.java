@@ -42,8 +42,8 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     private Kalendar kalendar;
     private GoogleApi googleApi;
     BackendApi backendApi;
-    List<PreviewEvent> eventsFromGoogle = new ArrayList<>();
-    List<PreviewEvent> weekViewEvents = new ArrayList<>();
+    List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
+    List<WeekViewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
 
@@ -104,7 +104,7 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
             BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    weekViewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
+                    weekViewEvents = (List<WeekViewEvent>) intent.getSerializableExtra("weekViewEvents");
                 }
             };
             LocalBroadcastManager.getInstance(WeekViewActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
@@ -125,13 +125,13 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
             @Override
             public void run() {
                 System.out.println("WVE: " + weekViewEvents.size());
-                for(PreviewEvent event: weekViewEvents) {
+                for(WeekViewEvent event: weekViewEvents) {
                     System.out.println(event.toString());
                 }
             }
         }, 10000);
 
-        return null;
+        return weekViewEvents;
     }
 
     public void callApi(String authorization, String calendarId) {
