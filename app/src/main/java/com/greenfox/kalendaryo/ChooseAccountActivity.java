@@ -1,8 +1,13 @@
 package com.greenfox.kalendaryo;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,13 +15,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
+import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.google.GoogleApi;
+import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
+import com.greenfox.kalendaryo.models.event.EventResponse;
+import com.greenfox.kalendaryo.models.event.PreviewEvent;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 import com.greenfox.kalendaryo.services.AccountService;
+import com.greenfox.kalendaryo.services.BackgroundService;
+
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +50,10 @@ public class ChooseAccountActivity extends AppCompatActivity {
     Button buttonNext;
     Kalendar kalendar;
     private ProgressBar progressBar;
+    private GoogleApi googleApi;
+    private List<PreviewEvent> eventsFromGoogle = new ArrayList<>();
+    private List<PreviewEvent> weekViewEvents = new ArrayList<>();
+    List<PreviewEvent> previewEvents = new ArrayList<>();
 
     @Inject
     BackendApi backendApi;
@@ -62,23 +82,36 @@ public class ChooseAccountActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(v -> {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            /*backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
-                @Override
-                public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
-                    PostKalendarResponse postKalendarResponse = response.body();
-                }
 
-                    @Override
-                    public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-               });*/
-                Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-                i.putExtra("list", kalendar);
-                i.putExtras(bundle);
-                startActivity(i);
+                Intent intentToService = new Intent(ChooseAccountActivity.this, BackgroundService.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+                intentToService.putExtras(bundle2);
+                startService(intentToService);
+
+            BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    System.out.println("I RECEIVED IT!!!!");
+                    previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
+                }
+            };
+            LocalBroadcastManager.getInstance(ChooseAccountActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
+
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+                    i.putExtra("list", kalendar);
+                    i.putExtras(bundle);
+                    i.putExtra("weekViewEvents", (Serializable) previewEvents);
+                    startActivity(i);
+                }
+            }, 10000);
+
                 finish();
             });
 
@@ -92,4 +125,5 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
         accountService.listAccountsFromBackend(recyclerview, false, getIntent());
     }
+
 }

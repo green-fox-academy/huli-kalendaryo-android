@@ -71,6 +71,7 @@ public class BackgroundService extends IntentService {
         System.out.println("EVENTFROMGOOGLE!!!!!!!" + eventsFromGoogle.size());
         for (PreviewEvent event : eventsFromGoogle) {
             System.out.println(event.getSummary());
+            System.out.println(event.getStart().getDateTime());
             //if (event.getSummary().equals("Teszt4")) {
                weekViewEvents.add(event);
 
@@ -78,7 +79,7 @@ public class BackgroundService extends IntentService {
 
             Intent intent1 = new Intent("weekViewEvents");
             intent1.putExtra("weekViewEvents", (Serializable) weekViewEvents);
-            LocalBroadcastManager.getInstance(BackgroundService.this).sendBroadcast(intent1);
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
 
             System.out.println("WEEKVIEWEVENTS: " + weekViewEvents.size());
 

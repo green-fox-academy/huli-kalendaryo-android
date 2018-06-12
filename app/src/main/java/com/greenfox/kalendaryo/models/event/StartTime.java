@@ -1,11 +1,15 @@
 package com.greenfox.kalendaryo.models.event;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.api.client.util.DateTime;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class StartTime {
+public class StartTime implements Serializable{
 
     private String date;
     private Date dateTime;
@@ -18,6 +22,10 @@ public class StartTime {
         this.date = date;
         this.dateTime = dateTime;
         this.timeZone = timeZone;
+    }
+
+    protected StartTime(Parcel in) {
+        date = in.readString();
     }
 
     public String getDate() {

@@ -99,16 +99,6 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
 
         getEventsFromBackgroundService();
 
-        /*synchronized (lock) {
-            while (busy == true) {
-                try {
-                    lock.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
-
         return weekViewEvents;
     }
 
@@ -122,45 +112,35 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
         Bundle bundle2 = new Bundle();
         bundle2.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
         intent.putExtras(bundle2);
-        startService(intent);
+        startService(intent);*/
 
-        BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        /*BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                System.out.println("I RECEIVED IT!!!!");
                 previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
             }
         };
-        LocalBroadcastManager.getInstance(WeekViewActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
+        System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+        LocalBroadcastManager.getInstance(WeekViewActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));*/
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("PVE: " + previewEvents.size());
-                for(PreviewEvent event: previewEvents) {
-                    Calendar startTime = Calendar.getInstance();
-                    startTime.setTime(event.getStart().getDateTime());
-                    Calendar endTime = (Calendar) startTime.clone();
-                    endTime.setTime(event.getEnd().getDateTime());
-                    WeekViewEvent weekViewEvent = new WeekViewEvent(1, event.getSummary(), startTime, endTime);
-                    weekViewEvents.add(weekViewEvent);
-                    System.out.println("START:" + event.getStart().getDateTime());
-                    System.out.println("SUMMARY: " + event.getSummary());
+        previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
+
+        System.out.println("PVE: " + previewEvents.size());
+        System.out.println(previewEvents.get(0).getStart().getDateTime().toString());
+            for(PreviewEvent event: previewEvents) {
+                Calendar startTime = Calendar.getInstance();
+                startTime.setTime(event.getStart().getDateTime());
+                Calendar endTime = (Calendar) startTime.clone();
+                endTime.setTime(event.getEnd().getDateTime());
+                WeekViewEvent weekViewEvent = new WeekViewEvent(1, event.getSummary(), startTime, endTime);
+                weekViewEvents.add(weekViewEvent);
+                System.out.println("START:" + event.getStart().getDateTime());
+                System.out.println("SUMMARY: " + event.getSummary());
                 }
-            }
-        }, 10000);
+
 
         System.out.println("WVE: " + weekViewEvents.size());
-
-        while(true) {
-            if(weekViewEvents == null) {
-                busy = true;
-            } else {
-                busy = false;
-                synchronized (lock) {
-                    lock.notifyAll();
-                }
-            }
-        }*/
     }
 
     @Override

@@ -1,10 +1,14 @@
 package com.greenfox.kalendaryo.models.event;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class EndTime {
+public class EndTime implements Serializable{
 
     private String date;
     private Date dateTime;
@@ -17,6 +21,10 @@ public class EndTime {
         this.date = date;
         this.dateTime = dateTime;
         this.timeZone = timeZone;
+    }
+
+    protected EndTime(Parcel in) {
+        date = in.readString();
     }
 
     public String getDate() {

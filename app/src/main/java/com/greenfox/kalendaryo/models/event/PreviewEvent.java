@@ -1,10 +1,14 @@
 package com.greenfox.kalendaryo.models.event;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.alamkanak.weekview.WeekViewEvent;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PreviewEvent {
+public class PreviewEvent implements Serializable{
 
     private String id;
     private String created;
@@ -23,6 +27,13 @@ public class PreviewEvent {
         this.summary = summary;
         this.start = start;
         this.end = end;
+    }
+
+    protected PreviewEvent(Parcel in) {
+        id = in.readString();
+        created = in.readString();
+        updated = in.readString();
+        summary = in.readString();
     }
 
     public String getId() {
