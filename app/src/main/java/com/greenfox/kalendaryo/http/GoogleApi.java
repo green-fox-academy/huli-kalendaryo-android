@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo.http.google;
+package com.greenfox.kalendaryo.http;
 
 import com.greenfox.kalendaryo.models.responses.GoogleCalendarsResponse;
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.greenfox.kalendaryo.InformationAndDeleteActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
+import com.greenfox.kalendaryo.http.BackendApi;
 import com.greenfox.kalendaryo.models.responses.GetKalendarResponse;
 
 import java.util.ArrayList;

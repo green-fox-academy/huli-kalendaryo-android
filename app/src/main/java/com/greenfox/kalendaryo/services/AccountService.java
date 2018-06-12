@@ -6,8 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import com.greenfox.kalendaryo.SelectCalendarActivity;
 import com.greenfox.kalendaryo.adapter.AccountAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.backend.MockBackendApi;
+import com.greenfox.kalendaryo.http.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

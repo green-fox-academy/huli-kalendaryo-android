@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo.http.backend;
+package com.greenfox.kalendaryo.http;
 
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;

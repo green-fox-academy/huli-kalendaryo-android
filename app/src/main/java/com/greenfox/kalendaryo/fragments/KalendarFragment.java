@@ -16,8 +16,7 @@ import com.greenfox.kalendaryo.CustomNameActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.adapter.KalendarAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.backend.MockBackendApi;
+import com.greenfox.kalendaryo.http.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 

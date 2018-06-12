@@ -1,9 +1,8 @@
 package com.greenfox.kalendaryo.providers;
 
 import com.greenfox.kalendaryo.http.RetrofitClient;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.backend.MockBackendApi;
-import com.greenfox.kalendaryo.http.google.GoogleApi;
+import com.greenfox.kalendaryo.http.BackendApi;
+import com.greenfox.kalendaryo.http.GoogleApi;
 import com.greenfox.kalendaryo.services.AccountService;
 import com.greenfox.kalendaryo.services.LogoutService;
 
@@ -17,11 +16,6 @@ public class ApiProvider {
     @Provides
     BackendApi provideBackEndApi() {
         return RetrofitClient.getBackendApi();
-    }
-
-    @Provides
-    MockBackendApi provideMockBackendApi() {
-        return new MockBackendApi();
     }
 
     @Provides

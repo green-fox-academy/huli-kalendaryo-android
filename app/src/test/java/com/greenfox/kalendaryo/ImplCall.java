@@ -1,4 +1,4 @@
-package com.greenfox.kalendaryo.http.backend;
+package com.greenfox.kalendaryo;
 
 import java.io.IOException;
 

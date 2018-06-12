@@ -1,8 +1,6 @@
 package com.greenfox.kalendaryo.http;
 
 import com.greenfox.kalendaryo.BuildConfig;
-import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.google.GoogleApi;
 
 import java.util.concurrent.TimeUnit;
 

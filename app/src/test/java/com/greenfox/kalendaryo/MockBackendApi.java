@@ -1,7 +1,6 @@
 package com.greenfox.kalendaryo;
 
-import com.greenfox.kalendaryo.http.backend.BackendApi;
-import com.greenfox.kalendaryo.http.backend.ImplCall;
+import com.greenfox.kalendaryo.http.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
@@ -13,8 +12,6 @@ import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
