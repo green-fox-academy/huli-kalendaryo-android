@@ -42,8 +42,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
     @Inject
     AccountService accountService;
 
-    @Inject
-    MockBackendApi mockBackendApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +64,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(v -> {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            mockBackendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
+            backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
                 @Override
                 public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
                     PostKalendarResponse postKalendarResponse = response.body();

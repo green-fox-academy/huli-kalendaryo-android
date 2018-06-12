@@ -22,7 +22,7 @@ public class ApiProvider {
     @Provides
     MockBackendApi provideMockBackendApi() {
         return new MockBackendApi();
-    };
+    }
 
     @Provides
     GoogleApi provideGoogleApi() {

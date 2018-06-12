@@ -61,9 +61,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
     @Inject
     AccountService accountService;
 
-    @Inject
-    MockBackendApi mockBackendApi;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +127,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
         });
     }
     public void requestAccessTokenRefresh (GoogleAuth googleAuth, String clientToken) {
-        mockBackendApi.refreshAccessToken(clientToken, googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
+        backendApi.refreshAccessToken(clientToken, googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {

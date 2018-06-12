@@ -40,8 +40,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     @Inject
     BackendApi backendApi;
 
-    @Inject
-    MockBackendApi mockBackendApi;
 
 public AccountAdapter(List<GoogleAuth> authsIn, Context ctx, boolean clickable) {
         auths = authsIn;
@@ -85,7 +83,7 @@ public AccountAdapter(List<GoogleAuth> authsIn, Context ctx, boolean clickable) 
                     String clientToken = kalPref.clientToken();
                     String email = auths.get(position).getEmail();
 
-                    mockBackendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
+                    backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
 

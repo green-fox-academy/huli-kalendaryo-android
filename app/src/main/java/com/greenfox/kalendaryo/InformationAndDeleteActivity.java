@@ -43,8 +43,6 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
   @Inject
   LogoutService logoutService;
 
-  @Inject
-  MockBackendApi mockBackendApi;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +91,7 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
       kalPref = new KalPref(view.getContext());
       String clientToken = kalPref.clientToken();
 
-      mockBackendApi.deleteKalendar(clientToken, idToDelete).enqueue(new Callback<Void>() {
+      backendApi.deleteKalendar(clientToken, idToDelete).enqueue(new Callback<Void>() {
 
         @Override
         public void onResponse(Call<Void> call, Response<Void> response) {

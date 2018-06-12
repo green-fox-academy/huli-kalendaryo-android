@@ -56,9 +56,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Inject
     BackendApi backendApi;
 
-    @Inject
-    MockBackendApi mockBackendApi;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             final String userName = account.getDisplayName();
             final String userEmail = account.getEmail();
             final String givenName = account.getGivenName();
-            mockBackendApi.postAuth(kalPref.clientToken(), new GoogleAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
+            backendApi.postAuth(kalPref.clientToken(), new GoogleAuth(account.getServerAuthCode(), userEmail, userName)).enqueue(new Callback<KalUser>() {
 
                 @Override
                 public void onResponse(Call<KalUser> call, Response<KalUser> response) {

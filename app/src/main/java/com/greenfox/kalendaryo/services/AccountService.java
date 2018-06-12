@@ -31,13 +31,11 @@ public class AccountService {
     @Inject
     BackendApi backendApi;
 
-    @Inject
-    MockBackendApi mockBackendApi;
 
     public void listAccountsFromBackend(RecyclerView recycler, boolean onFragment, Intent intent) {
         DaggerApiComponent.builder().build().inject(this);
         KalPref kalPref = new KalPref(recycler.getContext());
-        mockBackendApi.getAccount(kalPref.clientToken()).enqueue(new Callback<GetAccountResponse>() {
+        backendApi.getAccount(kalPref.clientToken()).enqueue(new Callback<GetAccountResponse>() {
             @Override
             public void onResponse(Call<GetAccountResponse> call, Response<GetAccountResponse> response) {
                 GetAccountResponse getAccountResponse = response.body();

@@ -38,8 +38,6 @@ public class KalendarFragment extends Fragment {
     @Inject
     BackendApi backendApi;
 
-    @Inject
-    MockBackendApi mockBackendApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +69,7 @@ public class KalendarFragment extends Fragment {
     }
 
     private void getKalendarResponse(String clientToken) {
-        mockBackendApi.getCalendar(clientToken).enqueue(new Callback<GetKalendarListResponse>() {
+        backendApi.getCalendar(clientToken).enqueue(new Callback<GetKalendarListResponse>() {
 
             @Override
             public void onResponse(Call<GetKalendarListResponse> call, Response<GetKalendarListResponse> response) {
