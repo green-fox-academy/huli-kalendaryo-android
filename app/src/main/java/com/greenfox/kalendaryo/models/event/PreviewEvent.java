@@ -29,13 +29,6 @@ public class PreviewEvent implements Serializable{
         this.end = end;
     }
 
-    protected PreviewEvent(Parcel in) {
-        id = in.readString();
-        created = in.readString();
-        updated = in.readString();
-        summary = in.readString();
-    }
-
     public String getId() {
         return id;
     }

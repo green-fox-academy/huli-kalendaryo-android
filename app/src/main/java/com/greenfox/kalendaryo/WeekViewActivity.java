@@ -29,6 +29,7 @@ import com.greenfox.kalendaryo.services.BackgroundService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,8 +47,7 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     List<WeekViewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
-    boolean busy = false;
-    final Object lock = new Object();
+    long eventId = 0;
 
     WeekView mWeekView;
 
@@ -97,7 +97,25 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
-        getEventsFromBackgroundService();
+        previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
+
+        System.out.println("PVE: " + previewEvents.size());
+        for(PreviewEvent event: previewEvents) {
+            Calendar startTime = Calendar.getInstance();
+            startTime.setTime(event.getStart().getDateTime());
+            Calendar endTime = (Calendar) startTime.clone();
+            endTime.setTime(event.getEnd().getDateTime());
+            WeekViewEvent weekViewEvent = new WeekViewEvent(eventId, event.getSummary(), startTime, endTime);
+            weekViewEvents.add(weekViewEvent);
+            eventId ++;
+            System.out.println("START:" + startTime);
+            System.out.println("END: " + endTime);
+            System.out.println("NAME: " + event.getSummary());
+            System.out.println("ID " + eventId);
+        }
+
+
+        System.out.println("WVE: " + weekViewEvents.size());
 
         return weekViewEvents;
     }
@@ -108,35 +126,21 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
 
     public void getEventsFromBackgroundService() {
 
-        /*Intent intent = new Intent(WeekViewActivity.this, BackgroundService.class);
-        Bundle bundle2 = new Bundle();
-        bundle2.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-        intent.putExtras(bundle2);
-        startService(intent);*/
-
-        /*BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("I RECEIVED IT!!!!");
-                previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
-            }
-        };
-        System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-        LocalBroadcastManager.getInstance(WeekViewActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));*/
-
         previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
 
         System.out.println("PVE: " + previewEvents.size());
-        System.out.println(previewEvents.get(0).getStart().getDateTime().toString());
             for(PreviewEvent event: previewEvents) {
                 Calendar startTime = Calendar.getInstance();
                 startTime.setTime(event.getStart().getDateTime());
                 Calendar endTime = (Calendar) startTime.clone();
                 endTime.setTime(event.getEnd().getDateTime());
-                WeekViewEvent weekViewEvent = new WeekViewEvent(1, event.getSummary(), startTime, endTime);
+                WeekViewEvent weekViewEvent = new WeekViewEvent(eventId, event.getSummary(), startTime, endTime);
                 weekViewEvents.add(weekViewEvent);
-                System.out.println("START:" + event.getStart().getDateTime());
-                System.out.println("SUMMARY: " + event.getSummary());
+                eventId ++;
+                System.out.println("START:" + startTime);
+                System.out.println("END: " + endTime);
+                System.out.println("NAME: " + event.getSummary());
+                System.out.println("ID " + eventId);
                 }
 
 

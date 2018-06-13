@@ -70,9 +70,6 @@ public class BackgroundService extends IntentService {
 
         System.out.println("EVENTFROMGOOGLE!!!!!!!" + eventsFromGoogle.size());
         for (PreviewEvent event : eventsFromGoogle) {
-            System.out.println(event.getSummary());
-            System.out.println(event.getStart().getDateTime());
-            //if (event.getSummary().equals("Teszt4")) {
                weekViewEvents.add(event);
 
             }

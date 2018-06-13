@@ -89,30 +89,27 @@ public class ChooseAccountActivity extends AppCompatActivity {
                 intentToService.putExtras(bundle2);
                 startService(intentToService);
 
-            BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    System.out.println("I RECEIVED IT!!!!");
-                    previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
-                }
-            };
-            LocalBroadcastManager.getInstance(ChooseAccountActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
+                BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        System.out.println("I RECEIVED IT!!!!");
+                        previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
+                    }
+                };
+                LocalBroadcastManager.getInstance(ChooseAccountActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
 
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-                    i.putExtra("list", kalendar);
-                    i.putExtras(bundle);
-                    i.putExtra("weekViewEvents", (Serializable) previewEvents);
-                    startActivity(i);
-                }
-            }, 10000);
-
-                finish();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+                        i.putExtra("list", kalendar);
+                        i.putExtras(bundle);
+                        i.putExtra("weekViewEvents", (Serializable) previewEvents);
+                        startActivity(i);
+                    }
+                }, 5000);
             });
 
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
