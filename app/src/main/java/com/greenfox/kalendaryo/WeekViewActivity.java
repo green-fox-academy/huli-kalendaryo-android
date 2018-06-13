@@ -29,15 +29,15 @@ import com.greenfox.kalendaryo.services.BackgroundService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WeekViewActivity extends AppCompatActivity implements WeekView.EventClickListener,
-        MonthLoader.MonthChangeListener, WeekView.EventLongPressListener,
-        WeekView.EmptyViewLongPressListener {
+public class WeekViewActivity extends AppCompatActivity implements
+        MonthLoader.MonthChangeListener {
 
     private KalPref kalPref;
     private Kalendar kalendar;
@@ -48,6 +48,7 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     Button sendToBackend;
     long eventId = 0;
+    int counter = 0;
 
     WeekView mWeekView;
 
@@ -96,70 +97,30 @@ public class WeekViewActivity extends AppCompatActivity implements WeekView.Even
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+        //the method runs 3 times, so a counter is implemented
+        if (counter == 0) {
 
-        previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
+            previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
 
-        System.out.println("PVE: " + previewEvents.size());
-        for(PreviewEvent event: previewEvents) {
-            Calendar startTime = Calendar.getInstance();
-            startTime.setTime(event.getStart().getDateTime());
-            Calendar endTime = (Calendar) startTime.clone();
-            endTime.setTime(event.getEnd().getDateTime());
-            WeekViewEvent weekViewEvent = new WeekViewEvent(eventId, event.getSummary(), startTime, endTime);
-            weekViewEvents.add(weekViewEvent);
-            eventId ++;
-            System.out.println("START:" + startTime);
-            System.out.println("END: " + endTime);
-            System.out.println("NAME: " + event.getSummary());
-            System.out.println("ID " + eventId);
+            for (PreviewEvent event : previewEvents) {
+                Calendar startTime = Calendar.getInstance();
+                startTime.setTime(event.getStart().getDateTime());
+                startTime.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
+                Calendar endTime = (Calendar) startTime.clone();
+                endTime.setTime(event.getEnd().getDateTime());
+                endTime.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
+                WeekViewEvent weekViewEvent = new WeekViewEvent(eventId, event.getSummary(), startTime, endTime);
+                weekViewEvents.add(weekViewEvent);
+                eventId++;
+            }
+            counter ++;
+
+        } else {
+            weekViewEvents = new ArrayList<>();
         }
-
-
-        System.out.println("WVE: " + weekViewEvents.size());
 
         return weekViewEvents;
     }
 
-    /*private boolean eventMatches(WeekViewEvent event, int year, int month) {
-        return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
-    }*/
-
-    public void getEventsFromBackgroundService() {
-
-        previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
-
-        System.out.println("PVE: " + previewEvents.size());
-            for(PreviewEvent event: previewEvents) {
-                Calendar startTime = Calendar.getInstance();
-                startTime.setTime(event.getStart().getDateTime());
-                Calendar endTime = (Calendar) startTime.clone();
-                endTime.setTime(event.getEnd().getDateTime());
-                WeekViewEvent weekViewEvent = new WeekViewEvent(eventId, event.getSummary(), startTime, endTime);
-                weekViewEvents.add(weekViewEvent);
-                eventId ++;
-                System.out.println("START:" + startTime);
-                System.out.println("END: " + endTime);
-                System.out.println("NAME: " + event.getSummary());
-                System.out.println("ID " + eventId);
-                }
-
-
-        System.out.println("WVE: " + weekViewEvents.size());
-    }
-
-    @Override
-    public void onEmptyViewLongPress(Calendar time) {
-
-    }
-
-    @Override
-    public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
-    }
-
-    @Override
-    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-
-    }
 }
 

@@ -39,17 +39,13 @@ public class BackgroundService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        System.out.println("THIS IS BACKGROUNDSERVICE!!!!");
         kalPref = new KalPref(this);
 
         googleApi = RetrofitClient.getGoogleEvents();
         ArrayList<String> accounts = kalPref.getAccounts();
 
-        System.out.println("SIZE: " + accounts.size());
-
         Bundle bundle = intent.getExtras();
         googleCalendars = bundle.getParcelableArrayList("googleCalendars");
-        System.out.println("GOOGLECALENDARSSIZE: " + googleCalendars.size());
 
         for (int i = 0; i < accounts.size(); i++) {
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
@@ -60,25 +56,19 @@ public class BackgroundService extends IntentService {
                 try {
                     Response<EventResponse> result = googleApi.getEventList(authorization, googleCalendar.getId()).execute();
                     eventsFromGoogle.addAll(result.body().getItems());
-                    System.out.println("SUCCCCCCESSSSSS!!!!");
                 } catch (IOException e) {
                     e.printStackTrace();
-                    System.out.println("FAILURE!!!!!");
                 }
             }
         }
 
-        System.out.println("EVENTFROMGOOGLE!!!!!!!" + eventsFromGoogle.size());
         for (PreviewEvent event : eventsFromGoogle) {
                weekViewEvents.add(event);
-
             }
 
-            Intent intent1 = new Intent("weekViewEvents");
-            intent1.putExtra("weekViewEvents", (Serializable) weekViewEvents);
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent1);
-
-            System.out.println("WEEKVIEWEVENTS: " + weekViewEvents.size());
+            Intent backgroundIntent = new Intent("weekViewEvents");
+            backgroundIntent.putExtra("weekViewEvents", (Serializable) weekViewEvents);
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(backgroundIntent);
 
         }
     }
