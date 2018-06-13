@@ -29,8 +29,11 @@ import com.greenfox.kalendaryo.services.BackgroundService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.annotation.Resources;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +52,7 @@ public class WeekViewActivity extends AppCompatActivity implements
     Button sendToBackend;
     long eventId = 0;
     int counter = 0;
+    int numberOfColors = 4;
 
     WeekView mWeekView;
 
@@ -103,6 +107,10 @@ public class WeekViewActivity extends AppCompatActivity implements
             previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
 
             for (PreviewEvent event : previewEvents) {
+                int randomColorNumber = (int)(Math.random()*numberOfColors + 1);
+                int randomColor = getResources().getColor(randomColorNumber(randomColorNumber));
+                System.out.println(randomColorNumber);
+                System.out.println(randomColor);
                 Calendar startTime = Calendar.getInstance();
                 startTime.setTime(event.getStart().getDateTime());
                 startTime.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
@@ -110,6 +118,7 @@ public class WeekViewActivity extends AppCompatActivity implements
                 endTime.setTime(event.getEnd().getDateTime());
                 endTime.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
                 WeekViewEvent weekViewEvent = new WeekViewEvent(eventId, event.getSummary(), startTime, endTime);
+                weekViewEvent.setColor(randomColor);
                 weekViewEvents.add(weekViewEvent);
                 eventId++;
             }
@@ -120,6 +129,27 @@ public class WeekViewActivity extends AppCompatActivity implements
         }
 
         return weekViewEvents;
+    }
+
+    public int randomizer() {
+        Random randomizer = new Random();
+        return randomizer.nextInt(numberOfColors)+1;
+    }
+
+    public int randomColorNumber(int random) {
+        int colorNumber = 0;
+        switch (random) {
+            case 1: colorNumber = R.color.event_color_01;
+            break;
+            case 2: colorNumber = R.color.event_color_02;
+            break;
+            case 3: colorNumber = R.color.event_color_03;
+            break;
+            case 4: colorNumber = R.color.event_color_04;
+            break;
+        }
+
+        return colorNumber;
     }
 
 }

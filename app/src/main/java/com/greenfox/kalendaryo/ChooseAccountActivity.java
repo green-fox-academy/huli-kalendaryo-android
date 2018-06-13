@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
@@ -82,6 +83,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(v -> {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "Please wait until preview gets displayed!", Toast.LENGTH_LONG).show();
 
                 Intent intentToService = new Intent(ChooseAccountActivity.this, BackgroundService.class);
                 Bundle bundle2 = new Bundle();
@@ -92,7 +94,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
                 BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        System.out.println("I RECEIVED IT!!!!");
                         previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
                     }
                 };
