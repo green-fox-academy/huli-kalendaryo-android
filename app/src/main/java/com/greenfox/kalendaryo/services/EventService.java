@@ -3,7 +3,6 @@ package com.greenfox.kalendaryo.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -20,12 +19,11 @@ import com.greenfox.kalendaryo.models.event.PreviewEvent;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Response;
 
-public class BackgroundService extends IntentService {
+public class EventService extends IntentService {
 
     private GoogleApi googleApi;
     private List<PreviewEvent> eventsFromGoogle = new ArrayList<>();
@@ -33,8 +31,8 @@ public class BackgroundService extends IntentService {
     private List<GoogleCalendar> googleCalendars = new ArrayList<>();
     private KalPref kalPref;
 
-    public BackgroundService() {
-        super("BackgroundService");
+    public EventService() {
+        super("EventService");
     }
 
     @Override
@@ -63,13 +61,13 @@ public class BackgroundService extends IntentService {
         }
 
         for (PreviewEvent event : eventsFromGoogle) {
-               weekViewEvents.add(event);
-            }
-
-            Intent backgroundIntent = new Intent("weekViewEvents");
-            backgroundIntent.putExtra("weekViewEvents", (Serializable) weekViewEvents);
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(backgroundIntent);
-
+            weekViewEvents.add(event);
         }
+
+        Intent backgroundIntent = new Intent("weekViewEvents");
+        backgroundIntent.putExtra("weekViewEvents", (Serializable) weekViewEvents);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(backgroundIntent);
+
     }
+}
 

@@ -33,7 +33,7 @@
         <activity android:name=".CustomNameActivity" />
 
         <service
-            android:name=".services.BackgroundService"
+            android:name=".services.EventService"
             android:enabled="true"
             android:exported="true"></service>
         <activity android:name=".StaticWeekViewActivity" />
