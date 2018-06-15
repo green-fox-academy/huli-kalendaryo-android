@@ -4,6 +4,7 @@ import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.services.AccountService;
+import com.greenfox.kalendaryo.services.GoogleApiService;
 import com.greenfox.kalendaryo.services.LogoutService;
 
 import dagger.Module;
@@ -36,4 +37,7 @@ public class ApiProvider {
 
     @Provides
     LogoutService provideLogOutService() {return new LogoutService(); }
+
+    @Provides
+    GoogleApiService provideGoogleApiServce() {return  new GoogleApiService();}
 }
