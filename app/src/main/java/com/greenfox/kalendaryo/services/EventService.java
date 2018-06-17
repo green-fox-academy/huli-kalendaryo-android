@@ -62,8 +62,6 @@ public class EventService extends IntentService {
         DateFormat startDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         String firstDayOfCurrentYear = startDateFormat.format(start);
         String lastDayOfCurrentYear = startDateFormat.format(finish);
-        System.out.println(lastDayOfCurrentYear);
-        System.out.println(firstDayOfCurrentYear);
 
         for (int i = 0; i < accounts.size(); i++) {
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
@@ -82,7 +80,6 @@ public class EventService extends IntentService {
 
         for (PreviewEvent event : eventsFromGoogle) {
             weekViewEvents.add(event);
-            System.out.println("WWE SIZE: " + weekViewEvents.size() );
         }
 
         Intent backgroundIntent = new Intent("weekViewEvents");

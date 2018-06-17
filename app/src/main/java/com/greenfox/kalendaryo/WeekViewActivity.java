@@ -106,7 +106,6 @@ public class WeekViewActivity extends AppCompatActivity implements
         if (counter == 0) {
 
             previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
-            System.out.println("PREVIEW: " + previewEvents.size());
 
             if (previewEvents.size() == 0) {
                 Toast.makeText(this, "There are no events to display", Toast.LENGTH_LONG).show();
@@ -123,8 +122,6 @@ public class WeekViewActivity extends AppCompatActivity implements
         } else {
             weekViewEvents = new ArrayList<>();
         }
-
-        System.out.println("WEEKVIEW: " + weekViewEvents.size());
 
         return weekViewEvents;
     }
@@ -148,7 +145,6 @@ public class WeekViewActivity extends AppCompatActivity implements
     public Calendar defineStartTime(PreviewEvent previewEvent, Calendar startTime) {
         if (previewEvent.getStart().getDateTime() == null) {
             String dateOfStart = previewEvent.getStart().getDate();
-            System.out.println(dateOfStart);
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
             try {
@@ -167,7 +163,6 @@ public class WeekViewActivity extends AppCompatActivity implements
     public Calendar defineEndTime(PreviewEvent previewEvent, Calendar endTime) {
         if (previewEvent.getEnd().getDateTime() == null) {
             String dateOfEnd = previewEvent.getStart().getDate();
-            System.out.println(dateOfEnd);
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
             try {
