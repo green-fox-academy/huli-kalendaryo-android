@@ -29,14 +29,12 @@
         <activity android:name=".ChooseAccountActivity" />
 
         <activity android:name=".WeekViewActivity" />
-        <!-- <activity android:name=".StaticWeekViewActivity" /> -->
         <activity android:name=".CustomNameActivity" />
 
         <service
             android:name=".services.EventService"
             android:enabled="true"
             android:exported="true"></service>
-        <activity android:name=".StaticWeekViewActivity" />
         <activity android:name=".InformationAndDeleteActivity"
             android:parentActivityName=".MainActivity"
             ></activity>

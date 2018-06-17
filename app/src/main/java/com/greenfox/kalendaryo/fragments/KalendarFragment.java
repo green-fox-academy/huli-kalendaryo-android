@@ -20,7 +20,6 @@ import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
 
-
 import javax.inject.Inject;
 
 import retrofit2.Call;
