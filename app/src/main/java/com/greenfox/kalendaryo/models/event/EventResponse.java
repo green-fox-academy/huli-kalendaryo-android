@@ -1,9 +1,5 @@
 package com.greenfox.kalendaryo.models.event;
 
-import com.alamkanak.weekview.WeekViewEvent;
-import com.google.api.client.util.DateTime;
-
-import java.util.Collection;
 import java.util.List;
 
 public class EventResponse {

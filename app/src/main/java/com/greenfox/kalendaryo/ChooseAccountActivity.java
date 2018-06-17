@@ -69,7 +69,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(v -> {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "Please wait until preview gets displayed!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please wait until preview gets displayed", Toast.LENGTH_LONG).show();
 
             launchEventService();
 

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.alamkanak.weekview.WeekViewEvent;
-import com.greenfox.kalendaryo.WeekViewActivity;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
@@ -18,7 +16,11 @@ import com.greenfox.kalendaryo.models.event.PreviewEvent;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Response;
@@ -45,6 +47,24 @@ public class EventService extends IntentService {
         Bundle bundle = intent.getExtras();
         googleCalendars = bundle.getParcelableArrayList("googleCalendars");
 
+        Calendar beginning = Calendar.getInstance();
+        Calendar end = (Calendar) beginning.clone();
+        beginning.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        beginning.set(Calendar.MONTH, 0);
+        beginning.set(Calendar.DAY_OF_MONTH, 1);
+        Date start = beginning.getTime();
+
+        end.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        end.set(Calendar.MONTH, 11);
+        end.set(Calendar.DAY_OF_MONTH, 31);
+        Date finish = end.getTime();
+
+        DateFormat startDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        String firstDayOfCurrentYear = startDateFormat.format(start);
+        String lastDayOfCurrentYear = startDateFormat.format(finish);
+        System.out.println(lastDayOfCurrentYear);
+        System.out.println(firstDayOfCurrentYear);
+
         for (int i = 0; i < accounts.size(); i++) {
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
 
@@ -52,7 +72,7 @@ public class EventService extends IntentService {
             String authorization = "Bearer " + accessToken;
             for (GoogleCalendar googleCalendar : googleCalendars) {
                 try {
-                    Response<EventResponse> result = googleApi.getEventList(authorization, googleCalendar.getId()).execute();
+                    Response<EventResponse> result = googleApi.getEventList(authorization, googleCalendar.getId(), firstDayOfCurrentYear, lastDayOfCurrentYear).execute();
                     eventsFromGoogle.addAll(result.body().getItems());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -62,6 +82,7 @@ public class EventService extends IntentService {
 
         for (PreviewEvent event : eventsFromGoogle) {
             weekViewEvents.add(event);
+            System.out.println("WWE SIZE: " + weekViewEvents.size() );
         }
 
         Intent backgroundIntent = new Intent("weekViewEvents");

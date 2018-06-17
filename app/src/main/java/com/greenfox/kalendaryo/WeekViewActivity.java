@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -20,8 +21,12 @@ import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.event.PreviewEvent;
 import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -101,6 +106,13 @@ public class WeekViewActivity extends AppCompatActivity implements
         if (counter == 0) {
 
             previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
+            System.out.println("PREVIEW: " + previewEvents.size());
+
+            if (previewEvents.size() == 0) {
+                Toast.makeText(this, "There are no events to display", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Swipe to see your events", Toast.LENGTH_LONG).show();
+            }
 
             for (PreviewEvent event : previewEvents) {
                 WeekViewEvent weekViewEvent = weekViewEventConverter(event);
@@ -112,6 +124,8 @@ public class WeekViewActivity extends AppCompatActivity implements
             weekViewEvents = new ArrayList<>();
         }
 
+        System.out.println("WEEKVIEW: " + weekViewEvents.size());
+
         return weekViewEvents;
     }
 
@@ -121,13 +135,51 @@ public class WeekViewActivity extends AppCompatActivity implements
         Calendar startTime = Calendar.getInstance();
         Calendar endTime = (Calendar) startTime.clone();
 
-        startTime.setTime(previewEvent.getStart().getDateTime());
+        defineStartTime(previewEvent, startTime);
+        defineEndTime(previewEvent, endTime);
+
         startTime.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
-        endTime.setTime(previewEvent.getEnd().getDateTime());
         endTime.setTimeZone(TimeZone.getTimeZone("GMT+2:00"));
         WeekViewEvent weekViewEvent = new WeekViewEvent(eventId, previewEvent.getSummary(), startTime, endTime);
         weekViewEvent.setColor(randomColor);
         return weekViewEvent;
+    }
+
+    public Calendar defineStartTime(PreviewEvent previewEvent, Calendar startTime) {
+        if (previewEvent.getStart().getDateTime() == null) {
+            String dateOfStart = previewEvent.getStart().getDate();
+            System.out.println(dateOfStart);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = format.parse(dateOfStart);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            startTime.setTime(date);
+            startTime.add(Calendar.HOUR, -2);
+        } else {
+            startTime.setTime(previewEvent.getStart().getDateTime());
+        }
+        return startTime;
+    }
+
+    public Calendar defineEndTime(PreviewEvent previewEvent, Calendar endTime) {
+        if (previewEvent.getEnd().getDateTime() == null) {
+            String dateOfEnd = previewEvent.getStart().getDate();
+            System.out.println(dateOfEnd);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = format.parse(dateOfEnd);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            endTime.setTime(date);
+        } else {
+            endTime.setTime(previewEvent.getEnd().getDateTime());
+        }
+        return endTime;
     }
 
     public int randomColorGenerator(int random) {
