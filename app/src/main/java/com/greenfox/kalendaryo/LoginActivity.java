@@ -205,7 +205,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         startActivity(signIn);
                     } else {
                         editKalPref(userEmail, userName, accessToken, clientToken);
-                        Toast.makeText(LoginActivity.this, "Sorry, you can't add the account you are already logged into!", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(LoginActivity.this, "Sorry, you can't add the account you are already logged into!", Toast.LENGTH_LONG).show();
                         startActivity(signIn);
                     }
                 }
@@ -228,7 +228,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             googleAuth.setAccessToken(accessToken);
 
             kalPref.putAuth(googleAuth);
-
+        } else {
+            Toast.makeText(LoginActivity.this, "Sorry, you can't add the account you are already logged into!", Toast.LENGTH_LONG).show();
         }
     }
 
