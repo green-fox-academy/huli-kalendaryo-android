@@ -37,7 +37,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import static android.accounts.AccountManager.newChooseAccountIntent;
 
-
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private SignInButton signIn;
@@ -50,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private ProgressBar progressBar;
     private Animation fromLeft;
     private Animation fromRight;
-
 
     @Inject
     BackendApi backendApi;
@@ -71,7 +69,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        // By default it is false, because this is way
         if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
             buildGoogleApiClient(true);
             signIn.setVisibility(View.GONE);
@@ -205,7 +202,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         startActivity(signIn);
                     } else {
                         editKalPref(userEmail, userName, accessToken, clientToken);
-                        //Toast.makeText(LoginActivity.this, "Sorry, you can't add the account you are already logged into!", Toast.LENGTH_LONG).show();
                         startActivity(signIn);
                     }
                 }
