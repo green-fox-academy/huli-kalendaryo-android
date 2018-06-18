@@ -104,6 +104,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             requestCalendars(account, FIRST_ATTEMPT);
         }
     }
+
     public void requestCalendars (String account, Integer attempt) {
         GoogleAuth googleAuth = kalPref.getAuth(account);
         String authorization = "Bearer " + googleAuth.getAccessToken();
@@ -111,7 +112,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
                 if (response.errorBody() == null) {
-                    adapter.addGoogleCalendars(response.body().getItems());
+                    adapter.addGoogleCalendars(response.body().getItems(), googleAuth.getEmail());
                     googleCalendars.addAll(response.body().getItems());
                 } else if (attempt != FINAL_ATTEMPT){
                     requestAccessTokenRefresh(googleAuth, kalPref.clientToken());

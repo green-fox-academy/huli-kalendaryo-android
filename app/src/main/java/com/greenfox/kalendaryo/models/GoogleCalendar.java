@@ -12,6 +12,7 @@ public class GoogleCalendar implements Parcelable, Serializable {
     String id;
     String summary;
     VisibilityOption sharingOption;
+    private String email;
 
     public GoogleCalendar() {
     }
@@ -43,6 +44,14 @@ public class GoogleCalendar implements Parcelable, Serializable {
 
     public void setSharingOption(VisibilityOption sharingOption) {
         this.sharingOption = sharingOption;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public static final Creator<GoogleCalendar> CREATOR = new Creator<GoogleCalendar>() {

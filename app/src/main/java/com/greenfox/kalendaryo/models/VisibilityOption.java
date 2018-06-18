@@ -1,9 +1,9 @@
 package com.greenfox.kalendaryo.models;
 
 public enum VisibilityOption {
-    DEFAULT("Default visibility"),
-    PUBLIC("Public"),
-    PRIVATE("Private");
+    DEFAULT("default"),
+    PUBLIC("public"),
+    PRIVATE("private");
 
     private String visibilities;
 
