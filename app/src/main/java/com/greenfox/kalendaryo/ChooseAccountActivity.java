@@ -122,4 +122,10 @@ public class ChooseAccountActivity extends AppCompatActivity {
         return previewEvents;
     }
 
+    public void onStop() {
+        super.onStop();
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+    }
+
 }
