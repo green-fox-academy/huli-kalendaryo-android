@@ -105,9 +105,9 @@ public class ChooseAccountActivity extends AppCompatActivity {
 
     public void launchEventService() {
         Intent intentToEventService = new Intent(ChooseAccountActivity.this, EventService.class);
-        Bundle bundle2 = new Bundle();
-        bundle2.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-        intentToEventService.putExtras(bundle2);
+        Bundle googleCalendarsToEventService = new Bundle();
+        googleCalendarsToEventService.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+        intentToEventService.putExtras(googleCalendarsToEventService);
         startService(intentToEventService);
     }
 

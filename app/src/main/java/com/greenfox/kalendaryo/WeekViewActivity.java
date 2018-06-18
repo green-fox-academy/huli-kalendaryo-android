@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
@@ -30,6 +31,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +43,6 @@ public class WeekViewActivity extends AppCompatActivity implements
     private KalPref kalPref;
     private Kalendar kalendar;
     private GoogleApi googleApi;
-    BackendApi backendApi;
     List<PreviewEvent> previewEvents = new ArrayList<>();
     List<WeekViewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
@@ -51,10 +53,15 @@ public class WeekViewActivity extends AppCompatActivity implements
 
     WeekView mWeekView;
 
+    @Inject
+    BackendApi backendApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_static_week_view);
+
+        DaggerApiComponent.builder().build().inject(this);
 
         Bundle bundle = getIntent().getExtras();
         googleCalendars = bundle.getParcelableArrayList("googleCalendars");
@@ -68,10 +75,7 @@ public class WeekViewActivity extends AppCompatActivity implements
 
         sendToBackend = findViewById(R.id.send_to_backend);
 
-        sendToBackend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backendApi = RetrofitClient.getBackendApi();
+        sendToBackend.setOnClickListener(v -> {
                 backendApi.postCalendar(kalPref.clientToken(), kalendar).enqueue(new Callback<PostKalendarResponse>() {
                     @Override
                     public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
@@ -96,7 +100,6 @@ public class WeekViewActivity extends AppCompatActivity implements
                         finish();
                     }
                 }, 500);
-            }
         });
     }
 

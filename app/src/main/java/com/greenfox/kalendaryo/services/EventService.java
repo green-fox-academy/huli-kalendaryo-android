@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.greenfox.kalendaryo.http.RetrofitClient;
+import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
@@ -23,15 +23,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import retrofit2.Response;
 
 public class EventService extends IntentService {
 
-    private GoogleApi googleApi;
     private List<PreviewEvent> eventsFromGoogle = new ArrayList<>();
     private List<PreviewEvent> weekViewEvents = new ArrayList<>();
     private List<GoogleCalendar> googleCalendars = new ArrayList<>();
     private KalPref kalPref;
+
+    @Inject
+    @Named("getGoogleEvents")
+    GoogleApi googleApi;
 
     public EventService() {
         super("EventService");
@@ -41,7 +47,8 @@ public class EventService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         kalPref = new KalPref(this);
 
-        googleApi = RetrofitClient.getGoogleEvents();
+        DaggerApiComponent.builder().build().inject(this);
+
         ArrayList<String> accounts = kalPref.getAccounts();
 
         Bundle bundle = intent.getExtras();

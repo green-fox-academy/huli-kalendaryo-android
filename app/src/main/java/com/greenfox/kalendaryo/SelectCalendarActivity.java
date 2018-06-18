@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -52,6 +53,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
     public static final String KALENDAR = "com.greenfox.kalendaryo.KALENDAR";
 
     @Inject
+    @Named("getGoogleApi")
     GoogleApi googleApi;
 
     @Inject
