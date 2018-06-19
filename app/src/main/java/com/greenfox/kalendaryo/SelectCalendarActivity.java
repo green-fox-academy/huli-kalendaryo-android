@@ -90,7 +90,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             } else {
-                Toast.makeText(SelectCalendarActivity.this, "Please select at least one calendar to merge",
+                Toast.makeText(SelectCalendarActivity.this, getString(R.string.select_at_least_one),
                         Toast.LENGTH_LONG).show();
             }
         });
