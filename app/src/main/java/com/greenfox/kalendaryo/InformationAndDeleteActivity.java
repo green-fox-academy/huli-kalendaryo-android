@@ -83,9 +83,9 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
 
     public void deleteKalendarPopUp(View view, long idToDelete) {
         AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-        alert.setTitle("Delete Kalendar");
-        alert.setMessage(getString(R.string.surely_delete_kalendar));
-        alert.setPositiveButton("Yes", (dialogInterface, i) -> {
+        alert.setTitle(R.string.warning);
+        alert.setMessage(R.string.surely_delete_kalendar);
+        alert.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
             kalPref = new KalPref(view.getContext());
             String clientToken = kalPref.clientToken();
 
@@ -95,19 +95,19 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     Intent i = new Intent(InformationAndDeleteActivity.this, MainActivity.class);
                     startActivity(i);
-                    toastMessage(view, getString(R.string.successful_deletion));
+                    toastMessage(view, getString(R.string.successful_kalendar_deletion));
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                     t.printStackTrace();
-                    toastMessage(view, getString(R.string.unsuccessful_deletion));
+                    toastMessage(view, getString(R.string.unsuccessful_kalendar_deletion));
                 }
             });
             dialogInterface.dismiss();
         });
 
-        alert.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+        alert.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.dismiss());
 
         alert.show();
     }

@@ -37,7 +37,7 @@ public class LogoutService {
                         public void onResult(@NonNull Status status) {
                             if (status.isSuccess()) {
                                 Log.d("Log out", "User Logged out");
-                                Toast.makeText(context, "You successfully logged out", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.successful_logout, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                         Intent.FLAG_ACTIVITY_CLEAR_TASK |

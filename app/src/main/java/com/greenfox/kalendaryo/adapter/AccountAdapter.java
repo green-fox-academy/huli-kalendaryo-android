@@ -70,9 +70,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-                alert.setTitle("Warning!");
-                alert.setMessage("Are you sure to delete account?");
-                alert.setPositiveButton("Yes", (dialog, which) -> {
+                alert.setTitle(R.string.warning);
+                alert.setMessage(R.string.surely_delete_account);
+                alert.setPositiveButton(R.string.yes, (dialog, which) -> {
 
                     String clientToken = kalPref.clientToken();
                     String email = auths.get(position).getEmail();
@@ -83,7 +83,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
                             if (response.errorBody() == null) {
                                 removeAccount(position);
-                                Toast.makeText(view.getContext(), "Kalendar deleted successfully", Toast.LENGTH_LONG).show();
+                                Toast.makeText(view.getContext(), R.string.successful_account_deletion, Toast.LENGTH_LONG).show();
                             } else {
                                 try {
                                     Toast.makeText(view.getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
@@ -95,12 +95,12 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(view.getContext(), "Account can not be deleted", Toast.LENGTH_LONG).show();
+                            Toast.makeText(view.getContext(), R.string.unsuccessful_account_deletion, Toast.LENGTH_LONG).show();
                         }
                     });
                     dialog.dismiss();
                 });
-                alert.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+                alert.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
 
                 alert.show();
             }

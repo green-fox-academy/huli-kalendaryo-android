@@ -19,8 +19,16 @@
     <string name="mergedCalendars">Merged Google Calendars</string>
     <string name="select_at_least_one">Please select at least one calendar to merge</string>
     <string name="cant_add_logged_in_account">Sorry, you can\'t add the account you are already logged into!</string>
-    <string name="successful_deletion">Deletion is successful</string>
-    <string name="unsuccessful_deletion">Deletion is unsuccessful</string>
+    <string name="successful_kalendar_deletion">Kalendar is deleted successfully</string>
+    <string name="unsuccessful_kalendar_deletion">Kalendar can not be deleted</string>
     <string name="successful_logout">You successfully logged out</string>
     <string name="surely_delete_kalendar">Are you sure you want to delete the kalendar?</string>
+    <string name="successful_account_deletion">Account is deleted successfully</string>
+    <string name="unsuccessful_account_deletion">Account can not be deleted</string>
+    <string name="surely_delete_account">Are you sure you want to delete the account?</string>
+    <string name="warning">Warning!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="kalendars">Kalendars</string>
+    <string name="accounts">Accounts</string>
 </resources>
