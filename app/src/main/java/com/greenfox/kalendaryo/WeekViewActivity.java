@@ -156,7 +156,6 @@ public class WeekViewActivity extends AppCompatActivity implements
                 e.printStackTrace();
             }
             startTime.setTime(date);
-            startTime.add(Calendar.HOUR, -2);
         } else {
             startTime.setTime(previewEvent.getStart().getDateTime());
         }
@@ -174,6 +173,7 @@ public class WeekViewActivity extends AppCompatActivity implements
                 e.printStackTrace();
             }
             endTime.setTime(date);
+            endTime.add(Calendar.HOUR, +2);
         } else {
             endTime.setTime(previewEvent.getEnd().getDateTime());
         }
