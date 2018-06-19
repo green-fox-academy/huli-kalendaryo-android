@@ -2,6 +2,7 @@ package com.greenfox.kalendaryo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
     private List<GoogleCalendar> googleCalendars;
     private Context context;
     private ListChange listChange;
+    private SparseBooleanArray itemStateArray = new SparseBooleanArray();
 
     public ListChange getListChange() {
         return listChange;
@@ -45,7 +47,10 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
         notifyDataSetChanged();
     }
 
-    public void addGoogleCalendars(List<GoogleCalendar> newGoogleCalendars) {
+    public void addGoogleCalendars(List<GoogleCalendar> newGoogleCalendars, String email) {
+        for (GoogleCalendar googleCalendar: newGoogleCalendars) {
+            googleCalendar.setEmail(email);
+        }
         this.googleCalendars.addAll(newGoogleCalendars);
         notifyDataSetChanged();
     }
@@ -63,13 +68,18 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
         holder.calendarName.setText(googleCalendar.getSummary());
         holder.checkBox.setOnCheckedChangeListener(null);
 
+        holder.checkBox.setChecked(itemStateArray.get(position));
+
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b)
+                if (b) {
                     listChange.saveCalendar(googleCalendar);
+                    itemStateArray.put(position, true);
+                }
                 else {
                     listChange.removeCalendar(googleCalendar);
+                    itemStateArray.put(position, false);
                 }
             }
         });
