@@ -33,4 +33,7 @@
     <string name="no">No</string>
     <string name="kalendars">Kalendars</string>
     <string name="accounts">Accounts</string>
+    <string name="no_events">There are no events to display</string>
+    <string name="swipe_to_see">Swipe to see your events</string>
+    <string name="wait_until_displayed">Please wait until preview gets displayed</string>
 </resources>
