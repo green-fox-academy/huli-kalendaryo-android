@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        // By default it is false, because this is way
         if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
             buildGoogleApiClient(true);
             signIn.setVisibility(View.GONE);

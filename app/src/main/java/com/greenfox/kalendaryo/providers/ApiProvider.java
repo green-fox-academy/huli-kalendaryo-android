@@ -7,6 +7,8 @@ import com.greenfox.kalendaryo.services.AccountService;
 import com.greenfox.kalendaryo.services.GoogleApiService;
 import com.greenfox.kalendaryo.services.LogoutService;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -23,6 +25,7 @@ public class ApiProvider {
     }
 
     @Provides
+    @Named("getGoogleApi")
     GoogleApi provideGoogleApi() {
         return RetrofitClient.getGoogleApi();
     }
@@ -38,6 +41,10 @@ public class ApiProvider {
     @Provides
     LogoutService provideLogOutService() {return new LogoutService(); }
 
+    @Provides
+    @Named("getGoogleEvents")
+    GoogleApi provideGoogleEvents() {return RetrofitClient.getGoogleEvents();}
+    
     @Provides
     GoogleApiService provideGoogleApiServce() {return  new GoogleApiService();}
 }
