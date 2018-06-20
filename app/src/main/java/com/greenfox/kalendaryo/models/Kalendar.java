@@ -11,6 +11,7 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
     String outputGoogleAuthId;
     List<GoogleCalendar> inputGoogleCalendars;
     String customName;
+    private String id;
 
     public Kalendar() {
         this.inputGoogleCalendars = new ArrayList<>();
@@ -51,4 +52,7 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
     }
 
 
+    public String getId() {
+        return id;
+    }
 }

@@ -1,8 +1,13 @@
 package com.greenfox.kalendaryo;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,20 +15,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
-import com.greenfox.kalendaryo.models.responses.PostKalendarResponse;
+import com.greenfox.kalendaryo.models.event.PreviewEvent;
 import com.greenfox.kalendaryo.services.AccountService;
+import com.greenfox.kalendaryo.services.EventService;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ChooseAccountActivity extends AppCompatActivity {
@@ -34,6 +41,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
     Button buttonNext;
     Kalendar kalendar;
     private ProgressBar progressBar;
+    private List<PreviewEvent> previewEvents = new ArrayList<>();
 
     @Inject
     BackendApi backendApi;
@@ -48,7 +56,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
         kalpref = new KalPref(this.getApplicationContext());
         buttonNext = findViewById(R.id.button_next);
 
-
         DaggerApiComponent.builder().build().inject(this);
         kalendar = (Kalendar) getIntent().getSerializableExtra(SelectCalendarActivity.KALENDAR);
         googleCalendars = kalendar.getInputGoogleCalendars();
@@ -62,26 +69,30 @@ public class ChooseAccountActivity extends AppCompatActivity {
         buttonNext.setOnClickListener(v -> {
             progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-            backendApi.postCalendar(clientToken, kalendar).enqueue(new Callback<PostKalendarResponse>() {
-                @Override
-                public void onResponse(Call<PostKalendarResponse> call, Response<PostKalendarResponse> response) {
-                    PostKalendarResponse postKalendarResponse = response.body();
-                }
+            Toast.makeText(this, "Please wait until preview gets displayed", Toast.LENGTH_LONG).show();
 
+            launchEventService();
+
+            previewEvents = getEventsfromEventService();
+
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void onFailure(Call<PostKalendarResponse> call, Throwable t) {
-                    t.printStackTrace();
+                public void run() {
+                    Intent i = new Intent(ChooseAccountActivity.this, WeekViewActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+                    i.putExtra("list", kalendar);
+                    i.putExtras(bundle);
+                    i.putExtra("weekViewEvents", (Serializable) previewEvents);
+                    startActivity(i);
                 }
-            });
-            Intent i = new Intent(ChooseAccountActivity.this, StaticWeekViewActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-            i.putExtra(SelectCalendarActivity.KALENDAR, kalendar);
-            i.putExtras(bundle);
-            startActivity(i);
-            finish();
+                }, 5000);
         });
 
+        accountService.listAccountsFromBackend(setRecyclerView(), false, getIntent());
+    }
+
+    public RecyclerView setRecyclerView() {
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
         recyclerview = findViewById(R.id.view_accounts);
         recyclerview.setLayoutManager(recyclerLayoutManager);
@@ -89,7 +100,32 @@ public class ChooseAccountActivity extends AppCompatActivity {
                 new DividerItemDecoration(recyclerview.getContext(),
                         recyclerLayoutManager.getOrientation());
         recyclerview.addItemDecoration(dividerItemDecoration);
-
-        accountService.listAccountsFromBackend(recyclerview, false, getIntent());
+        return recyclerview;
     }
+
+    public void launchEventService() {
+        Intent intentToEventService = new Intent(ChooseAccountActivity.this, EventService.class);
+        Bundle googleCalendarsToEventService = new Bundle();
+        googleCalendarsToEventService.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+        intentToEventService.putExtras(googleCalendarsToEventService);
+        startService(intentToEventService);
+    }
+
+    public List<PreviewEvent> getEventsfromEventService() {
+        BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                previewEvents = (List<PreviewEvent>) intent.getSerializableExtra("weekViewEvents");
+            }
+        };
+        LocalBroadcastManager.getInstance(ChooseAccountActivity.this).registerReceiver(mMessageReceiver, new IntentFilter("weekViewEvents"));
+        return previewEvents;
+    }
+
+    public void onStop() {
+        super.onStop();
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+    }
+
 }

@@ -47,7 +47,10 @@ public class GoogleCalendarAdapter extends RecyclerView.Adapter<GoogleCalendarAd
         notifyDataSetChanged();
     }
 
-    public void addGoogleCalendars(List<GoogleCalendar> newGoogleCalendars) {
+    public void addGoogleCalendars(List<GoogleCalendar> newGoogleCalendars, String email) {
+        for (GoogleCalendar googleCalendar: newGoogleCalendars) {
+            googleCalendar.setEmail(email);
+        }
         this.googleCalendars.addAll(newGoogleCalendars);
         notifyDataSetChanged();
     }

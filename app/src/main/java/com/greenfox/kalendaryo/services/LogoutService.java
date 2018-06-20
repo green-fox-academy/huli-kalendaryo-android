@@ -29,6 +29,7 @@ public class LogoutService {
 
         GoogleService.getInstance().getGoogleApiClient().connect();
         GoogleService.getInstance().getGoogleApiClient().registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+            
             @Override
             public void onConnected(@Nullable Bundle bundle) {
                 if (GoogleService.getInstance().getGoogleApiClient().isConnected()) {
@@ -39,6 +40,7 @@ public class LogoutService {
                                 Log.d("Log out", "User Logged out");
                                 Toast.makeText(context, R.string.successful_logout, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context, LoginActivity.class);
+                                intent.putExtra("isLoggedOut", true);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                         Intent.FLAG_ACTIVITY_CLEAR_TASK |
                                         Intent.FLAG_ACTIVITY_NEW_TASK);
