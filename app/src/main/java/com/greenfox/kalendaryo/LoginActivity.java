@@ -38,7 +38,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import static android.accounts.AccountManager.newChooseAccountIntent;
 
-
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private SignInButton signIn;
@@ -51,7 +50,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private ProgressBar progressBar;
     private Animation fromLeft;
     private Animation fromRight;
-
 
     @Inject
     BackendApi backendApi;
@@ -182,12 +180,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     KalUser kalUser = response.body();
                     String accessToken = kalUser.getAccessToken();
                     String clientToken = kalUser.getClientToken();
-                    editKalPref(userEmail, userName, accessToken, clientToken);
                     Log.d("shared", kalPref.getString(userEmail));
                     Intent signIn = displayNextActivity();
                     signIn.putExtra("userGivenName", givenName);
                     signIn.putExtra("googleAccountName", userEmail);
-                    startActivity(signIn);
+                    if (kalUser.getUserEmail().isEmpty()) {
+                        startActivity(signIn);
+                    } else {
+                        editKalPref(userEmail, userName, accessToken, clientToken);
+                        startActivity(signIn);
+                    }
                 }
 
                 @Override
@@ -195,7 +197,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     t.printStackTrace();
                 }
             });
-            Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -210,8 +211,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             kalPref.putAuth(googleAuth);
 
+        } else {
+            Toast.makeText(LoginActivity.this, getString(R.string.cant_add_logged_in_account), Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(this, "Sorry, you can't add the account you are already logged into!", Toast.LENGTH_LONG).show();
     }
 
     public void onStop() {

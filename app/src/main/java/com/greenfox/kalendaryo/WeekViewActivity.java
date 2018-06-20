@@ -111,9 +111,9 @@ public class WeekViewActivity extends AppCompatActivity implements
             previewEvents = (List<PreviewEvent>) getIntent().getSerializableExtra("weekViewEvents");
 
             if (previewEvents.size() == 0) {
-                Toast.makeText(this, "There are no events to display", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.no_events, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Swipe to see your events", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.swipe_to_see, Toast.LENGTH_LONG).show();
             }
 
             for (PreviewEvent event : previewEvents) {
