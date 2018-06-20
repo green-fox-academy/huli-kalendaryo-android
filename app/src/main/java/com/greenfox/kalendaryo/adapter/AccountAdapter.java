@@ -82,6 +82,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                         public void onResponse(Call<Void> call, Response<Void> response) {
 
                             if (response.errorBody() == null) {
+                                kalPref.removeAccount(auths.get(position).getEmail());
                                 removeAccount(position);
                                 Toast.makeText(view.getContext(), R.string.successful_account_deletion, Toast.LENGTH_LONG).show();
                             } else {
