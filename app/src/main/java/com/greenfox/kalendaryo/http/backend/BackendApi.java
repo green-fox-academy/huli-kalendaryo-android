@@ -42,4 +42,8 @@ public interface BackendApi {
     @Headers("Accept: application/json")
     @GET("auth")
     Call<ResponseBody> refreshAccessToken(@Header("X-Client-Token") String clientToken, @Header("email") String email);
+
+    @Headers("Accept: application/json")
+    @GET("notification/{id}")
+    Call<Void> syncCalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 }

@@ -112,6 +112,31 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
     alert.show();
   }
 
+  public void syncCalendar(View view) {
+    long idToSync = getKalendarResponse.getId();
+    syncKalendar(view, idToSync);
+  }
+
+  public void syncKalendar(View view, long idToSync){
+    kalPref = new KalPref(view.getContext());
+    String clientToken = kalPref.clientToken();
+    backendApi.syncCalendar(clientToken, idToSync).enqueue(new Callback<Void>() {
+
+      @Override
+      public void onResponse(Call<Void> call, Response<Void> response) {
+        Intent i = new Intent(InformationAndDeleteActivity.this, MainActivity.class);
+        startActivity(i);
+        toastMessage(view,"Kalendar synced successfully");
+      }
+
+      @Override
+      public void onFailure(Call<Void> call, Throwable t) {
+        t.printStackTrace();
+        toastMessage(view, "Ooops, couldn't sync the kalendar");
+      }
+    });
+  }
+
   public void toastMessage(View view, String input){
     Toast.makeText(view.getContext(),input,
         Toast.LENGTH_LONG).show();
