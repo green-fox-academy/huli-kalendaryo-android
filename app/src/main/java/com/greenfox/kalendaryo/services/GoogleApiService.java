@@ -7,11 +7,12 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
+import com.greenfox.kalendaryo.BuildConfig;
 
 
 public class GoogleApiService {
 
-  private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
+  private static final String CLIENT_ID = BuildConfig.CLIENT_ID;
 
   public void initializeGoogleService(Activity activity) {
     GoogleSignInOptions googleSignInOptions = buildSignInOptions();
@@ -32,7 +33,7 @@ public class GoogleApiService {
         .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
         .requestEmail()
         .requestIdToken(CLIENT_ID)
-        .requestServerAuthCode(CLIENT_ID)
+        .requestServerAuthCode(CLIENT_ID,true)
         .build();
   }
 }
