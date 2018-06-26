@@ -12,9 +12,6 @@ import javax.inject.Named;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by a- on 20/03/2018.
- */
 
 @Module
 public class ApiProvider {

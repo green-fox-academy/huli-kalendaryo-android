@@ -12,9 +12,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * Created by lica on 2018. 01. 04..
- */
 
 public class KalPref {
     private SharedPreferences sharedPref;

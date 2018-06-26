@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {
             buildGoogleApiClient(true);
             signIn.setVisibility(View.GONE);
-        } else if (getIntent().getBooleanExtra("isLoggedOut", false) == false) {
+        } else if (!getIntent().getBooleanExtra("isLoggedOut", false)) {
             logo = findViewById(R.id.icon_logo);
             Animation fromLeft = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.from_left);
             logo.setAnimation(fromLeft);

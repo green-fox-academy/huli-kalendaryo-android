@@ -1,10 +1,6 @@
 package com.greenfox.kalendaryo.models;
 
 
-/**
- * Created by Ezzo on 2017. 12. 15..
- */
-
 public class GoogleAuth {
 
     private String authCode;

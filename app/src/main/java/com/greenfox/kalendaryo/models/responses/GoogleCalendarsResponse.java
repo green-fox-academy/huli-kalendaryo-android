@@ -4,9 +4,6 @@ import com.greenfox.kalendaryo.models.GoogleCalendar;
 
 import java.util.List;
 
-/**
- * Created by barba on 04/01/2018.
- */
 
 public class GoogleCalendarsResponse {
 

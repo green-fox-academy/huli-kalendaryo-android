@@ -1,8 +1,5 @@
 package com.greenfox.kalendaryo.models.responses;
 
-/**
- * Created by bekob on 2018-01-17.
- */
 
 public class PostKalendarResponse {
     String kalendarId;

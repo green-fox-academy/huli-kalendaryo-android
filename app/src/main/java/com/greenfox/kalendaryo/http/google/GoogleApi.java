@@ -10,9 +10,6 @@ import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-/**
- * Created by BalazsSalfay on 2018. 02. 28..
- */
 
 public interface GoogleApi {
 
