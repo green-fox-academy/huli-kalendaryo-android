@@ -33,7 +33,7 @@ public class GoogleApiService {
         .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
         .requestEmail()
         .requestIdToken(CLIENT_ID)
-        .requestServerAuthCode(CLIENT_ID,true)
+        .requestServerAuthCode(CLIENT_ID)
         .build();
   }
 }
