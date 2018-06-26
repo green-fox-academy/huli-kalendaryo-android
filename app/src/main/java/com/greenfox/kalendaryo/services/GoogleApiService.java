@@ -1,20 +1,13 @@
 package com.greenfox.kalendaryo.services;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.widget.ProgressBar;
-
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
-import com.greenfox.kalendaryo.LoginActivity;
-import com.greenfox.kalendaryo.R;
+
 
 public class GoogleApiService {
 

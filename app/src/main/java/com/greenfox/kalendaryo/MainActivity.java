@@ -10,16 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.services.GoogleApiService;
-import com.greenfox.kalendaryo.services.GoogleService;
 import com.greenfox.kalendaryo.services.LogoutService;
 
 import javax.inject.Inject;

@@ -1,7 +1,5 @@
 package com.greenfox.kalendaryo.models;
 
-import dagger.Module;
-import dagger.Provides;
 
 /**
  * Created by Ezzo on 2017. 12. 15..

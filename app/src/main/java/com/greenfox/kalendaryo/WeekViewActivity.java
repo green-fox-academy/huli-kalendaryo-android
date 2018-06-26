@@ -42,7 +42,6 @@ public class WeekViewActivity extends AppCompatActivity implements
 
     private KalPref kalPref;
     private Kalendar kalendar;
-    private GoogleApi googleApi;
     List<PreviewEvent> previewEvents = new ArrayList<>();
     List<WeekViewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
@@ -194,6 +193,4 @@ public class WeekViewActivity extends AppCompatActivity implements
         }
         return colorNumber;
     }
-
 }
-

@@ -1,12 +1,7 @@
 package com.greenfox.kalendaryo.models.event;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.alamkanak.weekview.WeekViewEvent;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class PreviewEvent implements Serializable{
 

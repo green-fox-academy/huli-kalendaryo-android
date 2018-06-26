@@ -13,7 +13,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.greenfox.kalendaryo.LoginActivity;
-import com.greenfox.kalendaryo.MainActivity;
 import com.greenfox.kalendaryo.R;
 import com.greenfox.kalendaryo.models.KalPref;
 

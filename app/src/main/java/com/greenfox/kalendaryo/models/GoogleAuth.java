@@ -1,10 +1,5 @@
 package com.greenfox.kalendaryo.models;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
 
 /**
  * Created by Ezzo on 2017. 12. 15..

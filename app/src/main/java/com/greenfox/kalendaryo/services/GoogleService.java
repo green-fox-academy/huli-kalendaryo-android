@@ -39,6 +39,4 @@ public class GoogleService {
     public static GoogleApiClient getGoogleApiClient() {
         return googleApiClient;
     }
-
-
 }

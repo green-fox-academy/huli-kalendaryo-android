@@ -19,12 +19,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
@@ -44,11 +42,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private ImageView logo;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
-    private static final String CLIENT_ID = "141350348735-p37itsqvg8599ebc3j9cr1eur0n0d1iv.apps.googleusercontent.com";
     private KalPref kalPref;
     private GoogleAuth googleAuth;
     private ProgressBar progressBar;
-    private Animation fromLeft;
     private Animation fromRight;
 
     @Inject
@@ -64,13 +60,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         DaggerApiComponent.builder().build().inject(this);
         kalPref = new KalPref(this.getApplicationContext());
         signIn = findViewById(R.id.button_login);
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                progressBar = findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.VISIBLE);
-                buildGoogleApiClient(false);
-            }
+        signIn.setOnClickListener(view -> {
+            progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+            buildGoogleApiClient(false);
         });
 
         if (getIntent().getBooleanExtra("ifNewAccChoosen", false)) {

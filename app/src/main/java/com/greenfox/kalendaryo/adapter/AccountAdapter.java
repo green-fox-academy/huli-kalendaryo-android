@@ -20,11 +20,10 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.ArrayList;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
-    private List<GoogleAuth> auths = new ArrayList<>();
+    private List<GoogleAuth> auths;
     private Context context;
     private int lastSelectedPosition = 0;
     private EmailChange emailChange;
@@ -65,45 +64,42 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-                alert.setTitle(R.string.warning);
-                alert.setMessage(R.string.surely_delete_account);
-                alert.setPositiveButton(R.string.yes, (dialog, which) -> {
+        holder.itemView.setOnClickListener(view -> {
+            AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+            alert.setTitle(R.string.warning);
+            alert.setMessage(R.string.surely_delete_account);
+            alert.setPositiveButton(R.string.yes, (dialog, which) -> {
 
-                    String clientToken = kalPref.clientToken();
-                    String email = auths.get(position).getEmail();
+                String clientToken = kalPref.clientToken();
+                String email = auths.get(position).getEmail();
 
-                    backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
+                backendApi.deleteAccount(clientToken, email).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
 
-                            if (response.errorBody() == null) {
-                                kalPref.removeAccount(auths.get(position).getEmail());
-                                removeAccount(position);
-                                Toast.makeText(view.getContext(), R.string.successful_account_deletion, Toast.LENGTH_LONG).show();
-                            } else {
-                                try {
-                                    Toast.makeText(view.getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                        if (response.errorBody() == null) {
+                            kalPref.removeAccount(auths.get(position).getEmail());
+                            removeAccount(position);
+                            Toast.makeText(view.getContext(), R.string.successful_account_deletion, Toast.LENGTH_LONG).show();
+                        } else {
+                            try {
+                                Toast.makeText(view.getContext(), response.errorBody().string(), Toast.LENGTH_LONG).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(view.getContext(), R.string.unsuccessful_account_deletion, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    dialog.dismiss();
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(view.getContext(), R.string.unsuccessful_account_deletion, Toast.LENGTH_LONG).show();
+                    }
                 });
-                alert.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+                dialog.dismiss();
+            });
+            alert.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
 
-                alert.show();
-            }
+            alert.show();
         });
 
         if (clickable) {
@@ -131,7 +127,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             super(view);
             if (clickable) {
                 accountName = view.findViewById(R.id.text_account_name);
-                radioButton = (RadioButton) view.findViewById(R.id.button_account_select);
+                radioButton = view.findViewById(R.id.button_account_select);
 
                 radioButton.setOnClickListener(v -> {
                     lastSelectedPosition = getAdapterPosition();
@@ -157,4 +153,3 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         notifyItemRemoved(position);
     }
 }
-

@@ -59,7 +59,6 @@ public class ChooseAccountActivity extends AppCompatActivity {
         DaggerApiComponent.builder().build().inject(this);
         kalendar = (Kalendar) getIntent().getSerializableExtra(SelectCalendarActivity.KALENDAR);
         googleCalendars = kalendar.getInputGoogleCalendars();
-        String clientToken = kalpref.clientToken();
 
         GoogleCalendar[] array = new GoogleCalendar[kalendar.getInputGoogleCalendars().size()];
         for (int j = 0; j < kalendar.getInputGoogleCalendars().size(); j++) {

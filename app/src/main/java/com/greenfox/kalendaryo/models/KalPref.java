@@ -19,7 +19,6 @@ import javax.inject.Singleton;
 public class KalPref {
     private SharedPreferences sharedPref;
     private ArrayList<String> accounts;
-    private ArrayList<String> googleCalendarIds;
     private Gson gson = new Gson();
     static final String CLIENTTOKEN = "clienttoken";
 

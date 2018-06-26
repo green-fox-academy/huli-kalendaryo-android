@@ -1,10 +1,8 @@
 package com.greenfox.kalendaryo.models.event;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
 import java.util.TimeZone;
 

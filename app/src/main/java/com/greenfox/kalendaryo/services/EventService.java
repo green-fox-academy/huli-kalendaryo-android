@@ -95,4 +95,3 @@ public class EventService extends IntentService {
 
     }
 }
-
