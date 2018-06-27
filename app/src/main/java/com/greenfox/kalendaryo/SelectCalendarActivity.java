@@ -127,6 +127,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             }
         });
     }
+
     public void requestAccessTokenRefresh (GoogleAuth googleAuth, String clientToken) {
         backendApi.refreshAccessToken(clientToken, googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
             @Override
