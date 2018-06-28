@@ -37,8 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WeekViewActivity extends AppCompatActivity implements
-        MonthLoader.MonthChangeListener {
+public class WeekViewActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
     private KalPref kalPref;
     private Kalendar kalendar;
@@ -126,7 +125,7 @@ public class WeekViewActivity extends AppCompatActivity implements
     }
 
     public WeekViewEvent weekViewEventConverter(PreviewEvent previewEvent) {
-        int randomColorNumber = (int)(Math.random()*numberOfColors + 1);
+        int randomColorNumber = (int)(Math.random() * numberOfColors + 1);
         int randomColor = getResources().getColor(randomColorGenerator(randomColorNumber));
         Calendar startTime = Calendar.getInstance();
         Calendar endTime = (Calendar) startTime.clone();
