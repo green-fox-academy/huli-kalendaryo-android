@@ -41,7 +41,7 @@ public class ApiProvider {
     @Provides
     @Named("getGoogleEvents")
     GoogleApi provideGoogleEvents() {return RetrofitClient.getGoogleEvents();}
-    
+
     @Provides
-    GoogleApiService provideGoogleApiServce() {return  new GoogleApiService();}
+    GoogleApiService provideGoogleApiService() {return  new GoogleApiService();}
 }
