@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private Animation fromRight;
     private KalPref kalPref;
     private GoogleAuth googleAuth;
- 
+
 
     @Inject
     BackendApi backendApi;

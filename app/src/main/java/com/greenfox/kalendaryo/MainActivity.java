@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         DaggerApiComponent.builder().build().inject(this);
-//        googleApiService.initializeGoogleService(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
