@@ -4,7 +4,6 @@ import com.greenfox.kalendaryo.http.RetrofitClient;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.services.AccountService;
-import com.greenfox.kalendaryo.services.GoogleApiService;
 import com.greenfox.kalendaryo.services.LogoutService;
 
 import javax.inject.Named;
@@ -41,7 +40,4 @@ public class ApiProvider {
     @Provides
     @Named("getGoogleEvents")
     GoogleApi provideGoogleEvents() {return RetrofitClient.getGoogleEvents();}
-
-    @Provides
-    GoogleApiService provideGoogleApiService() {return  new GoogleApiService();}
 }

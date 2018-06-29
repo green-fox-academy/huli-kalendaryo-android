@@ -19,16 +19,17 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.KalUser;
-import com.greenfox.kalendaryo.services.GoogleApiService;
 import com.greenfox.kalendaryo.services.GoogleService;
 import javax.inject.Inject;
 import retrofit2.Call;
@@ -38,20 +39,20 @@ import static android.accounts.AccountManager.newChooseAccountIntent;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private SignInButton signIn;
-    private ImageView logo;
     private static final int REQ_CODE = 900;
     private static final int REQUEST_ACCOUNT_PICKER = 500;
-    private KalPref kalPref;
-    private GoogleAuth googleAuth;
+    private static final String CLIENT_ID = BuildConfig.CLIENT_ID;
+    private SignInButton signIn;
+    private ImageView logo;
     private ProgressBar progressBar;
     private Animation fromRight;
+    private KalPref kalPref;
+    private GoogleAuth googleAuth;
+ 
 
     @Inject
     BackendApi backendApi;
 
-    @Inject
-    GoogleApiService googleApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +105,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
+        GoogleSignInOptions signInOptions = buildSignInOptions();
+
         if (!addAnother) {
-            googleApiService.initializeGoogleService(LoginActivity.this);
+            initializeGoogleService(signInOptions);
             signIn();
         } else {
             GoogleService.getGoogleApiClient().connect();
@@ -115,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     if (GoogleService.getInstance().getGoogleApiClient().isConnected()) {
                         Auth.GoogleSignInApi.signOut(GoogleService.getInstance().getGoogleApiClient()).setResultCallback((status) -> {
                             if (status.isSuccess()) {
-                                googleApiService.initializeGoogleService(LoginActivity.this);
+                                initializeGoogleService(signInOptions);
                                 signIn();
                             }
                         });
@@ -129,6 +132,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             });
         }
     }
+
+    public GoogleSignInOptions buildSignInOptions() {
+                return new GoogleSignInOptions
+                                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                .requestScopes(new Scope("https://www.googleapis.com/auth/calendar"))
+                                .requestEmail()
+                                .requestIdToken(CLIENT_ID)
+                                .requestServerAuthCode(CLIENT_ID, true)
+                                .build();
+            }
+
+            public void initializeGoogleService(GoogleSignInOptions signInOptions) {
+                GoogleService.init(new GoogleApiClient
+                                .Builder(LoginActivity.this)
+                                .enableAutoManage(LoginActivity.this, LoginActivity.this)
+                                .addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions)
+                                .build());
+            }
+
 
     public void signIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(GoogleService.getInstance().getGoogleApiClient());

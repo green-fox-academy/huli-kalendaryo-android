@@ -15,7 +15,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.greenfox.kalendaryo.adapter.PagerAdapter;
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
 import com.greenfox.kalendaryo.models.KalPref;
-import com.greenfox.kalendaryo.services.GoogleApiService;
 import com.greenfox.kalendaryo.services.LogoutService;
 
 import javax.inject.Inject;
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Inject
     LogoutService logoutService;
 
-    @Inject
-    GoogleApiService googleApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         DaggerApiComponent.builder().build().inject(this);
-        googleApiService.initializeGoogleService(this);
+//        googleApiService.initializeGoogleService(this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
