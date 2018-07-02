@@ -90,4 +90,9 @@ public class MockBackendApi implements BackendApi {
     public Call<ResponseBody> refreshAccessToken(String clientToken, String email) {
         return null;
     }
+
+    @Override
+    public Call<Void> syncCalendar(String clientToken, long id) {
+        return null;
+    }
 }
