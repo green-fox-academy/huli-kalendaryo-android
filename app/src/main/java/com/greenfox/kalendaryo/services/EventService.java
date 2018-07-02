@@ -52,6 +52,12 @@ public class EventService extends IntentService {
 
         ArrayList<String> accounts = kalPref.getAccounts();
 
+        for (int i = 0; i < accounts.size(); i++) {
+            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
+            String accessToken = googleAuth.getAccessToken();
+            authorizations.add("Bearer " + accessToken);
+        }
+
         Bundle bundle = intent.getExtras();
         googleCalendars = bundle.getParcelableArrayList("googleCalendars");
 
@@ -71,17 +77,11 @@ public class EventService extends IntentService {
         String firstDayOfCurrentYear = startDateFormat.format(start);
         String lastDayOfCurrentYear = startDateFormat.format(finish);
 
-      /*  for (int i = 0; i < accounts.size(); i++) {
-            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
-            String accessToken = googleAuth.getAccessToken();
-            authorizations.add("Bearer " + accessToken);
-        }*/
 
         for (int i = 0; i < accounts.size(); i++) {
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
+            String authorization = "Bearer " + googleAuth.getAccessToken();
 
-            String accessToken = googleAuth.getAccessToken();
-            String authorization = "Bearer " + accessToken;
             for (GoogleCalendar googleCalendar : googleCalendars) {
                 try {
                     Response<EventResponse> result = googleApi.getEventList(authorization, googleCalendar.getId(), firstDayOfCurrentYear, lastDayOfCurrentYear).execute();
@@ -91,18 +91,6 @@ public class EventService extends IntentService {
                 }
             }
         }
-
-
-        /*for (GoogleCalendar googleCalendar : googleCalendars) {
-            try {
-                String authorization = "";
-                Response<EventResponse> result = googleApi.getEventList(authorization, googleCalendar.getId(), firstDayOfCurrentYear, lastDayOfCurrentYear).execute();
-                eventsFromGoogle.addAll(result.body().getItems());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
-
 
         for (PreviewEvent event : eventsFromGoogle) {
             weekViewEvents.add(event);

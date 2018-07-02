@@ -19,5 +19,5 @@ public interface GoogleApi {
 
     @Headers("Accept: application/json")
     @GET("{calendarId}/events")
-    Call<EventResponse> getEventList(@Header("Authorization") String authorization, @Path("calendarId")String calendarId, @Query("timeMin") String timeMin, @Query("timeMax") String timeMax);
+    Call<EventResponse> getEventList(@Header("Authorization") String authorization, @Path("calendarId") String calendarId, @Query("timeMin") String timeMin, @Query("timeMax") String timeMax);
 }
