@@ -41,6 +41,10 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
         this.customName = customName;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
     public void saveCalendar(GoogleCalendar calendarTitle) {
         inputGoogleCalendars.add(calendarTitle);
@@ -49,10 +53,5 @@ public class Kalendar implements Serializable,GoogleCalendarAdapter.ListChange {
     @Override
     public void removeCalendar(GoogleCalendar calendarTitle) {
         inputGoogleCalendars.remove(calendarTitle);
-    }
-
-
-    public String getId() {
-        return id;
     }
 }

@@ -2,9 +2,6 @@ package com.greenfox.kalendaryo.services;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
-/**
- * Created by Szilvi on 2018. 01. 02..
- */
 
 public class GoogleService {
 
@@ -39,6 +36,4 @@ public class GoogleService {
     public static GoogleApiClient getGoogleApiClient() {
         return googleApiClient;
     }
-
-
 }

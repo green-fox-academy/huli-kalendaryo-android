@@ -33,6 +33,7 @@ public class EventService extends IntentService {
     private List<PreviewEvent> eventsFromGoogle = new ArrayList<>();
     private List<PreviewEvent> weekViewEvents = new ArrayList<>();
     private List<GoogleCalendar> googleCalendars = new ArrayList<>();
+    private List<String> authorizations = new ArrayList<>();
     private KalPref kalPref;
 
     @Inject
@@ -50,6 +51,12 @@ public class EventService extends IntentService {
         DaggerApiComponent.builder().build().inject(this);
 
         ArrayList<String> accounts = kalPref.getAccounts();
+
+        for (int i = 0; i < accounts.size(); i++) {
+            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
+            String accessToken = googleAuth.getAccessToken();
+            authorizations.add("Bearer " + accessToken);
+        }
 
         Bundle bundle = intent.getExtras();
         googleCalendars = bundle.getParcelableArrayList("googleCalendars");
@@ -70,11 +77,11 @@ public class EventService extends IntentService {
         String firstDayOfCurrentYear = startDateFormat.format(start);
         String lastDayOfCurrentYear = startDateFormat.format(finish);
 
+
         for (int i = 0; i < accounts.size(); i++) {
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
+            String authorization = "Bearer " + googleAuth.getAccessToken();
 
-            String accessToken = googleAuth.getAccessToken();
-            String authorization = "Bearer " + accessToken;
             for (GoogleCalendar googleCalendar : googleCalendars) {
                 try {
                     Response<EventResponse> result = googleApi.getEventList(authorization, googleCalendar.getId(), firstDayOfCurrentYear, lastDayOfCurrentYear).execute();
@@ -95,4 +102,3 @@ public class EventService extends IntentService {
 
     }
 }
-

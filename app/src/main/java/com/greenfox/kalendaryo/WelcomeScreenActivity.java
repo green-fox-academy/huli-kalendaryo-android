@@ -18,13 +18,10 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         user = findViewById(R.id.text_userName);
         user.setText(userGivenName + "!");
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent startActivity = new Intent(WelcomeScreenActivity.this, MainActivity.class);
-                startActivity(startActivity);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent startActivity = new Intent(WelcomeScreenActivity.this, MainActivity.class);
+            startActivity(startActivity);
+            finish();
         }, 2000);
     }
 }

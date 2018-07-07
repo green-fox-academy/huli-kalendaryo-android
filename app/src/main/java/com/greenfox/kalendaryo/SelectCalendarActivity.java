@@ -47,7 +47,6 @@ public class SelectCalendarActivity extends AppCompatActivity {
     Button buttonNext;
     Kalendar kalendar;
     RecyclerView recyclerView;
-    List<WeekViewEvent> eventsFromGoogle = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
     private ProgressBar progressBar;
     public static final String KALENDAR = "com.greenfox.kalendaryo.KALENDAR";
@@ -128,6 +127,7 @@ public class SelectCalendarActivity extends AppCompatActivity {
             }
         });
     }
+
     public void requestAccessTokenRefresh (GoogleAuth googleAuth, String clientToken) {
         backendApi.refreshAccessToken(clientToken, googleAuth.getEmail()).enqueue(new Callback<ResponseBody>() {
             @Override

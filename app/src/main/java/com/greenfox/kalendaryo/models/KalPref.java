@@ -12,14 +12,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * Created by lica on 2018. 01. 04..
- */
 
 public class KalPref {
     private SharedPreferences sharedPref;
     private ArrayList<String> accounts;
-    private ArrayList<String> googleCalendarIds;
     private Gson gson = new Gson();
     static final String CLIENTTOKEN = "clienttoken";
 

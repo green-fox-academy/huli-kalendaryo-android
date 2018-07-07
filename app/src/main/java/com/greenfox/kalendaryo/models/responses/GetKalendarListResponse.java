@@ -2,9 +2,6 @@ package com.greenfox.kalendaryo.models.responses;
 
 import java.util.List;
 
-/**
- * Created by tung on 2/28/18.
- */
 
 public class GetKalendarListResponse {
     private List<GetKalendarResponse> kalendars;

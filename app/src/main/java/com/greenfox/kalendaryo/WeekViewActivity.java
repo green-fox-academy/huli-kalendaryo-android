@@ -37,12 +37,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WeekViewActivity extends AppCompatActivity implements
-        MonthLoader.MonthChangeListener {
+public class WeekViewActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
     private KalPref kalPref;
     private Kalendar kalendar;
-    private GoogleApi googleApi;
     List<PreviewEvent> previewEvents = new ArrayList<>();
     List<WeekViewEvent> weekViewEvents = new ArrayList<>();
     List<GoogleCalendar> googleCalendars = new ArrayList<>();
@@ -88,17 +86,14 @@ public class WeekViewActivity extends AppCompatActivity implements
                     }
                 });
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent i = new Intent(WeekViewActivity.this, MainActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
-                        i.putExtra("list", kalendar);
-                        i.putExtras(bundle);
-                        startActivity(i);
-                        finish();
-                    }
+                new Handler().postDelayed(() -> {
+                    Intent i = new Intent(WeekViewActivity.this, MainActivity.class);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putParcelableArrayList("googleCalendars", (ArrayList<? extends Parcelable>) googleCalendars);
+                    i.putExtra("list", kalendar);
+                    i.putExtras(bundle1);
+                    startActivity(i);
+                    finish();
                 }, 500);
         });
     }
@@ -130,7 +125,7 @@ public class WeekViewActivity extends AppCompatActivity implements
     }
 
     public WeekViewEvent weekViewEventConverter(PreviewEvent previewEvent) {
-        int randomColorNumber = (int)(Math.random()*numberOfColors + 1);
+        int randomColorNumber = (int)(Math.random() * numberOfColors + 1);
         int randomColor = getResources().getColor(randomColorGenerator(randomColorNumber));
         Calendar startTime = Calendar.getInstance();
         Calendar endTime = (Calendar) startTime.clone();
@@ -194,6 +189,4 @@ public class WeekViewActivity extends AppCompatActivity implements
         }
         return colorNumber;
     }
-
 }
-

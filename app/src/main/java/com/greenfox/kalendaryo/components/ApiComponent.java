@@ -18,10 +18,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * Created by a- on 20/03/2018.
- */
-
 @Component(modules = ApiProvider.class)
 @Singleton
 public interface ApiComponent {

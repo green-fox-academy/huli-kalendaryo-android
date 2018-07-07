@@ -3,8 +3,6 @@ package com.greenfox.kalendaryo.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.greenfox.kalendaryo.adapter.SharingOptionsAdapter;
-
 import java.io.Serializable;
 
 public class GoogleCalendar implements Parcelable, Serializable {

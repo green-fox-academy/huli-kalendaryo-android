@@ -12,12 +12,10 @@ import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
 
-
 import java.util.List;
 
 import javax.inject.Inject;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,12 +42,7 @@ public class AccountService {
                     accountAdapter = new AccountAdapter(googleAuths, recycler.getContext(), true);
                     kalendar = (Kalendar) intent.getSerializableExtra(SelectCalendarActivity.KALENDAR);
                     kalendar.setOutputGoogleAuthId(googleAuths.get(0).getEmail());
-                    accountAdapter.setEmailChange(new AccountAdapter.EmailChange() {
-                        @Override
-                        public void emailChanged(String email) {
-                            kalendar.setOutputGoogleAuthId(email);
-                        }
-                    });
+                    accountAdapter.setEmailChange(email -> kalendar.setOutputGoogleAuthId(email));
                 }
                 recycler.setAdapter(accountAdapter);
             }

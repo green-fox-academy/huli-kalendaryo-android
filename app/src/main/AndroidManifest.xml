@@ -34,10 +34,11 @@
         <service
             android:name=".services.EventService"
             android:enabled="true"
-            android:exported="true"></service>
-        <activity android:name=".InformationAndDeleteActivity"
-            android:parentActivityName=".MainActivity"
-            ></activity>
-        <activity android:name=".WelcomeScreenActivity"></activity>
+            android:exported="true" />
+
+        <activity
+            android:name=".InformationAndDeleteActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".WelcomeScreenActivity" />
     </application>
 </manifest>

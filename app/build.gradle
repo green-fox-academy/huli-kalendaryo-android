@@ -19,6 +19,7 @@ android {
         }
         debug {
             buildConfigField "String", "LOCAL_IP_ADDRESS", System.getenv("LOCAL_IP_ADDRESS")
+            buildConfigField "String", "CLIENT_ID", System.getenv("CLIENT_ID")
         }
     }
     compileOptions {

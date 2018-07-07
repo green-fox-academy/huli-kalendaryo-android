@@ -63,7 +63,6 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
         private TextView calendarName;
         private Spinner dropdown;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
             calendarName = itemView.findViewById(R.id.text_calendar_name);
@@ -72,5 +71,4 @@ public class SharingOptionsAdapter extends RecyclerView.Adapter<SharingOptionsAd
             dropdown.setAdapter(adapter);
         }
     }
-
 }

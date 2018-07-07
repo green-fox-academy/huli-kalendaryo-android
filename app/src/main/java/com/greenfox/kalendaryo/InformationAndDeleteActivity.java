@@ -1,7 +1,6 @@
 package com.greenfox.kalendaryo;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -110,6 +109,31 @@ public class InformationAndDeleteActivity extends AppCompatActivity {
         alert.setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.dismiss());
 
         alert.show();
+    }
+
+    public void syncCalendar(View view) {
+        long idToSync = getKalendarResponse.getId();
+        syncKalendar(view, idToSync);
+    }
+
+    public void syncKalendar(View view, long idToSync){
+        kalPref = new KalPref(view.getContext());
+        String clientToken = kalPref.clientToken();
+        backendApi.syncCalendar(clientToken, idToSync).enqueue(new Callback<Void>() {
+
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Intent i = new Intent(InformationAndDeleteActivity.this, MainActivity.class);
+                startActivity(i);
+                toastMessage(view,"Kalendar synced successfully");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                t.printStackTrace();
+                toastMessage(view, "Ooops, couldn't sync the kalendar");
+            }
+        });
     }
 
     public void toastMessage(View view, String input) {
