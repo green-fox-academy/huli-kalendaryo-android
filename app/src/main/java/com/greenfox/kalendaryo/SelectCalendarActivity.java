@@ -109,6 +109,9 @@ public class SelectCalendarActivity extends AppCompatActivity {
     public void requestCalendars (String account, Integer attempt) {
         GoogleAuth googleAuth = kalPref.getAuth(account);
         String authorization = "Bearer " + googleAuth.getAccessToken();
+        //
+        // replace this with a backend call
+        //
         googleApi.getCalendarList(authorization).enqueue(new Callback<GoogleCalendarsResponse>() {
             @Override
             public void onResponse(Call<GoogleCalendarsResponse> call, Response<GoogleCalendarsResponse> response) {
