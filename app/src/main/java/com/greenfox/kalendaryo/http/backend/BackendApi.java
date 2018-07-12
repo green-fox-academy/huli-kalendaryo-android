@@ -29,14 +29,14 @@ public interface BackendApi {
     Call<Void> deleteAccount(@Header("X-Client-Token") String clientToken, @Header("email") String email);
 
     @Headers("Accept: application/json")
-    @POST("calendar")
+    @POST("kalendar")
     Call<PostKalendarResponse> postCalendar(@Header("X-Client-Token") String clientToken, @Body Kalendar kalendar);
 
     @Headers("Accept: application/json")
-    @GET("calendar")
+    @GET("kalendar")
     Call<GetKalendarListResponse> getCalendar(@Header("X-Client-Token") String clientToken);
 
-    @DELETE("calendar/{id}")
+    @DELETE("kalendar/{id}")
     Call<Void> deleteKalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 
     @Headers("Accept: application/json")
