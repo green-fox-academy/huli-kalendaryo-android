@@ -7,12 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.greenfox.kalendaryo.components.DaggerApiComponent;
+import com.greenfox.kalendaryo.http.backend.BackendApi;
 import com.greenfox.kalendaryo.http.google.GoogleApi;
 import com.greenfox.kalendaryo.models.GoogleAuth;
 import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.KalPref;
 import com.greenfox.kalendaryo.models.event.EventResponse;
 import com.greenfox.kalendaryo.models.event.PreviewEvent;
+import com.greenfox.kalendaryo.models.responses.GetAccountResponse;
+import com.greenfox.kalendaryo.models.responses.GetEventResponse;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -26,6 +29,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import okhttp3.Callback;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Response;
 
 public class EventService extends IntentService {
@@ -40,6 +46,9 @@ public class EventService extends IntentService {
     @Named("getGoogleEvents")
     GoogleApi googleApi;
 
+    @Inject
+    BackendApi backendApi;
+
     public EventService() {
         super("EventService");
     }
@@ -52,16 +61,17 @@ public class EventService extends IntentService {
 
         ArrayList<String> accounts = kalPref.getAccounts();
 
+        Bundle bundle = intent.getExtras();
+        googleCalendars = bundle.getParcelableArrayList("googleCalendars");
+
         for (int i = 0; i < accounts.size(); i++) {
             GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
             String accessToken = googleAuth.getAccessToken();
             authorizations.add("Bearer " + accessToken);
         }
 
-        Bundle bundle = intent.getExtras();
-        googleCalendars = bundle.getParcelableArrayList("googleCalendars");
 
-        Calendar beginning = Calendar.getInstance();
+        /*Calendar beginning = Calendar.getInstance();
         Calendar end = (Calendar) beginning.clone();
         beginning.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
         beginning.set(Calendar.MONTH, 0);
@@ -75,22 +85,23 @@ public class EventService extends IntentService {
 
         DateFormat startDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         String firstDayOfCurrentYear = startDateFormat.format(start);
-        String lastDayOfCurrentYear = startDateFormat.format(finish);
+        String lastDayOfCurrentYear = startDateFormat.format(finish);*  */
 
 
-        for (int i = 0; i < accounts.size(); i++) {
-            GoogleAuth googleAuth = kalPref.getAuth(accounts.get(i));
-            String authorization = "Bearer " + googleAuth.getAccessToken();
-
-            for (GoogleCalendar googleCalendar : googleCalendars) {
-                try {
-                    Response<EventResponse> result = googleApi.getEventList(authorization, googleCalendar.getId(), firstDayOfCurrentYear, lastDayOfCurrentYear).execute();
-                    eventsFromGoogle.addAll(result.body().getItems());
-                } catch (IOException e) {
-                    e.printStackTrace();
+        for (GoogleCalendar googleCalendar : googleCalendars) {
+            backendApi.getEvents(kalPref.clientToken(), googleCalendar).enqueue(new retrofit2.Callback<GetEventResponse>() {
+                @Override
+                public void onResponse(Call<GetEventResponse> call, Response<GetEventResponse> response) {
+                    eventsFromGoogle.addAll(response.body().getEvents());
                 }
-            }
-        }
+
+                @Override
+                public void onFailure(Call<GetEventResponse> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            };
+
+
 
         for (PreviewEvent event : eventsFromGoogle) {
             weekViewEvents.add(event);

@@ -1,6 +1,7 @@
 package com.greenfox.kalendaryo.http.backend;
 
 import com.greenfox.kalendaryo.models.GoogleAuth;
+import com.greenfox.kalendaryo.models.GoogleCalendar;
 import com.greenfox.kalendaryo.models.Kalendar;
 import com.greenfox.kalendaryo.models.KalUser;
 import com.greenfox.kalendaryo.models.responses.GetKalendarListResponse;
@@ -47,6 +48,7 @@ public interface BackendApi {
     @GET("notification/{id}")
     Call<Void> syncCalendar(@Header("X-Client-Token") String clientToken, @Path("id") long id);
 
-  /*  @GET
-    Call<>*/
+    @Headers("Accept: application/json")
+    @GET("events")
+    Call<ResponseBody> getEvents(@Header("X-Client-Token") String clientToken, @Header("googleCalendars") GoogleCalendar googleCalendar);
 }
