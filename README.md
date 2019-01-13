@@ -1,4 +1,3 @@
-```
 # Huli Kalendaryo Android
 
 ## Introduction
@@ -18,5 +17,3 @@ To run the application's on your phone or with the help of an emulator you need 
 3. You should set up the following environmental variables:
 * CLIENT\_ID: this is created in the Google API Console to validate the application (ask for the exact CLIENT_ID)
 * BASE\_URL\_BACKEND: IP of your backend server
-
-```
